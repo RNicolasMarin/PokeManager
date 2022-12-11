@@ -1,4 +1,4 @@
-package com.pokemanager.data.remote.item
+package com.pokemanager.data.remote.responses.item
 
 data class PokemonNetworkItem(
     var id: Long?,
