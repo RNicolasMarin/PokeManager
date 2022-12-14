@@ -1,4 +1,4 @@
-package com.pokemanager
+package com.pokemanager.utils
 
 object Constants {
 

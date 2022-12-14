@@ -1,7 +1,8 @@
 package com.pokemanager.di
 
-import com.pokemanager.Constants.baseUrl
+import com.pokemanager.utils.Constants.baseUrl
 import com.pokemanager.data.remote.PokeManagerApi
+import com.pokemanager.use_cases.GetPokeSpecieItemsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +23,13 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PokeManagerApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun getGetPokeSpecieItemsUseCase(
+        pokeManagerApi: PokeManagerApi
+    ): GetPokeSpecieItemsUseCase {
+        return GetPokeSpecieItemsUseCase(pokeManagerApi)
     }
 }

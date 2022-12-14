@@ -1,10 +1,14 @@
 package com.pokemanager.data.remote
 
-import com.pokemanager.data.remote.responses.item.PokemonNetworkItem
-import retrofit2.Response
+import com.pokemanager.data.remote.responses.PokemonItemResponse
+import com.pokemanager.data.remote.responses.PokemonListResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface PokeManagerApi {
     @GET("pokemon?offset=0&limit=50")
-    suspend fun getPokemonNetworkItems() : Response<List<PokemonNetworkItem>>
+    suspend fun getPokemonItemsNetwork() : PokemonListResponse
+
+    @GET("pokemon/{id}/")
+    suspend fun getPokemonItemByIdNetwork(@Path("id") id: String) : PokemonItemResponse
 }
