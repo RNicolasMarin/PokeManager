@@ -36,6 +36,7 @@ class GetPokeSpecieItemsUseCase(
                     Log.d("GetPokeSpecieItems", "$pokeSpecieItemDomain")
                     pokemonList.add(pokeSpecieItemDomain)
                 }
+                emit(DataState.Success(pokemonList))
             }
         }
     }

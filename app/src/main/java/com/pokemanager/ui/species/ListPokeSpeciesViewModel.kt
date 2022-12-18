@@ -1,5 +1,6 @@
 package com.pokemanager.ui.species
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pokemanager.data.DataAccessMode
@@ -16,11 +17,13 @@ class ListPokeSpeciesViewModel @Inject constructor(
     getPokeSpecieItemsUseCase: GetPokeSpecieItemsUseCase
 ): ViewModel() {
 
-    val pokeSpecies = mutableListOf<DataState<List<PokeSpecieItemDomain>>>()
+    val pokeSpecies = MutableLiveData<DataState<List<PokeSpecieItemDomain>>>()
 
     init {
         getPokeSpecieItemsUseCase(DataAccessMode.OnlyRequest)
-            .onEach {  }
+            .onEach {
+                pokeSpecies.value = it
+            }
             .launchIn(viewModelScope)
     }
 }
