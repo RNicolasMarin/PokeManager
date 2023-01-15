@@ -2,7 +2,7 @@ package com.pokemanager.ui.species
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,12 +10,13 @@ import com.pokemanager.R
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.databinding.PokeSpecieItemBinding
 
-class PokeSpecieAdapter : RecyclerView.Adapter<PokeSpecieAdapter.PokeSpecieViewHolder>() {
+class PokeSpecieAdapter :
+    PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieAdapter.PokeSpecieViewHolder>(diffCallback) {
 
     inner class PokeSpecieViewHolder(private val binding: PokeSpecieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain) {
-            binding.pokeSpecieItemName.text = pokeSpecie.name
+        fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) {
+            binding.pokeSpecieItemName.text = pokeSpecie!!.name
             binding.pokeSpecieItemNumber.text = pokeSpecie.id.toString()
 
             val types = StringBuilder()
@@ -30,32 +31,29 @@ class PokeSpecieAdapter : RecyclerView.Adapter<PokeSpecieAdapter.PokeSpecieViewH
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<PokeSpecieItemDomain>() {
-        override fun areItemsTheSame(
-            oldItem: PokeSpecieItemDomain,
-            newItem: PokeSpecieItemDomain
-        ) = oldItem.id == newItem.id
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<PokeSpecieItemDomain>() {
+            override fun areItemsTheSame(
+                oldItem: PokeSpecieItemDomain,
+                newItem: PokeSpecieItemDomain
+            ) = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(
-            oldItem: PokeSpecieItemDomain,
-            newItem: PokeSpecieItemDomain
-        ) = oldItem.hashCode() == newItem.hashCode()
+            override fun areContentsTheSame(
+                oldItem: PokeSpecieItemDomain,
+                newItem: PokeSpecieItemDomain
+            ) = oldItem.hashCode() == newItem.hashCode()
+        }
     }
-
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    fun submitList(list: List<PokeSpecieItemDomain>) = differ.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeSpecieViewHolder {
         val binding = PokeSpecieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PokeSpecieViewHolder(binding)
     }
 
-    override fun getItemCount() = differ.currentList.size
-
     override fun onBindViewHolder(holder: PokeSpecieViewHolder, position: Int) {
-        val pokeSpecie = differ.currentList[position]
+        val pokeSpecie = getItem(position)
         holder.loadPokeSpecie(pokeSpecie)
     }
+
 }
 

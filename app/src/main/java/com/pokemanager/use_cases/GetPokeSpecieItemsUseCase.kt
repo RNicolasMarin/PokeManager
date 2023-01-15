@@ -1,14 +1,16 @@
 package com.pokemanager.use_cases
 
-import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.pokemanager.data.DataAccessMode
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.mappers.toPokeSpecieItemDomain
+import com.pokemanager.data.remote.PageKeyedPokemonItemsPagingSource
 import com.pokemanager.data.remote.PokeManagerApi
-import com.pokemanager.utils.DataState
-import com.pokemanager.utils.Utils.getIdAtEndFromUrl
+import com.pokemanager.utils.Constants.POKEMON_PAGING_MAX_SIZE
+import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
+import com.pokemanager.utils.Constants.POKEMON_PAGING_PREFETCH_DISTANCE
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class GetPokeSpecieItemsUseCase(
     private val pokeManagerApi: PokeManagerApi
@@ -16,7 +18,7 @@ class GetPokeSpecieItemsUseCase(
 
     operator fun invoke(
         dataAccessMode: DataAccessMode
-    ): Flow<DataState<MutableList<PokeSpecieItemDomain>>> = flow {
+    ): Flow<PagingData<PokeSpecieItemDomain>> {
         when (dataAccessMode) {
             is DataAccessMode.DownloadAll -> {
                 //access data from database
@@ -27,17 +29,21 @@ class GetPokeSpecieItemsUseCase(
             }
             is DataAccessMode.OnlyRequest -> {
                 //always access all from the api
-                val itemsFromList = pokeManagerApi.getPokemonItemsNetwork().results ?: return@flow
-                val pokemonList = mutableListOf<PokeSpecieItemDomain>()
-                for (item in itemsFromList) {
-                    val id = getIdAtEndFromUrl(item.url)
-                    val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
-                    val pokeSpecieItemDomain = pokeSpecieItemResponse.toPokeSpecieItemDomain()
-                    Log.d("GetPokeSpecieItems", "$pokeSpecieItemDomain")
-                    pokemonList.add(pokeSpecieItemDomain)
-                }
-                emit(DataState.Success(pokemonList))
             }
         }
+        //is DataAccessMode.OnlyRequest
+        return Pager(
+            PagingConfig(
+                pageSize = POKEMON_PAGING_PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = POKEMON_PAGING_PREFETCH_DISTANCE,
+                maxSize = POKEMON_PAGING_MAX_SIZE
+            )
+        ) {
+            PageKeyedPokemonItemsPagingSource(
+                pokeManagerApi
+            )
+        }.flow
     }
+
 }
