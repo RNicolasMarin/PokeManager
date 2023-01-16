@@ -3,6 +3,7 @@ package com.pokemanager.utils
 object Constants {
 
     const val baseUrl = "https://pokeapi.co/api/v2/"
+    const val DB_NAME = "PokeManager.db"
 
     const val LAST_VALID_POKEMON_NUMBER = 905
 
