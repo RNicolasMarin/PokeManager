@@ -3,7 +3,7 @@ package com.pokemanager.data.remote.responses
 import com.google.gson.annotations.SerializedName
 
 data class PokemonItemResponse(
-    var id: Long?,
+    var id: Int?,
     var is_default: Boolean?,
     var name: String?,
     var sprites: SpriteNetwork?,

@@ -14,28 +14,26 @@ import kotlin.math.max
 
 class PageKeyedPokemonItemsPagingSource(
     private val pokeManagerApi: PokeManagerApi
-) : PagingSource<String, PokeSpecieItemDomain>() {
+) : PagingSource<Int, PokeSpecieItemDomain>() {
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, PokeSpecieItemDomain> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokeSpecieItemDomain> {
         return try {
 
-            val offset = params.key?.toInt() ?: POKEMON_PAGING_STARTING_KEY
+            val offset = params.key ?: POKEMON_PAGING_STARTING_KEY
             val itemsFromList = pokeManagerApi.getPokemonItemsNetwork(
                 limit = params.loadSize,
                 offset = offset
             )
 
             val pokemonList = mutableListOf<PokeSpecieItemDomain>()
-            var lastId = offset
             for (item in itemsFromList.results!!) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
-                if (/*id.toInt() != lastId + 1*/id.toInt() > LAST_VALID_POKEMON_NUMBER) {
+                if (id.toInt() > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
                 val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
                 val pokeSpecieItemDomain = pokeSpecieItemResponse.toPokeSpecieItemDomain()
                 pokemonList.add(pokeSpecieItemDomain)
-                lastId = id.toInt()
             }
 
             val prevKey = getPrevKey(offset, params.loadSize)
@@ -53,33 +51,33 @@ class PageKeyedPokemonItemsPagingSource(
         }
     }
 
-    private fun getNextKey(pokemonList: MutableList<PokeSpecieItemDomain>): String? {
+    private fun getNextKey(pokemonList: MutableList<PokeSpecieItemDomain>): Int? {
         val last = pokemonList.lastOrNull() ?: return null
         if (last.id == null) return null
 
         return if (last.id!! >= LAST_VALID_POKEMON_NUMBER) {
             null
         } else {
-            (last.id).toString()
+            last.id
         }
     }
 
-    private fun getPrevKey(offset: Int, loadSize: Int): String? {
+    private fun getPrevKey(offset: Int, loadSize: Int): Int? {
         return when (offset) {
             POKEMON_PAGING_STARTING_KEY -> null
             else -> when (val prevKey = ensureValidKey(key = offset - loadSize)) {
                 // We're at the start, there's nothing more to load
-                POKEMON_PAGING_STARTING_KEY -> POKEMON_PAGING_STARTING_KEY.toString()
-                else -> prevKey.toString()
+                POKEMON_PAGING_STARTING_KEY -> POKEMON_PAGING_STARTING_KEY
+                else -> prevKey
             }
         }
     }
 
     private fun ensureValidKey(key: Int) = max(POKEMON_PAGING_STARTING_KEY, key)
 
-    override fun getRefreshKey(state: PagingState<String, PokeSpecieItemDomain>): String? {
+    override fun getRefreshKey(state: PagingState<Int, PokeSpecieItemDomain>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
-            state.closestItemToPosition(anchorPosition)?.id.toString()
+            state.closestItemToPosition(anchorPosition)?.id
         }
     }
 }
