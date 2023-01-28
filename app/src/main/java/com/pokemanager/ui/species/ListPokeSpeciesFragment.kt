@@ -36,8 +36,8 @@ class ListPokeSpeciesFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             pokeSpecieAdapter.loadStateFlow.collect {
-                binding.prependProgress.isVisible = it.source.prepend is LoadState.Loading
-                binding.appendProgress.isVisible = it.source.append is LoadState.Loading
+                binding.prependProgress.isVisible = it.mediator?.prepend is LoadState.Loading
+                binding.appendProgress.isVisible = it.mediator?.append is LoadState.Loading
             }
         }
 

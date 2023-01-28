@@ -3,25 +3,25 @@ package com.pokemanager.data.remote.responses
 import com.google.gson.annotations.SerializedName
 
 data class PokemonItemResponse(
-    var id: Int?,
-    var is_default: Boolean?,
-    var name: String?,
-    var sprites: SpriteNetwork?,
-    var types: MutableList<TypeNetwork>?
+    var id: Int = 0,
+    var is_default: Boolean = true,
+    var name: String = "",
+    var sprites: SpriteNetwork = SpriteNetwork(),
+    var types: MutableList<TypeNetwork> = mutableListOf()
 )
 
 //Image
 data class SpriteNetwork(
-    var other: SpriteOtherNetwork?
+    var other: SpriteOtherNetwork = SpriteOtherNetwork()
 )
 
 data class SpriteOtherNetwork(
     @SerializedName("official-artwork")
-    var officialArtwork: OfficialArtworkNetwork?
+    var officialArtwork: OfficialArtworkNetwork = OfficialArtworkNetwork()
 )
 
 data class OfficialArtworkNetwork(
-    var front_default: String?
+    var front_default: String = ""
 )
 
 //Types

@@ -16,4 +16,7 @@ interface PokeSpecieDao {
     @Query("SELECT * FROM pokeSpecies")
     fun getPokeSpecies(): PagingSource<Int, PokeSpecieEntity>
 
+    @Query("DELETE FROM pokeSpecies")
+    suspend fun clearPokeSpecies()
+
 }

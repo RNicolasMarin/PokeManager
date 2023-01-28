@@ -16,12 +16,13 @@ class PokeSpecieAdapter :
     inner class PokeSpecieViewHolder(private val binding: PokeSpecieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) {
-            binding.pokeSpecieItemName.text = pokeSpecie!!.name
+            if (pokeSpecie == null) return
+            binding.pokeSpecieItemName.text = pokeSpecie.name
             binding.pokeSpecieItemNumber.text = pokeSpecie.id.toString()
 
             val types = StringBuilder()
             val separator = "-"
-            pokeSpecie.types?.forEach { types.append(it.name).append(separator) }
+            pokeSpecie.types.forEach { types.append(it.name).append(separator) }
             binding.pokeSpecieItemTypes.text = types.removeSuffix(separator).toString()
 
             Glide.with(binding.root).load(pokeSpecie.imageUrl)
@@ -41,7 +42,7 @@ class PokeSpecieAdapter :
             override fun areContentsTheSame(
                 oldItem: PokeSpecieItemDomain,
                 newItem: PokeSpecieItemDomain
-            ) = oldItem.hashCode() == newItem.hashCode()
+            ) = oldItem == newItem
         }
     }
 

@@ -8,11 +8,13 @@ import com.pokemanager.data.mappers.toPokeSpecieItemDomain
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.Utils
+import com.pokemanager.utils.Utils.getNextKey
+import com.pokemanager.utils.Utils.getPrevKey
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.math.max
 
-class PageKeyedPokemonItemsPagingSource(
+//PageKeyed
+class PokeSpecieItemsPagingSource(
     private val pokeManagerApi: PokeManagerApi
 ) : PagingSource<Int, PokeSpecieItemDomain>() {
 
@@ -26,7 +28,7 @@ class PageKeyedPokemonItemsPagingSource(
             )
 
             val pokemonList = mutableListOf<PokeSpecieItemDomain>()
-            for (item in itemsFromList.results!!) {
+            for (item in itemsFromList.results) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
                 if (id.toInt() > LAST_VALID_POKEMON_NUMBER) {
                     break
@@ -50,30 +52,6 @@ class PageKeyedPokemonItemsPagingSource(
             LoadResult.Error(e)
         }
     }
-
-    private fun getNextKey(pokemonList: MutableList<PokeSpecieItemDomain>): Int? {
-        val last = pokemonList.lastOrNull() ?: return null
-        if (last.id == null) return null
-
-        return if (last.id!! >= LAST_VALID_POKEMON_NUMBER) {
-            null
-        } else {
-            last.id
-        }
-    }
-
-    private fun getPrevKey(offset: Int, loadSize: Int): Int? {
-        return when (offset) {
-            POKEMON_PAGING_STARTING_KEY -> null
-            else -> when (val prevKey = ensureValidKey(key = offset - loadSize)) {
-                // We're at the start, there's nothing more to load
-                POKEMON_PAGING_STARTING_KEY -> POKEMON_PAGING_STARTING_KEY
-                else -> prevKey
-            }
-        }
-    }
-
-    private fun ensureValidKey(key: Int) = max(POKEMON_PAGING_STARTING_KEY, key)
 
     override fun getRefreshKey(state: PagingState<Int, PokeSpecieItemDomain>): Int? {
         return state.anchorPosition?.let { anchorPosition ->

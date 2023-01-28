@@ -5,16 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.pokemanager.data.local.entities.PokeSpecieEntity
+import com.pokemanager.data.local.entities.PokeSpecieRemoteKeysEntity
 import com.pokemanager.utils.Constants.DB_NAME
 
 @Database(
-    entities = [PokeSpecieEntity::class],
+    entities = [PokeSpecieEntity::class, PokeSpecieRemoteKeysEntity::class],
     version = 1,
     exportSchema = false
 )
 abstract class PokeManagerDatabase: RoomDatabase() {
     
     abstract fun pokeSpecieDao(): PokeSpecieDao
+    abstract fun pokeSpecieRemoteKeysDao(): PokeSpecieRemoteKeysDao
     
     companion object {
         @Volatile
