@@ -13,8 +13,8 @@ fun PokemonItemResponse.toPokeSpecieItemDomain(): PokeSpecieItemDomain {
         this.sprites.other.officialArtwork.front_default,
         this.types.map {
             PokeTypeDomain(
-                it.type?.name,
-                getIdAtEndFromUrl(it.type?.url)
+                it.type.name,
+                getIdAtEndFromUrl(it.type.url)
             )
         } as MutableList<PokeTypeDomain>
     )
@@ -37,7 +37,7 @@ fun PokemonItemResponse.toPokeSpecieEntity(): PokeSpecieEntity {
 //entity to domain
 fun PokeSpecieEntity.toPokeSpecieItemDomain(): PokeSpecieItemDomain {
     return PokeSpecieItemDomain(
-        this.id,
+        this.pokeSpecieId,
         this.name,
         imageUrl
     )

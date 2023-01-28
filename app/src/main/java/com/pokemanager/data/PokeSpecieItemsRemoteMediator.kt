@@ -98,7 +98,7 @@ class PokeSpecieItemsRemoteMediator(
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { repoId ->
+            state.closestItemToPosition(position)?.pokeSpecieId?.let { repoId ->
                 pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repoId)
             }
         }
@@ -110,7 +110,7 @@ class PokeSpecieItemsRemoteMediator(
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { repo ->
                 // Get the remote keys of the first items retrieved
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.id)
+                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecieId)
             }
     }
 
@@ -120,7 +120,7 @@ class PokeSpecieItemsRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo ->
                 // Get the remote keys of the last item retrieved
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.id)
+                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecieId)
             }
     }
 

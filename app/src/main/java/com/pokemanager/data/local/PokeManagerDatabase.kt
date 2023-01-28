@@ -6,10 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.pokemanager.data.local.entities.PokeSpecieEntity
 import com.pokemanager.data.local.entities.PokeSpecieRemoteKeysEntity
+import com.pokemanager.data.local.entities.PokeSpecieTypeCrossRef
+import com.pokemanager.data.local.entities.PokeTypeEntity
 import com.pokemanager.utils.Constants.DB_NAME
 
 @Database(
-    entities = [PokeSpecieEntity::class, PokeSpecieRemoteKeysEntity::class],
+    entities = [PokeSpecieEntity::class, PokeSpecieRemoteKeysEntity::class,
+               PokeTypeEntity::class, PokeSpecieTypeCrossRef::class],
     version = 1,
     exportSchema = false
 )

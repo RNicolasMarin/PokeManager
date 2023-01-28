@@ -26,10 +26,10 @@ data class OfficialArtworkNetwork(
 
 //Types
 data class TypeNetwork(
-    var type: TypeInsideTypeNetwork?
+    var type: TypeInsideTypeNetwork = TypeInsideTypeNetwork()
 )
 
 data class TypeInsideTypeNetwork(
-    var name: String?,
-    var url: String?
+    var name: String = "",
+    var url: String = ""
 )

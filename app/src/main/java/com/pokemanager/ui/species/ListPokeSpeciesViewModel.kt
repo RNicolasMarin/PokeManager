@@ -17,7 +17,7 @@ class ListPokeSpeciesViewModel @Inject constructor(
 ): ViewModel() {
 
     val pokeSpecies: Flow<PagingData<PokeSpecieItemDomain>>
-            = getPokeSpecieItemsUseCase(DataAccessMode.OnlyRequest)
+            = getPokeSpecieItemsUseCase(DataAccessMode.RequestAndDownload)
         // cachedIn allows paging to remain active in the viewModel scope, so even if the UI
         // showing the paged data goes through lifecycle changes, pagination remains cached and
         // the UI does not have to start paging from the beginning when it resumes.
