@@ -9,26 +9,31 @@ import com.bumptech.glide.Glide
 import com.pokemanager.R
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.databinding.PokeSpecieItemBinding
+import com.pokemanager.ui.species.PokeSpecieAdapter.*
 
-class PokeSpecieAdapter :
-    PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieAdapter.PokeSpecieViewHolder>(diffCallback) {
+class PokeSpecieAdapter : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieViewHolder>(diffCallback) {
 
     inner class PokeSpecieViewHolder(private val binding: PokeSpecieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) {
-            if (pokeSpecie == null) return
-            binding.pokeSpecieItemName.text = pokeSpecie.name
-            binding.pokeSpecieItemNumber.text = pokeSpecie.id.toString()
+        fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) = with(binding) {
+            if (pokeSpecie == null) return@with
+            pokeSpecieItemName.text = pokeSpecie.name
+            pokeSpecieItemNumber.text = pokeSpecie.id.toString()
 
+            val types = getTypes(pokeSpecie)
+            pokeSpecieItemTypes.text = types
+
+            Glide.with(root).load(pokeSpecie.imageUrl)
+                .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
+                //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
+                .into(pokeSpecieItemImage)
+        }
+
+        private fun getTypes(pokeSpecie: PokeSpecieItemDomain): String {
             val types = StringBuilder()
             val separator = "-"
             pokeSpecie.types.forEach { types.append(it.name).append(separator) }
-            binding.pokeSpecieItemTypes.text = types.removeSuffix(separator).toString()
-
-            Glide.with(binding.root).load(pokeSpecie.imageUrl)
-                .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
-                //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
-                .into(binding.pokeSpecieItemImage)
+            return types.removeSuffix(separator).toString()
         }
     }
 

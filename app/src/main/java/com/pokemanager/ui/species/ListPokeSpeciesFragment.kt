@@ -21,10 +21,7 @@ class ListPokeSpeciesFragment : Fragment() {
     private lateinit var binding: FragmentListPokeSpeciesBinding
     private lateinit var pokeSpecieAdapter: PokeSpecieAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListPokeSpeciesBinding.inflate(inflater, container, false)
 
         setupRecyclerView()

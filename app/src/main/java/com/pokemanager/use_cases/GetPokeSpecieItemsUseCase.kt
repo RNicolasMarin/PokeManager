@@ -6,7 +6,6 @@ import com.pokemanager.data.PokeSpecieItemsRemoteMediator
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.data.mappers.toPokeSpecieItemDomain
-import com.pokemanager.data.mappers.toPokeTypeDomainList
 import com.pokemanager.data.remote.PokeSpecieItemsPagingSource
 import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.utils.Constants.POKEMON_PAGING_MAX_SIZE
@@ -67,11 +66,7 @@ class GetPokeSpecieItemsUseCase(
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
             pagingData.map {
-                val specie = it.pokeSpecie.toPokeSpecieItemDomain()
-                specie.apply {
-                    types = it.pokeTypes.toPokeTypeDomainList()
-                }
-                specie
+                it.toPokeSpecieItemDomain()
             }
         }
     }

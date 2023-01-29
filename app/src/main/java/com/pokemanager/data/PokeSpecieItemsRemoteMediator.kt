@@ -7,8 +7,10 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.data.local.entities.*
+import com.pokemanager.data.mappers.fromResponseListToPokeTypeEntityList
 import com.pokemanager.data.mappers.toPokeSpecieEntity
 import com.pokemanager.data.remote.PokeManagerApi
+import com.pokemanager.data.remote.responses.PokemonItemFromListResponse
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.Utils
@@ -52,56 +54,80 @@ class PokeSpecieItemsRemoteMediator(
         }
 
         try {
-            val apiResponse = pokeManagerApi.getPokemonItemsNetwork(state.config.pageSize, offset)
+            val pokeSpeciesResponse = pokeManagerApi.getPokemonItemsNetwork(state.config.pageSize, offset).results
+            val endOfPaginationReached = pokeSpeciesResponse.isEmpty()
 
-            val pokeSpecies = apiResponse.results
-            val endOfPaginationReached = pokeSpecies.isEmpty()
-            val pokemonList = mutableListOf<PokeSpecieEntity>()
-            val pokemonTypeList = mutableListOf<PokeSpecieTypeCrossRef>()
-            val pokeTypes = HashMap<Int, PokeTypeEntity>()
-            for (item in pokeSpecies) {
+            val pokeSpecieEntities = mutableListOf<PokeSpecieEntity>()
+            val pokeSpecieTypes = mutableListOf<PokeSpecieTypeCrossRef>()
+            val pokeTypeEntities = HashMap<Int, PokeTypeEntity>()
+
+            for (item in pokeSpeciesResponse) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
                 if (id > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
+
                 val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
-                val pokeTypesFromCurrentSpecie = Utils.getPokeTypeEntityFromResponse(pokeSpecieItemResponse)
+                val pokeTypeEntitiesFromSpecie = pokeSpecieItemResponse.types.fromResponseListToPokeTypeEntityList()
                 val pokeSpecieItemEntity = pokeSpecieItemResponse.toPokeSpecieEntity()
-                pokemonList.add(pokeSpecieItemEntity)
-                for (pokeType in pokeTypesFromCurrentSpecie) {
-                    pokeTypes[pokeType.pokeTypeId] = pokeType
-                    pokemonTypeList.add(PokeSpecieTypeCrossRef(
-                        pokeSpecieId = pokeSpecieItemEntity.pokeSpecieId,
-                        pokeTypeId = pokeType.pokeTypeId
-                    ))
+
+                pokeSpecieEntities.add(pokeSpecieItemEntity)
+
+                for (pokeType in pokeTypeEntitiesFromSpecie) {
+                    pokeTypeEntities[pokeType.pokeTypeId] = pokeType
+                    pokeSpecieTypes.add(
+                        PokeSpecieTypeCrossRef(
+                            pokeSpecieId = pokeSpecieItemEntity.pokeSpecieId,
+                            pokeTypeId = pokeType.pokeTypeId
+                        )
+                    )
                 }
             }
 
             pokeDatabase.withTransaction {
+                clearAllRelatedIfNeeded(loadType)
 
-                if (loadType == LoadType.REFRESH) {
-                    pokeDatabase.pokeSpecieRemoteKeysDao().clearRemoteKeys()
-                    pokeDatabase.pokeSpecieDao().clearPokeSpecies()
-                    pokeDatabase.pokeTypeDao().clearPokeTypes()
-                    pokeDatabase.pokeSpecieTypeDao().clearPokeSpecieTypes()
-                }
+                val keys = getKeys(offset, state, endOfPaginationReached, pokeSpecieEntities, pokeSpeciesResponse)
 
-                val prevKey = Utils.getPrevKey(offset, state.config.pageSize)
-                val nextKey = if (endOfPaginationReached) null else Utils.getNextKeyE(pokemonList)
-                val keys = pokeSpecies.map {
-                    PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
-                }
-
-                pokeDatabase.pokeSpecieRemoteKeysDao().insertAll(keys)
-                pokeDatabase.pokeSpecieDao().insertAll(pokemonList)
-                pokeDatabase.pokeTypeDao().insertAll(pokeTypes.values.toList())
-                pokeDatabase.pokeSpecieTypeDao().insertAll(pokemonTypeList)
+                insertAllRelated(keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
             return MediatorResult.Error(exception)
+        }
+    }
+
+    private suspend fun insertAllRelated(keys: List<PokeSpecieRemoteKeysEntity>, pokeSpecieEntities: MutableList<PokeSpecieEntity>,
+        pokeTypeEntities: HashMap<Int, PokeTypeEntity>, pokeSpecieTypes: MutableList<PokeSpecieTypeCrossRef>
+    ) {
+        with(pokeDatabase) {
+            pokeSpecieRemoteKeysDao().insertAll(keys)
+            pokeSpecieDao().insertAll(pokeSpecieEntities)
+            pokeTypeDao().insertAll(pokeTypeEntities.values.toList())
+            pokeSpecieTypeDao().insertAll(pokeSpecieTypes)
+        }
+    }
+
+    private fun getKeys(offset: Int, state: PagingState<Int, PokeSpecieWithTypes>, endOfPaginationReached: Boolean,
+        pokeSpecieEntities: MutableList<PokeSpecieEntity>, pokeSpeciesResponse: MutableList<PokemonItemFromListResponse>
+    ): List<PokeSpecieRemoteKeysEntity> {
+        val prevKey = Utils.getPrevKey(offset, state.config.pageSize)
+        val nextKey = if (endOfPaginationReached) null else Utils.getNextKeyE(pokeSpecieEntities)
+        return pokeSpeciesResponse.map {
+            PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
+        }
+    }
+
+    private suspend fun clearAllRelatedIfNeeded(loadType: LoadType) {
+        if (loadType == LoadType.REFRESH) {
+            with(pokeDatabase) {
+                pokeSpecieRemoteKeysDao().clearRemoteKeys()
+                pokeSpecieDao().clearPokeSpecies()
+                pokeTypeDao().clearPokeTypes()
+                pokeSpecieTypeDao().clearPokeSpecieTypes()
+            }
         }
     }
 
@@ -130,7 +156,7 @@ class PokeSpecieItemsRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokeSpecieWithTypes>): PokeSpecieRemoteKeysEntity? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo ->
                 // Get the remote keys of the last item retrieved
                 pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)

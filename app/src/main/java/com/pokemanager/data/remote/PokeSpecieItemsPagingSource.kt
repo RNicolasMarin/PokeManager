@@ -8,7 +8,7 @@ import com.pokemanager.data.mappers.toPokeSpecieItemDomain
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.Utils
-import com.pokemanager.utils.Utils.getNextKey
+import com.pokemanager.utils.Utils.getNextKeyD
 import com.pokemanager.utils.Utils.getPrevKey
 import retrofit2.HttpException
 import java.io.IOException
@@ -27,7 +27,7 @@ class PokeSpecieItemsPagingSource(
                 offset = offset
             )
 
-            val pokemonList = mutableListOf<PokeSpecieItemDomain>()
+            val pokeSpecies = mutableListOf<PokeSpecieItemDomain>()
             for (item in itemsFromList.results) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
                 if (id > LAST_VALID_POKEMON_NUMBER) {
@@ -35,14 +35,14 @@ class PokeSpecieItemsPagingSource(
                 }
                 val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
                 val pokeSpecieItemDomain = pokeSpecieItemResponse.toPokeSpecieItemDomain()
-                pokemonList.add(pokeSpecieItemDomain)
+                pokeSpecies.add(pokeSpecieItemDomain)
             }
 
             val prevKey = getPrevKey(offset, params.loadSize)
-            val nextKey = getNextKey(pokemonList)
+            val nextKey = getNextKeyD(pokeSpecies)
 
             Page(
-                data = pokemonList,
+                data = pokeSpecies,
                 prevKey = prevKey,
                 nextKey = nextKey
             )

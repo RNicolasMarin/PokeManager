@@ -1,44 +1,41 @@
 package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.domain.PokeTypeDomain
 import com.pokemanager.data.local.entities.PokeSpecieEntity
+import com.pokemanager.data.local.entities.PokeSpecieWithTypes
 import com.pokemanager.data.remote.responses.PokemonItemResponse
-import com.pokemanager.utils.Utils.getIdAtEndFromUrl
 
-fun PokemonItemResponse.toPokeSpecieItemDomain(): PokeSpecieItemDomain {
-    return PokeSpecieItemDomain(
-        this.id,
-        this.name,
-        this.sprites.other.officialArtwork.front_default,
-        this.types.map {
-            PokeTypeDomain(
-                getIdAtEndFromUrl(it.type.url),
-                it.type.name
-            )
-        } as MutableList<PokeTypeDomain>
-    )
+//Object:
+//Response -> Domain
+fun PokemonItemResponse.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
+    id,
+    name,
+    sprites.other.officialArtwork.front_default,
+    types.fromResponseListToPokeTypeDomainList()
+)
+
+//Response -> Entity
+fun PokemonItemResponse.toPokeSpecieEntity() = PokeSpecieEntity(
+    id,
+    name,
+    sprites.other.officialArtwork.front_default,
+)
+//Entity -> Domain
+fun PokeSpecieEntity.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
+    pokeSpecieId,
+    name,
+    imageUrl
+)
+//Domain -> Entity
+
+//List:
+//Response -> Domain
+//Response -> Entity
+//Entity -> Domain
+//Domain -> Entity
+
+//PokeSpecieWithTypes -> PokeSpecieItemDomain
+fun PokeSpecieWithTypes.toPokeSpecieItemDomain() = pokeSpecie.toPokeSpecieItemDomain().apply {
+    types = pokeTypes.fromEntityListToPokeTypeDomainList()
 }
 
-fun PokemonItemResponse.toPokeSpecieEntity(): PokeSpecieEntity {
-    return PokeSpecieEntity(
-        this.id,
-        this.name,
-        this.sprites.other.officialArtwork.front_default,
-        /*this.types?.map {
-            PokeTypeDomain(
-                it.type?.name,
-                getIdAtEndFromUrl(it.type?.url)
-            )
-        } as MutableList<PokeTypeDomain>?*/
-    )
-}
-
-//entity to domain
-fun PokeSpecieEntity.toPokeSpecieItemDomain(): PokeSpecieItemDomain {
-    return PokeSpecieItemDomain(
-        this.pokeSpecieId,
-        this.name,
-        imageUrl
-    )
-}
