@@ -6,8 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.pokemanager.data.local.PokeManagerDatabase
-import com.pokemanager.data.local.entities.PokeSpecieEntity
-import com.pokemanager.data.local.entities.PokeSpecieRemoteKeysEntity
+import com.pokemanager.data.local.entities.*
 import com.pokemanager.data.mappers.toPokeSpecieEntity
 import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
@@ -20,9 +19,9 @@ import java.io.IOException
 class PokeSpecieItemsRemoteMediator(
     private val pokeManagerApi: PokeManagerApi,
     private val pokeDatabase: PokeManagerDatabase
-) : RemoteMediator<Int, PokeSpecieEntity>() {
+) : RemoteMediator<Int, PokeSpecieWithTypes>() {
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, PokeSpecieEntity>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, PokeSpecieWithTypes>): MediatorResult {
         val offset = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -58,14 +57,24 @@ class PokeSpecieItemsRemoteMediator(
             val pokeSpecies = apiResponse.results
             val endOfPaginationReached = pokeSpecies.isEmpty()
             val pokemonList = mutableListOf<PokeSpecieEntity>()
+            val pokemonTypeList = mutableListOf<PokeSpecieTypeCrossRef>()
+            val pokeTypes = HashMap<Int, PokeTypeEntity>()
             for (item in pokeSpecies) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
-                if (id.toInt() > LAST_VALID_POKEMON_NUMBER) {
+                if (id > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
                 val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
-                val pokeSpecieItemDomain = pokeSpecieItemResponse.toPokeSpecieEntity()
-                pokemonList.add(pokeSpecieItemDomain)
+                val pokeTypesFromCurrentSpecie = Utils.getPokeTypeEntityFromResponse(pokeSpecieItemResponse)
+                val pokeSpecieItemEntity = pokeSpecieItemResponse.toPokeSpecieEntity()
+                pokemonList.add(pokeSpecieItemEntity)
+                for (pokeType in pokeTypesFromCurrentSpecie) {
+                    pokeTypes[pokeType.pokeTypeId] = pokeType
+                    pokemonTypeList.add(PokeSpecieTypeCrossRef(
+                        pokeSpecieId = pokeSpecieItemEntity.pokeSpecieId,
+                        pokeTypeId = pokeType.pokeTypeId
+                    ))
+                }
             }
 
             pokeDatabase.withTransaction {
@@ -73,16 +82,20 @@ class PokeSpecieItemsRemoteMediator(
                 if (loadType == LoadType.REFRESH) {
                     pokeDatabase.pokeSpecieRemoteKeysDao().clearRemoteKeys()
                     pokeDatabase.pokeSpecieDao().clearPokeSpecies()
+                    pokeDatabase.pokeTypeDao().clearPokeTypes()
+                    pokeDatabase.pokeSpecieTypeDao().clearPokeSpecieTypes()
                 }
 
                 val prevKey = Utils.getPrevKey(offset, state.config.pageSize)
                 val nextKey = if (endOfPaginationReached) null else Utils.getNextKeyE(pokemonList)
                 val keys = pokeSpecies.map {
-                    PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url).toInt(), prevKey = prevKey, nextKey = nextKey)
+                    PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
                 }
 
                 pokeDatabase.pokeSpecieRemoteKeysDao().insertAll(keys)
                 pokeDatabase.pokeSpecieDao().insertAll(pokemonList)
+                pokeDatabase.pokeTypeDao().insertAll(pokeTypes.values.toList())
+                pokeDatabase.pokeSpecieTypeDao().insertAll(pokemonTypeList)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
@@ -93,34 +106,34 @@ class PokeSpecieItemsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, PokeSpecieEntity>
+        state: PagingState<Int, PokeSpecieWithTypes>
     ): PokeSpecieRemoteKeysEntity? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.pokeSpecieId?.let { repoId ->
+            state.closestItemToPosition(position)?.pokeSpecie?.pokeSpecieId?.let { repoId ->
                 pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repoId)
             }
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokeSpecieEntity>): PokeSpecieRemoteKeysEntity? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokeSpecieWithTypes>): PokeSpecieRemoteKeysEntity? {
         // Get the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { repo ->
                 // Get the remote keys of the first items retrieved
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecieId)
+                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)
             }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokeSpecieEntity>): PokeSpecieRemoteKeysEntity? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokeSpecieWithTypes>): PokeSpecieRemoteKeysEntity? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo ->
                 // Get the remote keys of the last item retrieved
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecieId)
+                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)
             }
     }
 

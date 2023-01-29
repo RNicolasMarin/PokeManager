@@ -1,4 +1,4 @@
-package com.pokemanager.data.local
+package com.pokemanager.data.local.daos
 
 import androidx.room.Dao
 import androidx.room.Insert

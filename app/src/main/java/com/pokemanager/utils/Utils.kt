@@ -2,18 +2,25 @@ package com.pokemanager.utils
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.local.entities.PokeSpecieEntity
+import com.pokemanager.data.local.entities.PokeTypeEntity
+import com.pokemanager.data.remote.responses.PokemonItemResponse
 import kotlin.math.max
 
 object Utils {
 
-    fun getIdAtEndFromUrl(url: String?): String {
-        if (url == null) return ""
+    fun getIdAtEndFromUrl(url: String?): Int {
+        if (url == null) return 0
 
         var betweenSlashes = url.split("/")
         if (betweenSlashes.last().isBlank()) {
             betweenSlashes = betweenSlashes.subList(0, betweenSlashes.lastIndex)
         }
-        return betweenSlashes.last()
+        return try {
+            betweenSlashes.last().toInt()
+        } catch (e: Exception) {
+            0
+        }
+
     }
 
     fun getNextKey(pokemonList: MutableList<PokeSpecieItemDomain>): Int? {
@@ -48,4 +55,10 @@ object Utils {
     }
 
     private fun ensureValidKey(key: Int) = max(Constants.POKEMON_PAGING_STARTING_KEY, key)
+
+    fun getPokeTypeEntityFromResponse(pokeSpecieItemResponse: PokemonItemResponse): MutableList<PokeTypeEntity> {
+        return pokeSpecieItemResponse.types.map {
+            PokeTypeEntity(getIdAtEndFromUrl(it.type.url), it.type.name)
+        } as MutableList<PokeTypeEntity>
+    }
 }

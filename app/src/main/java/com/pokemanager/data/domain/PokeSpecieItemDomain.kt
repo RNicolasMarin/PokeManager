@@ -4,5 +4,5 @@ data class PokeSpecieItemDomain(
     var id: Int,
     var name: String?,
     var imageUrl: String?,
-    var types: MutableList<PokeTypeDomain> = mutableListOf()
+    var types: List<PokeTypeDomain> = mutableListOf()
 )

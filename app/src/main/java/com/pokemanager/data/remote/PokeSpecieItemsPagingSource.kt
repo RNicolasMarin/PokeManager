@@ -30,7 +30,7 @@ class PokeSpecieItemsPagingSource(
             val pokemonList = mutableListOf<PokeSpecieItemDomain>()
             for (item in itemsFromList.results) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
-                if (id.toInt() > LAST_VALID_POKEMON_NUMBER) {
+                if (id > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
                 val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)

@@ -14,5 +14,5 @@ interface PokeManagerApi {
     ) : PokemonListResponse
 
     @GET("pokemon/{id}/")
-    suspend fun getPokemonItemByIdNetwork(@Path("id") id: String) : PokemonItemResponse
+    suspend fun getPokemonItemByIdNetwork(@Path("id") id: Int) : PokemonItemResponse
 }

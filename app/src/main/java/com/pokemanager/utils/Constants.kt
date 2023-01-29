@@ -13,6 +13,8 @@ object Constants {
     const val POKE_TYPE_TABLE = "pokeTypes"
     const val POKE_TYPE_ID = "pokeTypeId"
 
+    const val POKE_SPECIE_TYPE_TABLE = "pokeSpecieTypes"
+
     const val LAST_VALID_POKEMON_NUMBER = 905
 
     const val POKEMON_PAGING_STARTING_KEY = 0
