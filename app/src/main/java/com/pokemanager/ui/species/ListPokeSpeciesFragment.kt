@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.pokemanager.databinding.FragmentListPokeSpeciesBinding
+import com.pokemanager.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -24,6 +25,7 @@ class ListPokeSpeciesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListPokeSpeciesBinding.inflate(inflater, container, false)
 
+        binding.mode.text = Constants.MODE::class.simpleName
         setupRecyclerView()
         lifecycleScope.launchWhenCreated {
             viewModel.pokeSpecies.collectLatest {

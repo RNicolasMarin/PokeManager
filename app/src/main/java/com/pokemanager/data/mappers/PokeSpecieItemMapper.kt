@@ -38,4 +38,6 @@ fun PokeSpecieEntity.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
 fun PokeSpecieWithTypes.toPokeSpecieItemDomain() = pokeSpecie.toPokeSpecieItemDomain().apply {
     types = pokeTypes.fromEntityListToPokeTypeDomainList()
 }
+fun MutableList<PokeSpecieWithTypes>.fromPokeSpecieWithTypesListToPokeSpecieItemDomainList() =
+    map { it.toPokeSpecieItemDomain() }.toMutableList()
 

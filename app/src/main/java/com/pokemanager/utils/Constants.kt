@@ -1,6 +1,10 @@
 package com.pokemanager.utils
 
+import com.pokemanager.data.DataAccessMode
+
 object Constants {
+
+    val MODE = DataAccessMode.DownloadAll
 
     const val baseUrl = "https://pokeapi.co/api/v2/"
 

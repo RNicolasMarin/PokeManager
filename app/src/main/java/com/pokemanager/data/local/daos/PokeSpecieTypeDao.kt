@@ -15,6 +15,13 @@ interface PokeSpecieTypeDao {
     @Query("SELECT * FROM pokeSpecies")
     fun getPokeSpeciesWithTypes(): PagingSource<Int, PokeSpecieWithTypes>
 
+    @Transaction
+    @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId > :offset LIMIT :limit")
+    fun getPokeSpeciesWithTypes(limit: Int, offset: Int): MutableList<PokeSpecieWithTypes>
+
+    @Query("SELECT MAX(pokeSpecieId) FROM pokeSpecies")
+    fun getPokeSpeciesLastId(): Int?
+
     @Query("DELETE FROM pokeSpecieTypes")
     suspend fun clearPokeSpecieTypes()
 }

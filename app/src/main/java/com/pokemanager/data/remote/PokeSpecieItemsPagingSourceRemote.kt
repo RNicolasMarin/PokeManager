@@ -14,7 +14,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 //PageKeyed
-class PokeSpecieItemsPagingSource(
+class PokeSpecieItemsPagingSourceRemote(
     private val pokeManagerApi: PokeManagerApi
 ) : PagingSource<Int, PokeSpecieItemDomain>() {
 

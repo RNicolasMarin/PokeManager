@@ -18,10 +18,10 @@ object Utils {
         }
     }
 
-    fun getNextKeyD(pokemonList: MutableList<PokeSpecieItemDomain>): Int? {
+    fun getNextKeyD(pokemonList: MutableList<PokeSpecieItemDomain>, lastValidId: Int = Constants.LAST_VALID_POKEMON_NUMBER): Int? {
         val last = pokemonList.lastOrNull() ?: return null
 
-        return if (last.id >= Constants.LAST_VALID_POKEMON_NUMBER) {
+        return if (last.id >= lastValidId) {
             null
         } else {
             last.id
