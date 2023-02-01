@@ -23,17 +23,18 @@ class GetPokeSpecieItemsUseCase(
     operator fun invoke(
         dataAccessMode: DataAccessMode
     ): Flow<PagingData<PokeSpecieItemDomain>> {
-        when (dataAccessMode) {
+        val config = PagingConfig(
+            pageSize = POKEMON_PAGING_PAGE_SIZE,
+            prefetchDistance = POKEMON_PAGING_PREFETCH_DISTANCE,
+            maxSize = POKEMON_PAGING_MAX_SIZE,
+            enablePlaceholders = true,
+            /*maxSize = PagingConfig.MAX_SIZE_UNBOUNDED
+            jumpThreshold = Int.MIN_VALUE*/
+        )
+        return when (dataAccessMode) {
             is DataAccessMode.DownloadAll -> {
                 //access data from database
-                return Pager(
-                    PagingConfig(
-                        pageSize = POKEMON_PAGING_PAGE_SIZE,
-                        enablePlaceholders = true,
-                        prefetchDistance = POKEMON_PAGING_PREFETCH_DISTANCE,
-                        maxSize = POKEMON_PAGING_MAX_SIZE
-                    )
-                ) {
+                Pager(config) {
                     PokeSpecieItemsPagingSourceLocal(
                         pokeDatabase.pokeSpecieTypeDao()
                     )
@@ -45,15 +46,8 @@ class GetPokeSpecieItemsUseCase(
                 val pagingSourceFactory = { pokeDatabase.pokeSpecieTypeDao().getPokeSpeciesWithTypes() }
 
                 @OptIn(ExperimentalPagingApi::class)
-                return Pager(
-                    config = PagingConfig(
-                        pageSize = POKEMON_PAGING_PAGE_SIZE,
-                        prefetchDistance = POKEMON_PAGING_PREFETCH_DISTANCE,
-                        maxSize = POKEMON_PAGING_MAX_SIZE,
-                        enablePlaceholders = true,
-                        /*maxSize = PagingConfig.MAX_SIZE_UNBOUNDED
-                        jumpThreshold = Int.MIN_VALUE*/
-                    ),
+                Pager(
+                    config = config,
                     remoteMediator = PokeSpecieItemsRemoteMediator(
                         pokeManagerApi, pokeDatabase
                     ),
@@ -66,14 +60,7 @@ class GetPokeSpecieItemsUseCase(
             }
             is DataAccessMode.OnlyRequest -> {
                 //always access all from the api
-                return Pager(
-                    PagingConfig(
-                        pageSize = POKEMON_PAGING_PAGE_SIZE,
-                        enablePlaceholders = true,
-                        prefetchDistance = POKEMON_PAGING_PREFETCH_DISTANCE,
-                        maxSize = POKEMON_PAGING_MAX_SIZE
-                    )
-                ) {
+                Pager(config) {
                     PokeSpecieItemsPagingSourceRemote(
                         pokeManagerApi
                     )
