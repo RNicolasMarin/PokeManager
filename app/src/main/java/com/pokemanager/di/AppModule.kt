@@ -4,6 +4,7 @@ import android.content.Context
 import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.utils.Constants.baseUrl
 import com.pokemanager.data.remote.PokeManagerApi
+import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.use_cases.GetPokeSpecieItemsUseCase
 import dagger.Module
 import dagger.Provides
@@ -36,10 +37,18 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getGetPokeSpecieItemsUseCase(
+    fun getMainRepository(
         pokeManagerApi: PokeManagerApi,
         pokeDatabase: PokeManagerDatabase
+    ): MainRepository {
+        return MainRepository(pokeManagerApi, pokeDatabase)
+    }
+
+    @Singleton
+    @Provides
+    fun getGetPokeSpecieItemsUseCase(
+        mainRepository: MainRepository
     ): GetPokeSpecieItemsUseCase {
-        return GetPokeSpecieItemsUseCase(pokeManagerApi, pokeDatabase)
+        return GetPokeSpecieItemsUseCase(mainRepository)
     }
 }

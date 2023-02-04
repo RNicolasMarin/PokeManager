@@ -5,6 +5,7 @@ import androidx.paging.PagingSource.LoadResult.Page
 import androidx.paging.PagingState
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.mappers.toPokeSpecieItemDomain
+import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.Utils
@@ -15,14 +16,14 @@ import java.io.IOException
 
 //PageKeyed
 class PokeSpecieItemsPagingSourceRemote(
-    private val pokeManagerApi: PokeManagerApi
+    private val mainRepository: MainRepository
 ) : PagingSource<Int, PokeSpecieItemDomain>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokeSpecieItemDomain> {
         return try {
 
             val offset = params.key ?: POKEMON_PAGING_STARTING_KEY
-            val itemsFromList = pokeManagerApi.getPokemonItemsNetwork(
+            val itemsFromList = mainRepository.getPokemonItemsNetwork(
                 limit = params.loadSize,
                 offset = offset
             )
@@ -33,7 +34,7 @@ class PokeSpecieItemsPagingSourceRemote(
                 if (id > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
-                val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
+                val pokeSpecieItemResponse = mainRepository.getPokemonItemByIdNetwork(id)
                 val pokeSpecieItemDomain = pokeSpecieItemResponse.toPokeSpecieItemDomain()
                 pokeSpecies.add(pokeSpecieItemDomain)
             }

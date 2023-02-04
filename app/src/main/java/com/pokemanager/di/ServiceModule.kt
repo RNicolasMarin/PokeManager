@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.pokemanager.R
-import com.pokemanager.data.local.PokeManagerDatabase
-import com.pokemanager.data.remote.PokeManagerApi
+import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.ui.MainActivity
 import com.pokemanager.use_cases.DownloadAllUseCase
 import com.pokemanager.utils.Constants
@@ -50,9 +49,8 @@ object ServiceModule {
     @ServiceScoped
     @Provides
     fun getDownloadAllUseCase(
-        pokeManagerApi: PokeManagerApi,
-        pokeDatabase: PokeManagerDatabase
+        mainRepository: MainRepository
     ): DownloadAllUseCase {
-        return DownloadAllUseCase(pokeManagerApi, pokeDatabase)
+        return DownloadAllUseCase(mainRepository)
     }
 }

@@ -4,23 +4,14 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
-import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.data.local.entities.*
-import com.pokemanager.data.mappers.fromResponseListToPokeTypeEntityList
-import com.pokemanager.data.mappers.toPokeSpecieEntity
-import com.pokemanager.data.remote.PokeManagerApi
-import com.pokemanager.data.remote.responses.PokemonItemFromListResponse
-import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
+import com.pokemanager.data.repositories.MainRepository
+import com.pokemanager.data.repositories.MainRepository.RequestAndPersistPokeSpeciesResult.*
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
-import com.pokemanager.utils.Utils
-import retrofit2.HttpException
-import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class PokeSpecieItemsRemoteMediator(
-    private val pokeManagerApi: PokeManagerApi,
-    private val pokeDatabase: PokeManagerDatabase
+    private val mainRepository: MainRepository
 ) : RemoteMediator<Int, PokeSpecieWithTypes>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, PokeSpecieWithTypes>): MediatorResult {
@@ -53,96 +44,11 @@ class PokeSpecieItemsRemoteMediator(
             }
         }
 
-        val result = requestAndPersistPokeSpecies(pokeManagerApi, pokeDatabase, state.config.pageSize, offset, loadType == LoadType.REFRESH)
+        val result = mainRepository.requestAndPersistPokeSpecies(state.config.pageSize, offset, loadType == LoadType.REFRESH)
 
-        return if (result.throwable != null) {
-            MediatorResult.Error(result.throwable)
-        } else {
-            MediatorResult.Success(endOfPaginationReached = result.isFinish)
-        }
-    }
-
-    companion object {
-        suspend fun requestAndPersistPokeSpecies(pokeManagerApi: PokeManagerApi, pokeDatabase: PokeManagerDatabase,
-                                                 limit: Int, offset: Int, clearBefore: Boolean): Result {
-            try {
-                val pokeSpeciesResponse = pokeManagerApi.getPokemonItemsNetwork(limit, offset).results
-                val endOfPaginationReached = pokeSpeciesResponse.isEmpty()
-
-                val pokeSpecieEntities = mutableListOf<PokeSpecieEntity>()
-                val pokeSpecieTypes = mutableListOf<PokeSpecieTypeCrossRef>()
-                val pokeTypeEntities = HashMap<Int, PokeTypeEntity>()
-
-                for (item in pokeSpeciesResponse) {
-                    val id = Utils.getIdAtEndFromUrl(item.url)
-                    if (id > LAST_VALID_POKEMON_NUMBER) {
-                        break
-                    }
-
-                    val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
-                    val pokeTypeEntitiesFromSpecie = pokeSpecieItemResponse.types.fromResponseListToPokeTypeEntityList()
-                    val pokeSpecieItemEntity = pokeSpecieItemResponse.toPokeSpecieEntity()
-
-                    pokeSpecieEntities.add(pokeSpecieItemEntity)
-
-                    for (pokeType in pokeTypeEntitiesFromSpecie) {
-                        pokeTypeEntities[pokeType.pokeTypeId] = pokeType
-                        pokeSpecieTypes.add(
-                            PokeSpecieTypeCrossRef(
-                                pokeSpecieId = pokeSpecieItemEntity.pokeSpecieId,
-                                pokeTypeId = pokeType.pokeTypeId
-                            )
-                        )
-                    }
-                }
-
-                pokeDatabase.withTransaction {
-                    clearAllRelatedIfNeeded(pokeDatabase, clearBefore)
-
-                    val keys = getKeys(offset, limit, endOfPaginationReached, pokeSpecieEntities, pokeSpeciesResponse)
-
-                    insertAllRelated(pokeDatabase, keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes)
-                }
-                return Result(endOfPaginationReached)
-            } catch (exception: IOException) {
-                return Result(throwable = exception)
-            } catch (exception: HttpException) {
-                return Result(throwable = exception)
-            }
-        }
-
-        data class Result(val isFinish: Boolean = false, val throwable: Throwable? = null)
-
-        private suspend fun insertAllRelated(pokeDatabase: PokeManagerDatabase, keys: List<PokeSpecieRemoteKeysEntity>, pokeSpecieEntities: MutableList<PokeSpecieEntity>,
-                                             pokeTypeEntities: HashMap<Int, PokeTypeEntity>, pokeSpecieTypes: MutableList<PokeSpecieTypeCrossRef>
-        ) {
-            with(pokeDatabase) {
-                pokeSpecieRemoteKeysDao().insertAll(keys)
-                pokeSpecieDao().insertAll(pokeSpecieEntities)
-                pokeTypeDao().insertAll(pokeTypeEntities.values.toList())
-                pokeSpecieTypeDao().insertAll(pokeSpecieTypes)
-            }
-        }
-
-        private fun getKeys(offset: Int, limit: Int, endOfPaginationReached: Boolean,
-                            pokeSpecieEntities: MutableList<PokeSpecieEntity>, pokeSpeciesResponse: MutableList<PokemonItemFromListResponse>
-        ): List<PokeSpecieRemoteKeysEntity> {
-            val prevKey = Utils.getPrevKey(offset, limit)
-            val nextKey = if (endOfPaginationReached) null else Utils.getNextKeyE(pokeSpecieEntities)
-            return pokeSpeciesResponse.map {
-                PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
-            }
-        }
-
-        private suspend fun clearAllRelatedIfNeeded(pokeDatabase: PokeManagerDatabase, clearBefore: Boolean) {
-            if (clearBefore) {
-                with(pokeDatabase) {
-                    pokeSpecieRemoteKeysDao().clearRemoteKeys()
-                    pokeSpecieDao().clearPokeSpecies()
-                    pokeTypeDao().clearPokeTypes()
-                    pokeSpecieTypeDao().clearPokeSpecieTypes()
-                }
-            }
+        return when (result) {
+            is Success -> MediatorResult.Success(endOfPaginationReached = result.isFinish)
+            is Error -> MediatorResult.Error(result.throwable)
         }
     }
 
@@ -153,7 +59,7 @@ class PokeSpecieItemsRemoteMediator(
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.pokeSpecie?.pokeSpecieId?.let { repoId ->
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repoId)
+                mainRepository.remoteKeysPokeSpecieId(repoId)
             }
         }
     }
@@ -164,7 +70,7 @@ class PokeSpecieItemsRemoteMediator(
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { repo ->
                 // Get the remote keys of the first items retrieved
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)
+                mainRepository.remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)
             }
     }
 
@@ -174,7 +80,7 @@ class PokeSpecieItemsRemoteMediator(
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo ->
                 // Get the remote keys of the last item retrieved
-                pokeDatabase.pokeSpecieRemoteKeysDao().remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)
+                mainRepository.remoteKeysPokeSpecieId(repo.pokeSpecie.pokeSpecieId)
             }
     }
 

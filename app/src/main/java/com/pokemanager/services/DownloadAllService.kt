@@ -89,6 +89,7 @@ class DownloadAllService : LifecycleService() {
                 progress.postValue(it.step)
                 if (it.isFinished) {
                     stopSelf()
+                    Log.d("DownloadAllService", "isFinished")
                     val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                     mNotificationManager.cancel(NOTIFICATION_ID)
                 }

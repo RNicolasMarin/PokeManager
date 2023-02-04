@@ -4,11 +4,10 @@ import androidx.paging.*
 import com.pokemanager.data.DataAccessMode
 import com.pokemanager.data.PokeSpecieItemsRemoteMediator
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.data.local.PokeSpecieItemsPagingSourceLocal
 import com.pokemanager.data.mappers.toPokeSpecieItemDomain
 import com.pokemanager.data.remote.PokeSpecieItemsPagingSourceRemote
-import com.pokemanager.data.remote.PokeManagerApi
+import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.Constants.POKEMON_PAGING_MAX_SIZE
 import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
 import com.pokemanager.utils.Constants.POKEMON_PAGING_PREFETCH_DISTANCE
@@ -16,8 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetPokeSpecieItemsUseCase(
-    private val pokeManagerApi: PokeManagerApi,
-    private val pokeDatabase: PokeManagerDatabase
+    private val mainRepository: MainRepository
 ) {
 
     operator fun invoke(
@@ -35,22 +33,18 @@ class GetPokeSpecieItemsUseCase(
             is DataAccessMode.DownloadAll -> {
                 //access data from database
                 Pager(config) {
-                    PokeSpecieItemsPagingSourceLocal(
-                        pokeDatabase.pokeSpecieTypeDao()
-                    )
+                    PokeSpecieItemsPagingSourceLocal(mainRepository)
                 }.flow
             }
             is DataAccessMode.RequestAndDownload -> {
                 //if has the data from the db fetch it from there
                 //else access the data from the query and persisted on the db
-                val pagingSourceFactory = { pokeDatabase.pokeSpecieTypeDao().getPokeSpeciesWithTypes() }
+                val pagingSourceFactory = { mainRepository.getPokeSpeciesWithTypes() }
 
                 @OptIn(ExperimentalPagingApi::class)
                 Pager(
                     config = config,
-                    remoteMediator = PokeSpecieItemsRemoteMediator(
-                        pokeManagerApi, pokeDatabase
-                    ),
+                    remoteMediator = PokeSpecieItemsRemoteMediator(mainRepository),
                     pagingSourceFactory = pagingSourceFactory
                 ).flow.map { pagingData ->
                     pagingData.map {
@@ -61,9 +55,7 @@ class GetPokeSpecieItemsUseCase(
             is DataAccessMode.OnlyRequest -> {
                 //always access all from the api
                 Pager(config) {
-                    PokeSpecieItemsPagingSourceRemote(
-                        pokeManagerApi
-                    )
+                    PokeSpecieItemsPagingSourceRemote(mainRepository)
                 }.flow
             }
         }
