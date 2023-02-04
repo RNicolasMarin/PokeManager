@@ -79,6 +79,9 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-paging:$roomVersion"
+
+    //lifeCycle service
+    implementation "androidx.lifecycle:lifecycle-service:2.5.1"
 }
 
 kapt {
