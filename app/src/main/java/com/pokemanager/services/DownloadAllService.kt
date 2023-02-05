@@ -11,11 +11,13 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.pokemanager.use_cases.DownloadAllUseCase
 import com.pokemanager.utils.Constants.NOTIFICATION_CHANNEL_ID
 import com.pokemanager.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import com.pokemanager.utils.Constants.NOTIFICATION_ID
 import com.pokemanager.utils.Constants.SERVICE_ACTION_START
+import com.pokemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +37,10 @@ class DownloadAllService : LifecycleService() {
     @Inject
     lateinit var downloadAllUseCase: DownloadAllUseCase
 
+    lateinit var notificationManager: NotificationManager
+
     companion object {
         val progress = MutableLiveData<Int>()
-        val total = MutableLiveData<Int>()
     }
 
     override fun onCreate() {
@@ -47,7 +50,6 @@ class DownloadAllService : LifecycleService() {
     }
 
     private fun postInitialValues() {
-        total.postValue(3)
         progress.postValue(0)
     }
 
@@ -67,7 +69,7 @@ class DownloadAllService : LifecycleService() {
 
     private fun startForegroundService() {
         startDownload()
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(notificationManager)
@@ -75,11 +77,15 @@ class DownloadAllService : LifecycleService() {
 
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
 
-        progress.observe(this) {
-            val notification = curNotificationBuilder
-                .setContentText("${progress.value} de ${total.value}")
-            notificationManager.notify(NOTIFICATION_ID, notification.build())
-        }
+        progress.observe(this, progressObserver)
+    }
+
+    private val progressObserver = Observer<Int> { value ->
+        Log.d("DownloadAllService", "Update $value")
+        val notification = curNotificationBuilder
+            //.setContentText("${progress.value} de ${total.value}")
+            .setProgress(Utils.getTotalStepsAtDownloadingAll(), value, false)
+        notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 
     private fun startDownload() {
@@ -88,12 +94,31 @@ class DownloadAllService : LifecycleService() {
                 Log.d("DownloadAllService", it.toString())
                 progress.postValue(it.step)
                 if (it.isFinished) {
-                    stopSelf()
                     Log.d("DownloadAllService", "isFinished")
-                    val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                    mNotificationManager.cancel(NOTIFICATION_ID)
+                    killService()
                 }
             }
+        }
+    }
+
+    private fun killService() {
+        isFirstRun = true
+        CoroutineScope(Dispatchers.Main).launch {
+            Log.d("DownloadAllService", "Observer Removed")
+            progress.removeObserver(progressObserver)
+            postInitialValues()
+        }
+        stopForeground()
+        val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        mNotificationManager.cancel(NOTIFICATION_ID)
+        stopSelf()
+    }
+
+    private fun stopForeground() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            stopForeground(true)
         }
     }
 

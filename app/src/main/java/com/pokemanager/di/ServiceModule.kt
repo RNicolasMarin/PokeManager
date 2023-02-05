@@ -26,11 +26,11 @@ object ServiceModule {
         @ApplicationContext app: Context,
         pendingIntent: PendingIntent
     ) = NotificationCompat.Builder(app, Constants.NOTIFICATION_CHANNEL_ID)
-        .setAutoCancel(false)
-        .setOngoing(true)
-        .setSmallIcon(R.drawable.ic_launcher_background)
+        .setAutoCancel(true)
+        .setOngoing(false)
+        .setSmallIcon(R.mipmap.ic_launcher)
         .setContentTitle(app.getString(R.string.app_name))
-        .setContentText("DownloadAllService")
+        .setContentText(app.getString(R.string.download_all_notification_text))
         .setContentIntent(pendingIntent)
 
     @ServiceScoped

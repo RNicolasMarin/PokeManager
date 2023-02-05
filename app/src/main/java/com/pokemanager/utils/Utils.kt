@@ -2,6 +2,9 @@ package com.pokemanager.utils
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.local.entities.PokeSpecieEntity
+import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
+import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
+import kotlin.math.ceil
 import kotlin.math.max
 
 object Utils {
@@ -50,4 +53,9 @@ object Utils {
     }
 
     private fun ensureValidKey(key: Int) = max(Constants.POKEMON_PAGING_STARTING_KEY, key)
+
+    fun getTotalStepsAtDownloadingAll(): Int {
+        val result : Double = LAST_VALID_POKEMON_NUMBER.toDouble() / POKEMON_PAGING_PAGE_SIZE.toDouble()
+        return ceil(result).toInt()
+    }
 }
