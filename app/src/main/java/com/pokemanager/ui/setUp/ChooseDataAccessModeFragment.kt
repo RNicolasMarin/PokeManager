@@ -35,7 +35,7 @@ class ChooseDataAccessModeFragment : Fragment() {
 
         btnContinue.setOnClickListener {
             viewModel.continueFromChooseHandleDataMode()
-            findNavController().navigate(R.id.action_chooseHandleDataModeFragment_to_listPokeSpeciesFragment)
+            findNavController().navigate(R.id.action_chooseDataAccessModeFragment_to_listPokeSpeciesFragment)
         }
 
         lifecycleScope.launchWhenCreated {
