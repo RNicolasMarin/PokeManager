@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/chooseHandleDataModeFragment"
-        android:name="com.pokemanager.ui.setUp.ChooseHandleDataModeFragment"
+        android:name="com.pokemanager.ui.setUp.ChooseDataAccessModeFragment"
         android:label="ChooseHandleDataModeFragment"
-        tools:layout="@layout/fragment_choose_handle_data_mode">
+        tools:layout="@layout/fragment_choose_data_access_mode">
 
         <action
             android:id="@+id/action_chooseHandleDataModeFragment_to_listPokeSpeciesFragment"

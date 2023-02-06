@@ -10,18 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.pokemanager.R
 import com.pokemanager.data.DataAccessMode
-import com.pokemanager.databinding.FragmentChooseHandleDataModeBinding
+import com.pokemanager.databinding.FragmentChooseDataAccessModeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class ChooseHandleDataModeFragment : Fragment() {
+class ChooseDataAccessModeFragment : Fragment() {
 
     private val viewModel: SetUpViewModel by viewModels()
-    private lateinit var binding: FragmentChooseHandleDataModeBinding
+    private lateinit var binding: FragmentChooseDataAccessModeBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentChooseHandleDataModeBinding.inflate(inflater, container, false)
+        binding = FragmentChooseDataAccessModeBinding.inflate(inflater, container, false)
 
         setUpViews()
 
