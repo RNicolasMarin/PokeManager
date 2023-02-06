@@ -3,11 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/listPokeSpeciesFragment">
+    app:startDestination="@id/chooseHandleDataModeFragment">
+
+    <fragment
+        android:id="@+id/chooseHandleDataModeFragment"
+        android:name="com.pokemanager.ui.setUp.ChooseHandleDataModeFragment"
+        android:label="ChooseHandleDataModeFragment"
+        tools:layout="@layout/fragment_choose_handle_data_mode">
+
+        <action
+            android:id="@+id/action_chooseHandleDataModeFragment_to_listPokeSpeciesFragment"
+            app:destination="@id/listPokeSpeciesFragment"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/listPokeSpeciesFragment"
         android:name="com.pokemanager.ui.species.ListPokeSpeciesFragment"
         android:label="ListPokeSpeciesFragment"
         tools:layout="@layout/fragment_list_poke_species" />
+
 </navigation>

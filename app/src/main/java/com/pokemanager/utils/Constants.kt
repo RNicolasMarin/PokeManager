@@ -8,6 +8,9 @@ object Constants {
 
     const val baseUrl = "https://pokeapi.co/api/v2/"
 
+    const val SHARED_PREFERENCES_NAME = "PokeManagerPreferences"
+    const val SHARED_PREFERENCES_DATA_ACCESS_MODE = "PokeManagerPreferences"
+
     const val DB_NAME = "PokeManager.db"
 
     const val POKE_SPECIE_TABLE = "pokeSpecies"
