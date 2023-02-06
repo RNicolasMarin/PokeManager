@@ -4,4 +4,6 @@ import com.pokemanager.data.DataAccessMode
 
 interface PokeManagerPreferences {
     fun saveDataAccessMode(dataAccessMode: DataAccessMode)
+
+    fun getDataAccessMode() : DataAccessMode
 }

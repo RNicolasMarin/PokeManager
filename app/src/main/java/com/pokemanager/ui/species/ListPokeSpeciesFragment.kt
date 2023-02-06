@@ -28,7 +28,6 @@ class ListPokeSpeciesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListPokeSpeciesBinding.inflate(inflater, container, false)
 
-        binding.mode.text = Constants.MODE::class.simpleName
         setupRecyclerView()
         lifecycleScope.launchWhenCreated {
             viewModel.pokeSpecies.collectLatest {
@@ -43,7 +42,13 @@ class ListPokeSpeciesFragment : Fragment() {
             }
         }
 
-        sendCommandToService(SERVICE_ACTION_START)
+        lifecycleScope.launchWhenCreated {
+            viewModel.mode.observe(viewLifecycleOwner) {
+                binding.mode.text = it::class.simpleName
+            }
+        }
+
+        //sendCommandToService(SERVICE_ACTION_START)
 
         return binding.root
     }
