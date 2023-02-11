@@ -40,6 +40,7 @@ class DownloadAllService : LifecycleService() {
     lateinit var notificationManager: NotificationManager
 
     companion object {
+        var total = 0
         val progress = MutableLiveData<Int>()
     }
 
@@ -50,6 +51,7 @@ class DownloadAllService : LifecycleService() {
     }
 
     private fun postInitialValues() {
+        total = Utils.getTotalStepsAtDownloadingAll()
         progress.postValue(0)
     }
 
@@ -84,7 +86,7 @@ class DownloadAllService : LifecycleService() {
         Log.d("DownloadAllService", "Update $value")
         val notification = curNotificationBuilder
             //.setContentText("${progress.value} de ${total.value}")
-            .setProgress(Utils.getTotalStepsAtDownloadingAll(), value, false)
+            .setProgress(total, value, false)
         notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 

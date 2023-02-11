@@ -59,16 +59,8 @@ class ListPokeSpeciesFragment : Fragment() {
             }
         }
 
-        //sendCommandToService(SERVICE_ACTION_START)
-
         return binding.root
     }
-
-    private fun sendCommandToService(action: String) =
-        Intent(requireContext(), DownloadAllService::class.java).also {
-            it.action = action
-            requireContext().startService(it)
-        }
 
     private fun setupRecyclerView() = binding.listPokeSpeciesRv.apply {
         pokeSpecieAdapter = PokeSpecieAdapter()

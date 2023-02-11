@@ -35,7 +35,11 @@ class ChooseDataAccessModeFragment : Fragment() {
 
         btnContinue.setOnClickListener {
             viewModel.continueFromChooseHandleDataMode()
-            findNavController().navigate(R.id.action_chooseDataAccessModeFragment_to_listPokeSpeciesFragment)
+            if (viewModel.getDataAccessMode()?.isDownloadAll() == true) {
+                findNavController().navigate(R.id.action_chooseDataAccessModeFragment_to_downloadingAllDataFragment)
+            } else {
+                findNavController().navigate(R.id.action_chooseDataAccessModeFragment_to_listPokeSpeciesFragment)
+            }
         }
 
         lifecycleScope.launchWhenCreated {

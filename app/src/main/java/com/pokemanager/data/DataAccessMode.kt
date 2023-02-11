@@ -33,4 +33,6 @@ sealed class DataAccessMode {
         else -> OnlyRequest
     }
 
+    fun isDownloadAll() = this is DownloadAll
+
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.setUp.ChooseDataAccessModeFragment">
+    tools:context=".ui.setUp.DownloadingAllDataFragment">
 
     <Button
         android:id="@+id/btn_back"
@@ -14,40 +14,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <RadioGroup
-        android:id="@+id/rg_choose_data_mode"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/pb_downloading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/btn_continue">
-
-        <RadioButton
-            android:id="@+id/rb_download_all"
-            android:text="@string/data_access_mode_download_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <RadioButton
-            android:id="@+id/rb_request_and_download"
-            android:text="@string/data_access_mode_request_and_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <RadioButton
-            android:id="@+id/rb_only_request"
-            android:text="@string/data_access_mode_only_request"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </RadioGroup>
+        app:layout_constraintBottom_toBottomOf="@id/btn_continue"/>
 
     <Button
         android:id="@+id/btn_continue"
         android:text="@string/button_continue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

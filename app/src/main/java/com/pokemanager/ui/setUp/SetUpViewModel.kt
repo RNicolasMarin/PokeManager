@@ -29,5 +29,7 @@ class SetUpViewModel @Inject constructor(
         var dataAccessMode: DataAccessMode? = null
     }
 
+    fun getDataAccessMode() = dataAccessMode
+
 
 }
