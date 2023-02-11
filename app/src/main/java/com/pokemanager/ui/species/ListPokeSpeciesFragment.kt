@@ -13,8 +13,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.pokemanager.databinding.FragmentListPokeSpeciesBinding
 import com.pokemanager.services.DownloadAllService
-import com.pokemanager.utils.Constants
-import com.pokemanager.utils.Constants.SERVICE_ACTION_START
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -37,8 +35,21 @@ class ListPokeSpeciesFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             pokeSpecieAdapter.loadStateFlow.collect {
-                binding.prependProgress.isVisible = it.mediator?.prepend is LoadState.Loading
-                binding.appendProgress.isVisible = it.mediator?.append is LoadState.Loading
+                with(binding) {
+                    val isAppend = it.mediator?.append is LoadState.Loading// || it.append is LoadState.Loading
+                    prependProgress.isVisible = it.mediator?.prepend is LoadState.Loading
+                    appendProgress.isVisible = isAppend
+                    viewModel.tryToUpdateShowFirstLoading(isAppend, it.source.refresh is LoadState.Loading)
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.showFirstLoading.observe(viewLifecycleOwner) { showFirstLoading ->
+                with(binding) {
+                    firstLoadPB.isVisible = showFirstLoading
+                    listPokeSpeciesRv.isVisible = !showFirstLoading
+                }
             }
         }
 

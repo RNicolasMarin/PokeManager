@@ -25,7 +25,7 @@ class GetPokeSpecieItemsUseCase(
             pageSize = POKEMON_PAGING_PAGE_SIZE,
             prefetchDistance = POKEMON_PAGING_PREFETCH_DISTANCE,
             maxSize = POKEMON_PAGING_MAX_SIZE,
-            enablePlaceholders = true,
+            enablePlaceholders = getEnablePlaceHolders(dataAccessMode),
             /*maxSize = PagingConfig.MAX_SIZE_UNBOUNDED
             jumpThreshold = Int.MIN_VALUE*/
         )
@@ -58,6 +58,18 @@ class GetPokeSpecieItemsUseCase(
                     PokeSpecieItemsPagingSourceRemote(mainRepository)
                 }.flow
             }
+        }
+    }
+
+    private fun getEnablePlaceHolders(dataAccessMode: DataAccessMode): Boolean {
+        return when(dataAccessMode) {
+            is DataAccessMode.DownloadAll -> true //works no matter the value
+
+            is DataAccessMode.RequestAndDownload -> true
+            //true, if I wait until finish loading when loads the first pages (there's 3 pages loads when first starts) it works,
+            //but if I move before finish loading it will load the items from the wrong page
+
+            is DataAccessMode.OnlyRequest -> false
         }
     }
 }
