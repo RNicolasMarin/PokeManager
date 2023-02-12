@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.pokemanager.R
 import com.pokemanager.use_cases.DownloadAllUseCase
 import com.pokemanager.utils.Constants.NOTIFICATION_CHANNEL_ID
 import com.pokemanager.utils.Constants.NOTIFICATION_CHANNEL_NAME
@@ -85,8 +86,11 @@ class DownloadAllService : LifecycleService() {
     private val progressObserver = Observer<Int> { value ->
         Log.d("DownloadAllService", "Update $value")
         val notification = curNotificationBuilder
-            //.setContentText("${progress.value} de ${total.value}")
             .setProgress(total, value, false)
+        if (total == value) {
+            notification.setContentText(getString(R.string.download_all_notification_done_text))
+                .setProgress(0, 0, false)
+        }
         notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 
