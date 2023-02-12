@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.pokemanager.R
+import com.pokemanager.data.preferences.PokeManagerPreferences
 import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.ui.MainActivity
 import com.pokemanager.use_cases.DownloadAllUseCase
@@ -40,17 +41,16 @@ object ServiceModule {
     ) = PendingIntent.getActivity(
         app,
         0,
-        Intent(app, MainActivity::class.java).also {
-            it.action = Constants.ACTION_SHOW_DOWNLOADING_FRAGMENT
-        },
+        Intent(app, MainActivity::class.java),
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
     @ServiceScoped
     @Provides
     fun getDownloadAllUseCase(
-        mainRepository: MainRepository
+        mainRepository: MainRepository,
+        pokeManagerPreferences: PokeManagerPreferences
     ): DownloadAllUseCase {
-        return DownloadAllUseCase(mainRepository)
+        return DownloadAllUseCase(mainRepository, pokeManagerPreferences)
     }
 }

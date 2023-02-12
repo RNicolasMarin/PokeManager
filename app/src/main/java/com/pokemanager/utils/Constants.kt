@@ -4,9 +4,12 @@ object Constants {
 
     const val baseUrl = "https://pokeapi.co/api/v2/"
 
+    //SharedPreferences
     const val SHARED_PREFERENCES_NAME = "PokeManagerPreferences"
-    const val SHARED_PREFERENCES_DATA_ACCESS_MODE = "PokeManagerPreferences"
+    const val SHARED_PREFERENCES_DATA_ACCESS_MODE = "SHARED_PREFERENCES_DATA_ACCESS_MODE"
+    const val SHARED_PREFERENCES_DOWNLOAD_ALL_PROGRESS = "SHARED_PREFERENCES_DOWNLOAD_ALL_PROGRESS"
 
+    //DB
     const val DB_NAME = "PokeManager.db"
 
     const val POKE_SPECIE_TABLE = "pokeSpecies"
@@ -20,14 +23,15 @@ object Constants {
 
     const val LAST_VALID_POKEMON_NUMBER = 905
 
+    //Paging
     const val POKEMON_PAGING_STARTING_KEY = 0
     const val POKEMON_PAGING_PAGE_SIZE = 60
     const val POKEMON_PAGING_PREFETCH_DISTANCE = 30
     const val POKEMON_PAGING_MAX_SIZE = 150//POKEMON_PAGING_PAGE_SIZE + POKEMON_PAGING_PREFETCH_DISTANCE * 2 at minimum
 
+    //Service and Notification
     const val SERVICE_ACTION_START = "SERVICE_ACTION_START"
     const val NOTIFICATION_CHANNEL_ID = "pokeManager_channel"
     const val NOTIFICATION_CHANNEL_NAME = "PokeManager"
     const val NOTIFICATION_ID = 1
-    const val ACTION_SHOW_DOWNLOADING_FRAGMENT = "ACTION_SHOW_DOWNLOADING_FRAGMENT"
 }

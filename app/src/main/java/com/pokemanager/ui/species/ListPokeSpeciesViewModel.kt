@@ -33,7 +33,7 @@ class ListPokeSpeciesViewModel @Inject constructor(
             .cachedIn(viewModelScope)
 
     private fun getMode(): DataAccessMode {
-        val value = pokeManagerPreferences.getDataAccessMode()
+        val value = pokeManagerPreferences.getDataAccessModeNonNull()
         mode.postValue(value)
         return value
     }

@@ -5,6 +5,18 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/chooseDataAccessModeFragment">
 
+    <action android:id="@+id/action_global_listPokeSpeciesFragment"
+        app:destination="@id/listPokeSpeciesFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/action_global_downloadingAllDataFragment"
+        app:destination="@id/downloadingAllDataFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_graph"
+        app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/chooseDataAccessModeFragment"
         android:name="com.pokemanager.ui.setUp.ChooseDataAccessModeFragment"
