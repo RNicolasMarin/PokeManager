@@ -7,6 +7,8 @@ import com.pokemanager.utils.Constants.POKE_SPECIE_TABLE
 @Entity(tableName = POKE_SPECIE_TABLE)
 data class PokeSpecieEntity(
     @PrimaryKey val pokeSpecieId: Int = 0,
-    val name: String = "",
+    val englishName: String = "",
+    var japHrKtName: String = "",
+    var japRoomajiName: String = "",
     val imageUrl: String = ""
 )

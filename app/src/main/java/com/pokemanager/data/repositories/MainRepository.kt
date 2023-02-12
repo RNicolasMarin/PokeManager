@@ -35,9 +35,10 @@ class MainRepository(
                     break
                 }
 
-                val pokeSpecieItemResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
-                val pokeTypeEntitiesFromSpecie = pokeSpecieItemResponse.types.fromResponseListToPokeTypeEntityList()
-                val pokeSpecieItemEntity = pokeSpecieItemResponse.toPokeSpecieEntity()
+                val pokemonResponse = pokeManagerApi.getPokemonItemByIdNetwork(id)
+                val pokemonSpecieResponse = pokeManagerApi.getPokemonSpecieItemByIdNetwork(id)
+                val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
+                val pokeSpecieItemEntity = pokemonResponse.toPokeSpecieEntity(pokemonSpecieResponse)
 
                 pokeSpecieEntities.add(pokeSpecieItemEntity)
 
@@ -117,5 +118,8 @@ class MainRepository(
 
     suspend fun getPokemonItemByIdNetwork(id: Int) =
         pokeManagerApi.getPokemonItemByIdNetwork(id)
+
+    suspend fun getPokemonSpecieItemByIdNetwork(id: Int) =
+        pokeManagerApi.getPokemonSpecieItemByIdNetwork(id)
 
 }

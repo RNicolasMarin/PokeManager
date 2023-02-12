@@ -34,8 +34,9 @@ class PokeSpecieItemsPagingSourceRemote(
                 if (id > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
-                val pokeSpecieItemResponse = mainRepository.getPokemonItemByIdNetwork(id)
-                val pokeSpecieItemDomain = pokeSpecieItemResponse.toPokeSpecieItemDomain()
+                val pokemonResponse = mainRepository.getPokemonItemByIdNetwork(id)
+                val pokemonSpecieResponse = mainRepository.getPokemonSpecieItemByIdNetwork(id)
+                val pokeSpecieItemDomain = pokemonResponse.toPokeSpecieItemDomain(pokemonSpecieResponse)
                 pokeSpecies.add(pokeSpecieItemDomain)
             }
 

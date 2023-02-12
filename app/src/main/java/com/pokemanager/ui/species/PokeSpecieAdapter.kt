@@ -17,7 +17,7 @@ class PokeSpecieAdapter : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieView
 
         fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) = with(binding) {
             if (pokeSpecie == null) return@with
-            pokeSpecieItemName.text = pokeSpecie.name
+            pokeSpecieItemName.text = pokeSpecie.englishName
             pokeSpecieItemNumber.text = pokeSpecie.id.toString()
 
             val types = getTypes(pokeSpecie)
