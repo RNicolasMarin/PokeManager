@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/pokeSpecieItemName"
+        android:id="@+id/pokeSpecieItemEnglishName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -23,13 +23,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/pokeSpecieItemNumber"/>
 
+    <TextView
+        android:id="@+id/pokeSpecieItemJapHrKtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/pokeSpecieItemEnglishName"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/pokeSpecieItemJapRoomajiName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/pokeSpecieItemJapHrKtName"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <ImageView
         android:id="@+id/pokeSpecieItemImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pokeSpecieItemName"/>
+        app:layout_constraintTop_toBottomOf="@id/pokeSpecieItemJapRoomajiName"/>
 
     <TextView
         android:id="@+id/pokeSpecieItemTypes"

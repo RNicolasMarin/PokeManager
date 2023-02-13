@@ -2,6 +2,8 @@ package com.pokemanager.ui.species
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,14 +12,19 @@ import com.pokemanager.R
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.databinding.PokeSpecieItemBinding
 import com.pokemanager.ui.species.PokeSpecieAdapter.*
+import com.pokemanager.utils.NameLanguagesToList
 
-class PokeSpecieAdapter : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieViewHolder>(diffCallback) {
+class PokeSpecieAdapter(val nameLanguages: NameLanguagesToList) : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieViewHolder>(diffCallback) {
 
     inner class PokeSpecieViewHolder(private val binding: PokeSpecieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) = with(binding) {
             if (pokeSpecie == null) return@with
-            pokeSpecieItemName.text = pokeSpecie.englishName
+
+            pokeSpecieItemEnglishName.setUpTextViewForName(pokeSpecie.englishName, nameLanguages.showEnglishName)
+            pokeSpecieItemJapHrKtName.setUpTextViewForName(pokeSpecie.japHrKtName, nameLanguages.showJapHrKtName)
+            pokeSpecieItemJapRoomajiName.setUpTextViewForName(pokeSpecie.japRoomajiName, nameLanguages.showJapRoomajiName)
+
             pokeSpecieItemNumber.text = pokeSpecie.id.toString()
 
             val types = getTypes(pokeSpecie)
@@ -27,6 +34,11 @@ class PokeSpecieAdapter : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieView
                 .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
                 //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
                 .into(pokeSpecieItemImage)
+        }
+
+        private fun TextView.setUpTextViewForName(text: String, isVisible: Boolean) {
+            this.text = text
+            this.isVisible = isVisible
         }
 
         private fun getTypes(pokeSpecie: PokeSpecieItemDomain): String {

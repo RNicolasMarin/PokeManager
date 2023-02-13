@@ -1,6 +1,5 @@
 package com.pokemanager.ui.species
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.pokemanager.data.preferences.PokeManagerPreferences
 import com.pokemanager.databinding.FragmentListPokeSpeciesBinding
-import com.pokemanager.services.DownloadAllService
+import com.pokemanager.utils.NameLanguagesToList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListPokeSpeciesFragment : Fragment() {
@@ -22,6 +23,9 @@ class ListPokeSpeciesFragment : Fragment() {
     private val viewModel: ListPokeSpeciesViewModel by viewModels()
     private lateinit var binding: FragmentListPokeSpeciesBinding
     private lateinit var pokeSpecieAdapter: PokeSpecieAdapter
+
+    @Inject
+    lateinit var pokeManagerPreferences: PokeManagerPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListPokeSpeciesBinding.inflate(inflater, container, false)
@@ -63,7 +67,8 @@ class ListPokeSpeciesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = binding.listPokeSpeciesRv.apply {
-        pokeSpecieAdapter = PokeSpecieAdapter()
+        val nameLanguagesToList = pokeManagerPreferences.getNameLanguagesToList()
+        pokeSpecieAdapter = PokeSpecieAdapter(nameLanguagesToList ?: NameLanguagesToList())
         adapter = pokeSpecieAdapter
         layoutManager = GridLayoutManager(requireContext(), 3)
     }
