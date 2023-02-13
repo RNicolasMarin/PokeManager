@@ -7,6 +7,8 @@ import com.pokemanager.data.DataAccessMode.RequestAndDownload.toDataAccessMode
 import com.pokemanager.use_cases.DownloadAllUseCase.*
 import com.pokemanager.utils.Constants.SHARED_PREFERENCES_DATA_ACCESS_MODE
 import com.pokemanager.utils.Constants.SHARED_PREFERENCES_DOWNLOAD_ALL_PROGRESS
+import com.pokemanager.utils.Constants.SHARED_PREFERENCES_NAME_LANGUAGE_TO_LIST
+import com.pokemanager.utils.NameLanguagesToList
 
 class PokeManagerPreferencesImpl(
     private val sharedPref: SharedPreferences
@@ -37,5 +39,16 @@ class PokeManagerPreferencesImpl(
         val value = sharedPref.getString(SHARED_PREFERENCES_DOWNLOAD_ALL_PROGRESS, "") ?: ""
         if (value.isEmpty()) return null
         return Gson().fromJson(value, DownloadAllProgress::class.java)
+    }
+
+    override fun saveNameLanguagesToList(nameLanguagesToList: NameLanguagesToList) {
+        val value = Gson().toJson(nameLanguagesToList)
+        sharedPref.edit().putString(SHARED_PREFERENCES_NAME_LANGUAGE_TO_LIST, value).apply()
+    }
+
+    override fun getNameLanguagesToList(): NameLanguagesToList? {
+        val value = sharedPref.getString(SHARED_PREFERENCES_NAME_LANGUAGE_TO_LIST, "") ?: ""
+        if (value.isEmpty()) return null
+        return Gson().fromJson(value, NameLanguagesToList::class.java)
     }
 }

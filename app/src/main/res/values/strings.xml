@@ -3,10 +3,16 @@
 
     <string name="download_all_notification_text">Downloading data</string>
     <string name="download_all_notification_done_text">Download finished</string>
+
     <string name="button_back">Back</string>
     <string name="button_continue">Continue</string>
+
     <string name="data_access_mode_download_all">Download All</string>
     <string name="data_access_mode_request_and_download">Request And Download</string>
     <string name="data_access_mode_only_request">Only Request</string>
+
+    <string name="name_language_only_my_language">Only my language</string>
+    <string name="name_language_jap_hr_kt">Japanese with Hiragana/Katakana</string>
+    <string name="name_language_jap_roomaji">Japanese with Roomaji</string>
 
 </resources>

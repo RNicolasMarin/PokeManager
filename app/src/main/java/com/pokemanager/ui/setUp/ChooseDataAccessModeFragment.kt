@@ -34,7 +34,7 @@ class ChooseDataAccessModeFragment : Fragment() {
         rbOnlyRequest.setOnClickListener        { selectMode(DataAccessMode.OnlyRequest) }
 
         btnContinue.setOnClickListener {
-            viewModel.continueFromChooseHandleDataMode()
+            viewModel.continueFromChooseDataAccessMode()
             if (viewModel.getDataAccessMode()?.isDownloadAll() == true) {
                 findNavController().navigate(R.id.action_chooseDataAccessModeFragment_to_downloadingAllDataFragment)
             } else {

@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/chooseDataAccessModeFragment">
+    app:startDestination="@id/chooseNameLanguagesFragment">
+
+    <action android:id="@+id/action_global_chooseDataAccessModeFragment"
+        app:destination="@id/chooseDataAccessModeFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_graph"
+        app:popUpToInclusive="true" />
 
     <action android:id="@+id/action_global_listPokeSpeciesFragment"
         app:destination="@id/listPokeSpeciesFragment"
@@ -16,6 +22,21 @@
         app:launchSingleTop="true"
         app:popUpTo="@+id/nav_graph"
         app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/chooseNameLanguagesFragment"
+        android:name="com.pokemanager.ui.setUp.ChooseNameLanguagesFragment"
+        android:label="ChooseNameLanguagesFragment"
+        tools:layout="@layout/fragment_choose_name_languages">
+
+        <action
+            android:id="@+id/action_chooseNameLanguagesFragment_to_chooseDataAccessModeFragment"
+            app:destination="@id/chooseDataAccessModeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/chooseDataAccessModeFragment"

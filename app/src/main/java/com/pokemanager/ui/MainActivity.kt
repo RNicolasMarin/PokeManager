@@ -26,8 +26,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToFragment() {
+        //if there's no languages for name selected
+        pokeManagerPreferences.getNameLanguagesToList() ?: return
+
         //if there's no mode saved it shows the first screen
-        val mode = pokeManagerPreferences.getDataAccessMode() ?: return
+        val mode = pokeManagerPreferences.getDataAccessMode()
+        if (mode == null) {
+            navigateTo(R.id.action_global_chooseDataAccessModeFragment)
+            return
+        }
 
         //if the mode is requestAndDownload or OnlyRequest navigate to listFragment
         if (mode is RequestAndDownload || mode is OnlyRequest) {
