@@ -79,6 +79,18 @@
         android:id="@+id/listPokeSpeciesFragment"
         android:name="com.pokemanager.ui.species.ListPokeSpeciesFragment"
         android:label="ListPokeSpeciesFragment"
-        tools:layout="@layout/fragment_list_poke_species" />
+        tools:layout="@layout/fragment_list_poke_species">
+
+        <action
+            android:id="@+id/action_listPokeSpeciesFragment_to_detailPokeSpecieFragment"
+            app:destination="@id/detailPokeSpecieFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailPokeSpecieFragment"
+        android:name="com.pokemanager.ui.species.DetailPokeSpecieFragment"
+        android:label="DetailPokeSpecieFragment"
+        tools:layout="@layout/fragment_detail_poke_specie" />
 
 </navigation>

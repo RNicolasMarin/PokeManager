@@ -8,8 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.pokemanager.R
 import com.pokemanager.data.preferences.PokeManagerPreferences
 import com.pokemanager.databinding.FragmentListPokeSpeciesBinding
 import com.pokemanager.utils.NameLanguagesToList
@@ -18,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListPokeSpeciesFragment : Fragment() {
+class ListPokeSpeciesFragment : Fragment(), PokeSpecieAdapter.PokeSpecieAdapterListener {
 
     private val viewModel: ListPokeSpeciesViewModel by viewModels()
     private lateinit var binding: FragmentListPokeSpeciesBinding
@@ -68,8 +70,15 @@ class ListPokeSpeciesFragment : Fragment() {
 
     private fun setupRecyclerView() = binding.listPokeSpeciesRv.apply {
         val nameLanguagesToList = pokeManagerPreferences.getNameLanguagesToList()
-        pokeSpecieAdapter = PokeSpecieAdapter(nameLanguagesToList ?: NameLanguagesToList())
+        pokeSpecieAdapter = PokeSpecieAdapter(
+            nameLanguagesToList ?: NameLanguagesToList(),
+            this@ListPokeSpeciesFragment
+        )
         adapter = pokeSpecieAdapter
         layoutManager = GridLayoutManager(requireContext(), 3)
+    }
+
+    override fun onPokeSpecieClicked(id: Int) {
+        findNavController().navigate(R.id.action_listPokeSpeciesFragment_to_detailPokeSpecieFragment)
     }
 }

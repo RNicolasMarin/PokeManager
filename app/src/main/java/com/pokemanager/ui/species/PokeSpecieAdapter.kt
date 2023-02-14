@@ -14,7 +14,10 @@ import com.pokemanager.databinding.PokeSpecieItemBinding
 import com.pokemanager.ui.species.PokeSpecieAdapter.*
 import com.pokemanager.utils.NameLanguagesToList
 
-class PokeSpecieAdapter(val nameLanguages: NameLanguagesToList) : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieViewHolder>(diffCallback) {
+class PokeSpecieAdapter(
+    val nameLanguages: NameLanguagesToList,
+    val listener: PokeSpecieAdapterListener
+) : PagingDataAdapter<PokeSpecieItemDomain, PokeSpecieViewHolder>(diffCallback) {
 
     inner class PokeSpecieViewHolder(private val binding: PokeSpecieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -34,6 +37,8 @@ class PokeSpecieAdapter(val nameLanguages: NameLanguagesToList) : PagingDataAdap
                 .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
                 //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
                 .into(pokeSpecieItemImage)
+
+            root.setOnClickListener { listener.onPokeSpecieClicked(pokeSpecie.id) }
         }
 
         private fun TextView.setUpTextViewForName(text: String, isVisible: Boolean) {
@@ -71,6 +76,10 @@ class PokeSpecieAdapter(val nameLanguages: NameLanguagesToList) : PagingDataAdap
     override fun onBindViewHolder(holder: PokeSpecieViewHolder, position: Int) {
         val pokeSpecie = getItem(position)
         holder.loadPokeSpecie(pokeSpecie)
+    }
+
+    interface PokeSpecieAdapterListener {
+        fun onPokeSpecieClicked(id: Int)
     }
 
 }
