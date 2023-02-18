@@ -2,6 +2,7 @@ package com.pokemanager.use_cases
 
 import androidx.paging.*
 import com.pokemanager.data.DataAccessMode
+import com.pokemanager.data.DataAccessMode.*
 import com.pokemanager.data.PokeSpecieItemsRemoteMediator
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.local.PokeSpecieItemsPagingSourceLocal
@@ -30,13 +31,13 @@ class GetPokeSpecieItemsUseCase(
             jumpThreshold = Int.MIN_VALUE*/
         )
         return when (dataAccessMode) {
-            is DataAccessMode.DownloadAll -> {
+            is DownloadAll -> {
                 //access data from database
                 Pager(config) {
                     PokeSpecieItemsPagingSourceLocal(mainRepository)
                 }.flow
             }
-            is DataAccessMode.RequestAndDownload -> {
+            is RequestAndDownload -> {
                 //if has the data from the db fetch it from there
                 //else access the data from the query and persisted on the db
                 val pagingSourceFactory = { mainRepository.getPokeSpeciesWithTypes() }
@@ -52,7 +53,7 @@ class GetPokeSpecieItemsUseCase(
                     }
                 }
             }
-            is DataAccessMode.OnlyRequest -> {
+            is OnlyRequest -> {
                 //always access all from the api
                 Pager(config) {
                     PokeSpecieItemsPagingSourceRemote(mainRepository)
@@ -63,13 +64,13 @@ class GetPokeSpecieItemsUseCase(
 
     private fun getEnablePlaceHolders(dataAccessMode: DataAccessMode): Boolean {
         return when(dataAccessMode) {
-            is DataAccessMode.DownloadAll -> true //works no matter the value
+            is DownloadAll -> true //works no matter the value
 
-            is DataAccessMode.RequestAndDownload -> true
+            is RequestAndDownload -> true
             //true, if I wait until finish loading when loads the first pages (there's 3 pages loads when first starts) it works,
             //but if I move before finish loading it will load the items from the wrong page
 
-            is DataAccessMode.OnlyRequest -> false
+            is OnlyRequest -> false
         }
     }
 }

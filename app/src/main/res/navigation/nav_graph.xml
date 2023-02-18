@@ -91,6 +91,13 @@
         android:id="@+id/detailPokeSpecieFragment"
         android:name="com.pokemanager.ui.species.DetailPokeSpecieFragment"
         android:label="DetailPokeSpecieFragment"
-        tools:layout="@layout/fragment_detail_poke_specie" />
+        tools:layout="@layout/fragment_detail_poke_specie">
+
+        <argument
+            android:name="pokeSpecieId"
+            app:argType="integer"
+            android:defaultValue="0" />
+
+    </fragment>
 
 </navigation>

@@ -8,6 +8,7 @@ import com.pokemanager.data.preferences.PokeManagerPreferencesImpl
 import com.pokemanager.utils.Constants.baseUrl
 import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.data.repositories.MainRepository
+import com.pokemanager.use_cases.GetPokeSpecieDetailUseCase
 import com.pokemanager.use_cases.GetPokeSpecieItemsUseCase
 import com.pokemanager.utils.Constants.SHARED_PREFERENCES_NAME
 import dagger.Module
@@ -64,5 +65,13 @@ object AppModule {
         mainRepository: MainRepository
     ): GetPokeSpecieItemsUseCase {
         return GetPokeSpecieItemsUseCase(mainRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun getGetPokeSpecieDetailUseCase(
+        mainRepository: MainRepository
+    ): GetPokeSpecieDetailUseCase {
+        return GetPokeSpecieDetailUseCase(mainRepository)
     }
 }

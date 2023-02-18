@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pokemanager.R
 import com.pokemanager.data.domain.PokeSpecieItemDomain
+import com.pokemanager.data.mappers.fromDomainListToString
 import com.pokemanager.databinding.PokeSpecieItemBinding
 import com.pokemanager.ui.species.PokeSpecieAdapter.*
 import com.pokemanager.utils.NameLanguagesToList
@@ -30,7 +31,7 @@ class PokeSpecieAdapter(
 
             pokeSpecieItemNumber.text = pokeSpecie.id.toString()
 
-            val types = getTypes(pokeSpecie)
+            val types = pokeSpecie.types.fromDomainListToString()
             pokeSpecieItemTypes.text = types
 
             Glide.with(root).load(pokeSpecie.imageUrl)
@@ -44,13 +45,6 @@ class PokeSpecieAdapter(
         private fun TextView.setUpTextViewForName(text: String, isVisible: Boolean) {
             this.text = text
             this.isVisible = isVisible
-        }
-
-        private fun getTypes(pokeSpecie: PokeSpecieItemDomain): String {
-            val types = StringBuilder()
-            val separator = "-"
-            pokeSpecie.types.forEach { types.append(it.name).append(separator) }
-            return types.removeSuffix(separator).toString()
         }
     }
 

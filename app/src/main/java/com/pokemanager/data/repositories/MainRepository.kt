@@ -1,6 +1,7 @@
 package com.pokemanager.data.repositories
 
 import androidx.room.withTransaction
+import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.data.local.entities.PokeSpecieEntity
 import com.pokemanager.data.local.entities.PokeSpecieRemoteKeysEntity
@@ -8,6 +9,7 @@ import com.pokemanager.data.local.entities.PokeSpecieTypeCrossRef
 import com.pokemanager.data.local.entities.PokeTypeEntity
 import com.pokemanager.data.mappers.fromResponseListToPokeTypeEntityList
 import com.pokemanager.data.mappers.toPokeSpecieEntity
+import com.pokemanager.data.mappers.toPokeSpecieItemDomain
 import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.data.remote.responses.PokemonItemFromListResponse
 import com.pokemanager.data.repositories.MainRepository.RequestAndPersistPokeSpeciesResult.*
@@ -121,5 +123,15 @@ class MainRepository(
 
     suspend fun getPokemonSpecieItemByIdNetwork(id: Int) =
         pokeManagerApi.getPokemonSpecieItemByIdNetwork(id)
+
+
+    suspend fun getPokeSpeciesDetailWithTypes(pokeSpecieId: Int) =
+        pokeDatabase.pokeSpecieTypeDao().getPokeSpecieWithTypes(pokeSpecieId)
+
+    suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : PokeSpecieItemDomain {
+        val pokemonResponse = getPokemonItemByIdNetwork(id)
+        val pokemonSpecieResponse = getPokemonSpecieItemByIdNetwork(id)
+        return pokemonResponse.toPokeSpecieItemDomain(pokemonSpecieResponse)
+    }
 
 }

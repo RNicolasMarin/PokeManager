@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.pokemanager.R
 import com.pokemanager.data.preferences.PokeManagerPreferences
 import com.pokemanager.databinding.FragmentListPokeSpeciesBinding
 import com.pokemanager.utils.NameLanguagesToList
@@ -42,7 +41,7 @@ class ListPokeSpeciesFragment : Fragment(), PokeSpecieAdapter.PokeSpecieAdapterL
         lifecycleScope.launchWhenCreated {
             pokeSpecieAdapter.loadStateFlow.collect {
                 with(binding) {
-                    val isAppend = it.mediator?.append is LoadState.Loading// || it.append is LoadState.Loading
+                    val isAppend = it.mediator?.append is LoadState.Loading
                     prependProgress.isVisible = it.mediator?.prepend is LoadState.Loading
                     appendProgress.isVisible = isAppend
                     viewModel.tryToUpdateShowFirstLoading(isAppend, it.source.refresh is LoadState.Loading)
@@ -79,6 +78,8 @@ class ListPokeSpeciesFragment : Fragment(), PokeSpecieAdapter.PokeSpecieAdapterL
     }
 
     override fun onPokeSpecieClicked(id: Int) {
-        findNavController().navigate(R.id.action_listPokeSpeciesFragment_to_detailPokeSpecieFragment)
+        val action = ListPokeSpeciesFragmentDirections
+            .actionListPokeSpeciesFragmentToDetailPokeSpecieFragment(id)
+        findNavController().navigate(action)
     }
 }

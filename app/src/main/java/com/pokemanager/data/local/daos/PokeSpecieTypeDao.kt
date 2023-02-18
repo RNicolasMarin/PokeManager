@@ -19,6 +19,10 @@ interface PokeSpecieTypeDao {
     @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId > :offset LIMIT :limit")
     fun getPokeSpeciesWithTypes(limit: Int, offset: Int): MutableList<PokeSpecieWithTypes>
 
+    @Transaction
+    @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId = :pokeSpecieId")
+    suspend fun getPokeSpecieWithTypes(pokeSpecieId: Int): PokeSpecieWithTypes?
+
     @Query("SELECT MAX(pokeSpecieId) FROM pokeSpecies")
     fun getPokeSpeciesLastId(): Int?
 
