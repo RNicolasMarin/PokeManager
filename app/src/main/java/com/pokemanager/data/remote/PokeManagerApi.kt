@@ -2,6 +2,7 @@ package com.pokemanager.data.remote
 
 import com.pokemanager.data.remote.responses.PokemonItemResponse
 import com.pokemanager.data.remote.responses.PokemonListResponse
+import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieItemResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -19,4 +20,7 @@ interface PokeManagerApi {
 
     @GET("pokemon-species/{id}/")
     suspend fun getPokemonSpecieItemByIdNetwork(@Path("id") id: Int) : PokemonSpecieItemResponse
+
+    @GET("pokemon-species/{id}/")
+    suspend fun getPokemonSpecieDetailByIdNetwork(@Path("id") id: Int) : PokemonSpecieDetailResponse
 }

@@ -76,7 +76,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailImage" />
+        app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailTypes" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

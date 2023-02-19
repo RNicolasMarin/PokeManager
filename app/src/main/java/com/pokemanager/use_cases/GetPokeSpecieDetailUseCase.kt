@@ -2,8 +2,8 @@ package com.pokemanager.use_cases
 
 import com.pokemanager.data.DataAccessMode
 import com.pokemanager.data.DataAccessMode.*
-import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.mappers.toPokeSpecieItemDomain
+import com.pokemanager.data.domain.PokeSpecieDetailDomain
+import com.pokemanager.data.mappers.toPokeSpecieDetailDomain
 import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.DataState
 import kotlinx.coroutines.delay
@@ -17,22 +17,22 @@ class GetPokeSpecieDetailUseCase(
     operator fun invoke(
         pokeSpecieId: Int,
         dataAccessMode: DataAccessMode
-    ): Flow<DataState<PokeSpecieItemDomain>> = flow {
+    ): Flow<DataState<PokeSpecieDetailDomain>> = flow {
         emit(DataState.Loading)
 
         when (dataAccessMode) {
             is DownloadAll -> {
                 delay(500)
-                val result = mainRepository.getPokeSpeciesDetailWithTypes(pokeSpecieId)?.toPokeSpecieItemDomain()
+                val result = mainRepository.getPokeSpeciesDetailWithTypes(pokeSpecieId)?.toPokeSpecieDetailDomain()
                     ?: return@flow
                 emit(DataState.Success(result))
             }
             is RequestAndDownload -> {
                 delay(500)
-                var result = mainRepository.getPokeSpeciesDetailWithTypes(pokeSpecieId)?.toPokeSpecieItemDomain()
-                if (result == null) {
-                    mainRepository.requestAndPersistPokeSpecies(1, pokeSpecieId, false)
-                    result = mainRepository.getPokeSpeciesDetailWithTypes(pokeSpecieId)?.toPokeSpecieItemDomain()
+                var result = mainRepository.getPokeSpeciesDetailWithTypes(pokeSpecieId)?.toPokeSpecieDetailDomain()
+                if (result == null || result.areDetailsEmpty()) {
+                    mainRepository.requestAndPersistPokeSpecies(1, pokeSpecieId - 1, clearBefore = false, onlyItemData = false)
+                    result = mainRepository.getPokeSpeciesDetailWithTypes(pokeSpecieId)?.toPokeSpecieDetailDomain()
                         ?: return@flow
                     emit(DataState.Success(result))
                 } else {

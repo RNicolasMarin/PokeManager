@@ -14,8 +14,18 @@ data class PokeSpecieTypeCrossRef(
     var pokeTypeId: Int = 0,
 )
 
-data class PokeSpecieWithTypes(
-    @Embedded val pokeSpecie: PokeSpecieEntity,
+data class PokeSpecieItemWithTypes(
+    @Embedded val pokeSpecie: PokeSpecieItemEntity,
+    @Relation(
+        parentColumn = POKE_SPECIE_ID,
+        entityColumn = POKE_TYPE_ID,
+        associateBy = Junction(PokeSpecieTypeCrossRef::class)
+    )
+    val pokeTypes: MutableList<PokeTypeEntity>
+)
+
+data class PokeSpecieDetailWithTypes(
+    @Embedded val pokeSpecie: PokeSpecieDetailEntity,
     @Relation(
         parentColumn = POKE_SPECIE_ID,
         entityColumn = POKE_TYPE_ID,

@@ -3,7 +3,7 @@ package com.pokemanager.data.local
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.mappers.fromPokeSpecieWithTypesListToPokeSpecieItemDomainList
+import com.pokemanager.data.mappers.fromPokeSpecieItemWithTypesListToPokeSpecieItemDomainList
 import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.Constants
 import com.pokemanager.utils.Utils
@@ -20,12 +20,12 @@ class PokeSpecieItemsPagingSourceLocal(
         return@withContext try {
 
             val offset = params.key ?: Constants.POKEMON_PAGING_STARTING_KEY
-            val itemsFromList = mainRepository.getPokeSpeciesWithTypes(
+            val itemsFromList = mainRepository.getPokeSpecieItemsWithTypes(
                 limit = params.loadSize,
                 offset = offset
             )
 
-            val pokeSpecies = itemsFromList.fromPokeSpecieWithTypesListToPokeSpecieItemDomainList()
+            val pokeSpecies = itemsFromList.fromPokeSpecieItemWithTypesListToPokeSpecieItemDomainList()
             val lastValidId = mainRepository.getPokeSpeciesLastId() ?: 0
 
             val prevKey = Utils.getPrevKey(offset, params.loadSize)

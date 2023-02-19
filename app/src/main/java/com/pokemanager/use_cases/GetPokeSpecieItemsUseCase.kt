@@ -40,7 +40,7 @@ class GetPokeSpecieItemsUseCase(
             is RequestAndDownload -> {
                 //if has the data from the db fetch it from there
                 //else access the data from the query and persisted on the db
-                val pagingSourceFactory = { mainRepository.getPokeSpeciesWithTypes() }
+                val pagingSourceFactory = { mainRepository.getPokeSpecieItemsWithTypes() }
 
                 @OptIn(ExperimentalPagingApi::class)
                 Pager(

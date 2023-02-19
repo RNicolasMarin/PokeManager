@@ -46,6 +46,7 @@ class DetailPokeSpecieFragment : Fragment() {
                         pokeSpecieDetailEnglishName.text = pokeSpecieDetail.englishName
                         pokeSpecieDetailJapHrKtName.text = pokeSpecieDetail.japHrKtName
                         pokeSpecieDetailJapRoomajiName.text = pokeSpecieDetail.japRoomajiName
+                        pokeSpecieDetailDescription.text = pokeSpecieDetail.description
 
                         pokeSpecieDetailTypes.text = pokeSpecieDetail.types.fromDomainListToString()
 

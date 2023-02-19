@@ -12,9 +12,9 @@ import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 @OptIn(ExperimentalPagingApi::class)
 class PokeSpecieItemsRemoteMediator(
     private val mainRepository: MainRepository
-) : RemoteMediator<Int, PokeSpecieWithTypes>() {
+) : RemoteMediator<Int, PokeSpecieItemWithTypes>() {
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, PokeSpecieWithTypes>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, PokeSpecieItemWithTypes>): MediatorResult {
         val offset = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -44,7 +44,7 @@ class PokeSpecieItemsRemoteMediator(
             }
         }
 
-        val result = mainRepository.requestAndPersistPokeSpecies(state.config.pageSize, offset, loadType == LoadType.REFRESH)
+        val result = mainRepository.requestAndPersistPokeSpecies(state.config.pageSize, offset, loadType == LoadType.REFRESH, true)
 
         return when (result) {
             is Success -> MediatorResult.Success(endOfPaginationReached = result.isFinish)
@@ -53,7 +53,7 @@ class PokeSpecieItemsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, PokeSpecieWithTypes>
+        state: PagingState<Int, PokeSpecieItemWithTypes>
     ): PokeSpecieRemoteKeysEntity? {
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
@@ -64,7 +64,7 @@ class PokeSpecieItemsRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokeSpecieWithTypes>): PokeSpecieRemoteKeysEntity? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokeSpecieItemWithTypes>): PokeSpecieRemoteKeysEntity? {
         // Get the first page that was retrieved, that contained items.
         // From that first page, get the first item
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
@@ -74,7 +74,7 @@ class PokeSpecieItemsRemoteMediator(
             }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokeSpecieWithTypes>): PokeSpecieRemoteKeysEntity? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokeSpecieItemWithTypes>): PokeSpecieRemoteKeysEntity? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()

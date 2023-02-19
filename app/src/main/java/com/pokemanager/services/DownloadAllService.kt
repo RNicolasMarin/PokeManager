@@ -85,8 +85,7 @@ class DownloadAllService : LifecycleService() {
 
     private val progressObserver = Observer<Int> { value ->
         Log.d("DownloadAllService", "Update $value")
-        val notification = curNotificationBuilder
-            .setProgress(total, value, false)
+        val notification = curNotificationBuilder.setProgress(total, value, false)
         if (total == value) {
             notification.setContentText(getString(R.string.download_all_notification_done_text))
                 .setProgress(0, 0, false)

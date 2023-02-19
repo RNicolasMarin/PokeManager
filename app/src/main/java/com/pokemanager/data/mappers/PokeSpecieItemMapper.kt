@@ -1,8 +1,8 @@
 package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.local.entities.PokeSpecieEntity
-import com.pokemanager.data.local.entities.PokeSpecieWithTypes
+import com.pokemanager.data.local.entities.PokeSpecieItemEntity
+import com.pokemanager.data.local.entities.PokeSpecieItemWithTypes
 import com.pokemanager.data.remote.responses.PokemonItemResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieItemResponse
 import com.pokemanager.utils.TextLanguage.*
@@ -20,15 +20,16 @@ fun PokemonItemResponse.toPokeSpecieItemDomain(pokemonSpecie: PokemonSpecieItemR
 )
 
 //Response -> Entity
-fun PokemonItemResponse.toPokeSpecieEntity(pokemonSpecie: PokemonSpecieItemResponse) = PokeSpecieEntity(
+fun PokemonItemResponse.toPokeSpecieItemEntity(pokemonSpecie: PokemonSpecieItemResponse) = PokeSpecieItemEntity(
     pokeSpecieId = id,
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
     japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
-    imageUrl = sprites.other.officialArtwork.front_default,
+    imageUrl = sprites.other.officialArtwork.front_default
 )
+
 //Entity -> Domain
-fun PokeSpecieEntity.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
+fun PokeSpecieItemEntity.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
     id = pokeSpecieId,
     englishName = englishName,
     japHrKtName = japHrKtName,
@@ -43,10 +44,10 @@ fun PokeSpecieEntity.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
 //Entity -> Domain
 //Domain -> Entity
 
-//PokeSpecieWithTypes -> PokeSpecieItemDomain
-fun PokeSpecieWithTypes.toPokeSpecieItemDomain() = pokeSpecie.toPokeSpecieItemDomain().apply {
+//PokeSpecieItemWithTypes -> PokeSpecieItemDomain
+fun PokeSpecieItemWithTypes.toPokeSpecieItemDomain() = pokeSpecie.toPokeSpecieItemDomain().apply {
     types = pokeTypes.fromEntityListToPokeTypeDomainList()
 }
-fun MutableList<PokeSpecieWithTypes>.fromPokeSpecieWithTypesListToPokeSpecieItemDomainList() =
+fun MutableList<PokeSpecieItemWithTypes>.fromPokeSpecieItemWithTypesListToPokeSpecieItemDomainList() =
     map { it.toPokeSpecieItemDomain() }.toMutableList()
 

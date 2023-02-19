@@ -18,7 +18,7 @@ class DownloadAllUseCase(
 
         var count = 1
         for (i in 0..LAST_VALID_POKEMON_NUMBER step POKEMON_PAGING_PAGE_SIZE) {
-            mainRepository.requestAndPersistPokeSpecies(POKEMON_PAGING_PAGE_SIZE, i, i == 0)
+            mainRepository.requestAndPersistPokeSpecies(POKEMON_PAGING_PAGE_SIZE, i, i == 0, false)
             emitAll(emitAndSave(DownloadAllProgress(count)))
             count++
         }

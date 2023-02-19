@@ -1,8 +1,9 @@
 package com.pokemanager.utils
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.local.entities.PokeSpecieEntity
-import com.pokemanager.data.remote.responses.PokemonSpecieItemResponse
+import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
+import com.pokemanager.data.remote.responses.PokemonSpecieResponse
+import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
 import kotlin.math.ceil
@@ -22,7 +23,7 @@ object Utils {
         }
     }
 
-    fun getNextKeyD(pokemonList: MutableList<PokeSpecieItemDomain>, lastValidId: Int = Constants.LAST_VALID_POKEMON_NUMBER): Int? {
+    fun getNextKeyD(pokemonList: MutableList<PokeSpecieItemDomain>, lastValidId: Int = LAST_VALID_POKEMON_NUMBER): Int? {
         val last = pokemonList.lastOrNull() ?: return null
 
         return if (last.id >= lastValidId) {
@@ -32,10 +33,10 @@ object Utils {
         }
     }
 
-    fun getNextKeyE(pokemonList: MutableList<PokeSpecieEntity>): Int? {
+    fun getNextKeyE(pokemonList: MutableList<PokeSpecieDetailEntity>): Int? {
         val last = pokemonList.lastOrNull() ?: return null
 
-        return if (last.pokeSpecieId >= Constants.LAST_VALID_POKEMON_NUMBER) {
+        return if (last.pokeSpecieId >= LAST_VALID_POKEMON_NUMBER) {
             null
         } else {
             last.pokeSpecieId
@@ -60,10 +61,19 @@ object Utils {
         return ceil(result).toInt()
     }
 
-    fun getNameByLanguage(language: TextLanguage, pokemonSpecie: PokemonSpecieItemResponse): String {
+    fun getNameByLanguage(language: TextLanguage, pokemonSpecie: PokemonSpecieResponse): String {
         for (name in pokemonSpecie.names) {
             if (name.language.name == language.languageName) {
                 return name.name
+            }
+        }
+        return ""
+    }
+
+    fun getEntryByLanguage(language: TextLanguage, pokemonSpecie: PokemonSpecieDetailResponse): String {
+        for (name in pokemonSpecie.entries) {
+            if (name.language.name == language.languageName) {
+                return name.flavorText.replace("\n", " ").replace("\\f", " ")
             }
         }
         return ""

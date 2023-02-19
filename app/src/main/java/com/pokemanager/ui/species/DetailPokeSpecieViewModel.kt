@@ -2,7 +2,7 @@ package com.pokemanager.ui.species
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pokemanager.data.domain.PokeSpecieItemDomain
+import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.data.preferences.PokeManagerPreferences
 import com.pokemanager.use_cases.GetPokeSpecieDetailUseCase
 import com.pokemanager.utils.DataState
@@ -17,7 +17,7 @@ class DetailPokeSpecieViewModel @Inject constructor(
     private val pokeManagerPreferences: PokeManagerPreferences
 ): ViewModel() {
 
-    private val _pokeSpecieDetail = MutableStateFlow<DataState<PokeSpecieItemDomain>>(DataState.Loading)
+    private val _pokeSpecieDetail = MutableStateFlow<DataState<PokeSpecieDetailDomain>>(DataState.Loading)
     val pokeSpecieDetail = _pokeSpecieDetail.asStateFlow()
 
     fun loadPokeSpecieData(pokeSpecieId: Int) {
