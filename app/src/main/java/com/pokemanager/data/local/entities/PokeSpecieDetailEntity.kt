@@ -12,5 +12,7 @@ data class PokeSpecieDetailEntity(
     var japHrKtName: String = "",
     var japRoomajiName: String = "",
     val imageUrl: String = "",
-    var description: String = ""
+    var description: String = "",
+    var weight: Int = 0,
+    var height: Int = 0,
 )

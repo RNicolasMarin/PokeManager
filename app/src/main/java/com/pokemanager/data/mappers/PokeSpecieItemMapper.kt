@@ -1,6 +1,7 @@
 package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
+import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
 import com.pokemanager.data.local.entities.PokeSpecieItemEntity
 import com.pokemanager.data.local.entities.PokeSpecieItemWithTypes
 import com.pokemanager.data.remote.responses.PokemonItemResponse
@@ -20,12 +21,14 @@ fun PokemonItemResponse.toPokeSpecieItemDomain(pokemonSpecie: PokemonSpecieItemR
 )
 
 //Response -> Entity
-fun PokemonItemResponse.toPokeSpecieItemEntity(pokemonSpecie: PokemonSpecieItemResponse) = PokeSpecieItemEntity(
+fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieItemResponse) = PokeSpecieDetailEntity(
     pokeSpecieId = id,
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
     japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
-    imageUrl = sprites.other.officialArtwork.front_default
+    imageUrl = sprites.other.officialArtwork.front_default,
+    weight = 0,
+    height = 0
 )
 
 //Entity -> Domain

@@ -2,6 +2,10 @@ package com.pokemanager.data.remote.responses
 
 import com.google.gson.annotations.SerializedName
 
+interface PokemonSpecieResponse {
+    var names: MutableList<NameNetwork>
+}
+
 data class PokemonSpecieDetailResponse(
     override var names: MutableList<NameNetwork> = mutableListOf(),
     @SerializedName("flavor_text_entries")
@@ -11,10 +15,6 @@ data class PokemonSpecieDetailResponse(
 data class PokemonSpecieItemResponse(
     override var names: MutableList<NameNetwork> = mutableListOf()
 ): PokemonSpecieResponse
-
-interface PokemonSpecieResponse {
-    var names: MutableList<NameNetwork>
-}
 
 data class NameNetwork(
     var language: LanguageNetwork = LanguageNetwork(),

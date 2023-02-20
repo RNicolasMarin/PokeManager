@@ -3,15 +3,13 @@ package com.pokemanager.data.mappers
 import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
 import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypes
-import com.pokemanager.data.remote.responses.PokemonSpecieResponse
-import com.pokemanager.data.remote.responses.PokemonItemResponse
-import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
+import com.pokemanager.data.remote.responses.*
 import com.pokemanager.utils.TextLanguage.*
 import com.pokemanager.utils.Utils
 
 //Object:
 //Response -> Domain
-fun PokemonItemResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailDomain(
+fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailDomain(
     id = id,
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
@@ -19,15 +17,19 @@ fun PokemonItemResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieRes
     imageUrl = sprites.other.officialArtwork.front_default,
     types = types.fromResponseListToPokeTypeDomainList(),
     description = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getEntryByLanguage(ENGLISH, pokemonSpecie) else "",
+    weight = weight,
+    height = height
 )
 //Response -> Entity
-fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
+fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
     pokeSpecieId = id,
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
     japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
     imageUrl = sprites.other.officialArtwork.front_default,
     description = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getEntryByLanguage(ENGLISH, pokemonSpecie) else "",
+    weight = if (this is PokemonDetailResponse) weight else 0,
+    height = if (this is PokemonDetailResponse) height else 0
 )
 
 //Entity -> Domain
@@ -37,7 +39,9 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
     japHrKtName = japHrKtName,
     japRoomajiName = japRoomajiName,
     imageUrl = imageUrl,
-    description = description
+    description = description,
+    weight = weight,
+    height = height
 )
 //Domain -> Entity
 

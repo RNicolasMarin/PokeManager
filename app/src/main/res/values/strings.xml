@@ -15,4 +15,7 @@
     <string name="name_language_jap_hr_kt">Japanese with Hiragana/Katakana</string>
     <string name="name_language_jap_roomaji">Japanese with Roomaji</string>
 
+    <string name="weight">"Weight: "</string>
+    <string name="height">"Height: "</string>
+
 </resources>

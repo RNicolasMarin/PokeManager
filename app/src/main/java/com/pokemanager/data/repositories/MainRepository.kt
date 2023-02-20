@@ -7,6 +7,8 @@ import com.pokemanager.data.local.entities.*
 import com.pokemanager.data.mappers.*
 import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.data.remote.responses.PokemonItemFromListResponse
+import com.pokemanager.data.remote.responses.PokemonItemResponse
+import com.pokemanager.data.remote.responses.PokemonResponse
 import com.pokemanager.data.repositories.MainRepository.RequestAndPersistPokeSpeciesResult.*
 import com.pokemanager.utils.Constants
 import com.pokemanager.utils.Utils
@@ -33,10 +35,13 @@ class MainRepository(
                     break
                 }
 
-                val pokemonResponse = api.getPokemonItemByIdNetwork(id)
-                val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
+                val pokemonResponse: PokemonResponse = if (onlyItemData) {
+                    api.getPokemonItemByIdNetwork(id)
+                } else {
+                    api.getPokemonDetailByIdNetwork(id)
+                }
 
-                val pokeSpecieDetailEntity = if (onlyItemData) {
+                val pokeSpecieDetailEntity: PokeSpecieDetailEntity = if (pokemonResponse is PokemonItemResponse) {
                     val pokemonSpecieResponse = api.getPokemonSpecieItemByIdNetwork(id)
                     pokemonResponse.toPokeSpecieDetailEntity(pokemonSpecieResponse)
                 } else {
@@ -45,6 +50,8 @@ class MainRepository(
                 }
 
                 pokeSpecieEntities.add(pokeSpecieDetailEntity)
+
+                val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
 
                 for (pokeType in pokeTypeEntitiesFromSpecie) {
                     pokeTypeEntities[pokeType.pokeTypeId] = pokeType
@@ -123,6 +130,9 @@ class MainRepository(
     suspend fun getPokemonItemByIdNetwork(id: Int) =
         api.getPokemonItemByIdNetwork(id)
 
+    suspend fun getPokemonDetailByIdNetwork(id: Int) =
+        api.getPokemonDetailByIdNetwork(id)
+
     suspend fun getPokemonSpecieItemByIdNetwork(id: Int) =
         api.getPokemonSpecieItemByIdNetwork(id)
 
@@ -134,7 +144,7 @@ class MainRepository(
         db.pokeSpecieTypeDao().getPokeSpecieDetailWithTypes(pokeSpecieId)
 
     suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : PokeSpecieDetailDomain {
-        val pokemonResponse = getPokemonItemByIdNetwork(id)
+        val pokemonResponse = getPokemonDetailByIdNetwork(id)
         val pokemonSpecieResponse = getPokemonSpecieDetailByIdNetwork(id)
         return pokemonResponse.toPokeSpecieDetailDomain(pokemonSpecieResponse)
     }
