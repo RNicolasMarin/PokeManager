@@ -6,6 +6,7 @@ import com.pokemanager.data.local.PokeManagerDatabase
 import com.pokemanager.data.local.entities.*
 import com.pokemanager.data.mappers.*
 import com.pokemanager.data.remote.PokeManagerApi
+import com.pokemanager.data.remote.responses.PokemonDetailResponse
 import com.pokemanager.data.remote.responses.PokemonItemFromListResponse
 import com.pokemanager.data.remote.responses.PokemonItemResponse
 import com.pokemanager.data.remote.responses.PokemonResponse
@@ -28,6 +29,8 @@ class MainRepository(
             val pokeSpecieEntities = mutableListOf<PokeSpecieDetailEntity>()
             val pokeSpecieTypes = mutableListOf<PokeSpecieTypeCrossRef>()
             val pokeTypeEntities = HashMap<Int, PokeTypeEntity>()
+            val pokeSpecieAbilities = mutableListOf<PokeSpecieAbilityCrossRef>()
+            val pokeAbilityEntities = HashMap<Int, PokeAbilityEntity>()
 
             for (item in pokeSpeciesResponse) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
@@ -62,6 +65,20 @@ class MainRepository(
                         )
                     )
                 }
+
+                if (pokemonResponse is PokemonDetailResponse) {
+                    val pokeAbilitiesEntitiesFromSpecie = pokemonResponse.abilities.fromResponseListToPokeAbilityEntityList()
+                    for (pokeAbility in pokeAbilitiesEntitiesFromSpecie) {
+                        pokeAbilityEntities[pokeAbility.pokeAbilityId] = pokeAbility
+                        pokeSpecieAbilities.add(
+                            PokeSpecieAbilityCrossRef(
+                                pokeSpecieId = pokeSpecieDetailEntity.pokeSpecieId,
+                                pokeAbilityId = pokeAbility.pokeAbilityId,
+                                isHidden = pokeAbility.isHidden
+                            )
+                        )
+                    }
+                }
             }
 
             db.withTransaction {
@@ -69,7 +86,7 @@ class MainRepository(
 
                 val keys = getKeys(offset, limit, endOfPaginationReached, pokeSpecieEntities, pokeSpeciesResponse)
 
-                insertAllRelated(keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes)
+                insertAllRelated(keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes, pokeAbilityEntities, pokeSpecieAbilities)
             }
             return Success(endOfPaginationReached)
         } catch (exception: IOException) {
@@ -86,6 +103,8 @@ class MainRepository(
         pokeSpecieDao().clearPokeSpecies()
         pokeTypeDao().clearPokeTypes()
         pokeSpecieTypeDao().clearPokeSpecieTypes()
+        pokeAbilityDao().clearPokeAbilities()
+        pokeSpecieAbilityDao().clearPokeSpecieAbilities()
     }
 
     private fun getKeys(offset: Int, limit: Int, endOfPaginationReached: Boolean,
@@ -98,13 +117,20 @@ class MainRepository(
         }
     }
 
-    private suspend fun insertAllRelated(keys: List<PokeSpecieRemoteKeysEntity>, pokeSpecieEntities: MutableList<PokeSpecieDetailEntity>,
-                                         pokeTypeEntities: HashMap<Int, PokeTypeEntity>, pokeSpecieTypes: MutableList<PokeSpecieTypeCrossRef>
+    private suspend fun insertAllRelated(
+        keys: List<PokeSpecieRemoteKeysEntity>,
+        pokeSpecieEntities: MutableList<PokeSpecieDetailEntity>,
+        pokeTypeEntities: HashMap<Int, PokeTypeEntity>,
+        pokeSpecieTypes: MutableList<PokeSpecieTypeCrossRef>,
+        pokeAbilityEntities: HashMap<Int, PokeAbilityEntity>,
+        pokeSpecieAbilities: MutableList<PokeSpecieAbilityCrossRef>
     ) = with(db) {
         pokeSpecieRemoteKeysDao().insertAll(keys)
         pokeSpecieDao().insertAll(pokeSpecieEntities)
         pokeTypeDao().insertAll(pokeTypeEntities.values.toList())
         pokeSpecieTypeDao().insertAll(pokeSpecieTypes)
+        pokeAbilityDao().insertAll(pokeAbilityEntities.values.toList())
+        pokeSpecieAbilityDao().insertAll(pokeSpecieAbilities)
     }
 
     sealed class RequestAndPersistPokeSpeciesResult {
@@ -140,7 +166,7 @@ class MainRepository(
         api.getPokemonSpecieDetailByIdNetwork(id)
 
 
-    suspend fun getPokeSpeciesDetailWithTypes(pokeSpecieId: Int) =
+    suspend fun getPokeSpeciesDetailComplete(pokeSpecieId: Int) =
         db.pokeSpecieTypeDao().getPokeSpecieDetailWithTypes(pokeSpecieId)
 
     suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : PokeSpecieDetailDomain {

@@ -10,6 +10,7 @@ data class PokeSpecieDetailDomain(
     var description: String = "",
     var weight: Int = 0,
     var height: Int = 0,
+    var abilities: MutableList<PokeAbilityDomain> = mutableListOf(),
 ) {
     fun areDetailsEmpty() = description.isBlank()
 }

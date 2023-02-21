@@ -2,7 +2,7 @@ package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
-import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypes
+import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypesAbilities
 import com.pokemanager.data.remote.responses.*
 import com.pokemanager.utils.TextLanguage.*
 import com.pokemanager.utils.Utils
@@ -18,7 +18,8 @@ fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieR
     types = types.fromResponseListToPokeTypeDomainList(),
     description = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getEntryByLanguage(ENGLISH, pokemonSpecie) else "",
     weight = weight,
-    height = height
+    height = height,
+    abilities = abilities.fromResponseListToPokeAbilityDomainList()
 )
 //Response -> Entity
 fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
@@ -52,8 +53,9 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
 //Domain -> Entity
 
 //PokeSpecieDetailWithTypes -> PokeSpecieItemDomain
-fun PokeSpecieDetailWithTypes.toPokeSpecieDetailDomain() = pokeSpecie.toPokeSpecieDetailDomain().apply {
+fun PokeSpecieDetailWithTypesAbilities.toPokeSpecieDetailDomain() = pokeSpecie.toPokeSpecieDetailDomain().apply {
     types = pokeTypes.fromEntityListToPokeTypeDomainList()
+    abilities = pokeAbilities.fromEntityListToPokeAbilityDomainList()
 }
-fun MutableList<PokeSpecieDetailWithTypes>.fromPokeSpecieDetailWithTypesListToPokeSpecieDetailDomainList() =
+fun MutableList<PokeSpecieDetailWithTypesAbilities>.fromPokeSpecieDetailWithTypesListToPokeSpecieDetailDomainList() =
     map { it.toPokeSpecieDetailDomain() }.toMutableList()

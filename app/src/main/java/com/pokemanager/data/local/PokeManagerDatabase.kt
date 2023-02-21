@@ -4,16 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.pokemanager.data.local.daos.PokeSpecieDao
-import com.pokemanager.data.local.daos.PokeSpecieRemoteKeysDao
-import com.pokemanager.data.local.daos.PokeSpecieTypeDao
-import com.pokemanager.data.local.daos.PokeTypeDao
+import com.pokemanager.data.local.daos.*
 import com.pokemanager.data.local.entities.*
 import com.pokemanager.utils.Constants.DB_NAME
 
 @Database(
     entities = [PokeSpecieDetailEntity::class, PokeSpecieRemoteKeysEntity::class,
-               PokeTypeEntity::class, PokeSpecieTypeCrossRef::class],
+               PokeTypeEntity::class, PokeSpecieTypeCrossRef::class,
+                PokeAbilityEntity::class, PokeSpecieAbilityCrossRef::class],
     version = 1,
     exportSchema = false
 )
@@ -23,6 +21,8 @@ abstract class PokeManagerDatabase: RoomDatabase() {
     abstract fun pokeSpecieRemoteKeysDao(): PokeSpecieRemoteKeysDao
     abstract fun pokeTypeDao(): PokeTypeDao
     abstract fun pokeSpecieTypeDao(): PokeSpecieTypeDao
+    abstract fun pokeAbilityDao(): PokeAbilityDao
+    abstract fun pokeSpecieAbilityDao(): PokeSpecieAbilityDao
     
     companion object {
         @Volatile

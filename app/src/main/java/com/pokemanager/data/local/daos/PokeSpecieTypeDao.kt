@@ -2,7 +2,7 @@ package com.pokemanager.data.local.daos
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypes
+import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypesAbilities
 import com.pokemanager.data.local.entities.PokeSpecieTypeCrossRef
 import com.pokemanager.data.local.entities.PokeSpecieItemWithTypes
 
@@ -22,7 +22,7 @@ interface PokeSpecieTypeDao {
 
     @Transaction
     @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId = :pokeSpecieId")
-    suspend fun getPokeSpecieDetailWithTypes(pokeSpecieId: Int): PokeSpecieDetailWithTypes?
+    suspend fun getPokeSpecieDetailWithTypes(pokeSpecieId: Int): PokeSpecieDetailWithTypesAbilities?
 
     @Query("SELECT MAX(pokeSpecieId) FROM pokeSpecies")
     fun getPokeSpeciesLastId(): Int?

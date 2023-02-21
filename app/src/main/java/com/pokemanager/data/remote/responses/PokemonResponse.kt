@@ -28,6 +28,7 @@ data class PokemonDetailResponse(
     override var types: MutableList<TypeNetwork> = mutableListOf(),
     var weight: Int = 0,
     var height: Int = 0,
+    var abilities: MutableList<AbilityNetwork> = mutableListOf(),
 ): PokemonResponse
 
 //Image
@@ -46,10 +47,22 @@ data class OfficialArtworkNetwork(
 
 //Types
 data class TypeNetwork(
-    var type: TypeInsideTypeNetwork = TypeInsideTypeNetwork()
+    var type: TypeTypeNetwork = TypeTypeNetwork()
 )
 
-data class TypeInsideTypeNetwork(
+data class TypeTypeNetwork(
     var name: String = "",
     var url: String = ""
+)
+
+//Abilities
+data class AbilityNetwork(
+    val ability: AbilityAbilityNetwork = AbilityAbilityNetwork(),
+    @SerializedName("is_hidden")
+    val isHidden: Boolean = false
+)
+
+data class AbilityAbilityNetwork(
+    val name: String = "",
+    val url: String = "",
 )

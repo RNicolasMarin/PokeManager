@@ -88,13 +88,22 @@
         app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailWeight" />
 
     <TextView
-        android:id="@+id/pokeSpecieDetailDescription"
+        android:id="@+id/pokeSpecieDetailAbilities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailHeight" />
+
+    <TextView
+        android:id="@+id/pokeSpecieDetailDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailAbilities" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
