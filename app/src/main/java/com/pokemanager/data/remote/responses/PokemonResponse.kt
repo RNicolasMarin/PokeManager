@@ -29,6 +29,7 @@ data class PokemonDetailResponse(
     var weight: Int = 0,
     var height: Int = 0,
     var abilities: MutableList<AbilityNetwork> = mutableListOf(),
+    var stats: MutableList<StatNetwork> = mutableListOf(),
 ): PokemonResponse
 
 //Image
@@ -63,6 +64,19 @@ data class AbilityNetwork(
 )
 
 data class AbilityAbilityNetwork(
+    val name: String = "",
+    val url: String = "",
+)
+
+//Stats
+data class StatNetwork(
+    @SerializedName("base_stat")
+    val baseStat: Int = 0,
+    val effort: Int = 0,
+    val stat: StatStatNetwork = StatStatNetwork()
+)
+
+data class StatStatNetwork(
     val name: String = "",
     val url: String = "",
 )

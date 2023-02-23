@@ -2,6 +2,7 @@ package com.pokemanager.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.pokemanager.data.domain.PokeStatDomain
 import com.pokemanager.utils.Constants
 
 //read and insert
@@ -15,4 +16,5 @@ data class PokeSpecieDetailEntity(
     var description: String = "",
     var weight: Int = 0,
     var height: Int = 0,
+    var stats: MutableList<PokeStatDomain> = mutableListOf(),
 )

@@ -28,7 +28,8 @@ fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieIte
     japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
     imageUrl = sprites.other.officialArtwork.front_default,
     weight = 0,
-    height = 0
+    height = 0,
+    stats = mutableListOf()
 )
 
 //Entity -> Domain

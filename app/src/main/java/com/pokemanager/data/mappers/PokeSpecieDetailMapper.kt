@@ -19,7 +19,8 @@ fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieR
     description = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getEntryByLanguage(ENGLISH, pokemonSpecie) else "",
     weight = weight,
     height = height,
-    abilities = abilities.fromResponseListToPokeAbilityDomainList()
+    abilities = abilities.fromResponseListToPokeAbilityDomainList(),
+    stats = stats.fromResponseListToPokeStatDomainList()
 )
 //Response -> Entity
 fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
@@ -30,7 +31,8 @@ fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieRespons
     imageUrl = sprites.other.officialArtwork.front_default,
     description = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getEntryByLanguage(ENGLISH, pokemonSpecie) else "",
     weight = if (this is PokemonDetailResponse) weight else 0,
-    height = if (this is PokemonDetailResponse) height else 0
+    height = if (this is PokemonDetailResponse) height else 0,
+    stats = if (this is PokemonDetailResponse) stats.fromResponseListToPokeStatDomainList() else mutableListOf(),
 )
 
 //Entity -> Domain
@@ -42,7 +44,8 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
     imageUrl = imageUrl,
     description = description,
     weight = weight,
-    height = height
+    height = height,
+    stats = stats
 )
 //Domain -> Entity
 
