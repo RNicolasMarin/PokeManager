@@ -47,6 +47,7 @@ class DetailPokeSpecieFragment : Fragment() {
                         pokeSpecieDetailEnglishName.text = pokeSpecieDetail.englishName
                         pokeSpecieDetailJapHrKtName.text = pokeSpecieDetail.japHrKtName
                         pokeSpecieDetailJapRoomajiName.text = pokeSpecieDetail.japRoomajiName
+                        pokeSpecieDetailGenera.text = pokeSpecieDetail.genera
                         pokeSpecieDetailDescription.text = pokeSpecieDetail.description
 
                         val weight = getString(R.string.weight) + Utils.convertWeight(pokeSpecieDetail.weight)

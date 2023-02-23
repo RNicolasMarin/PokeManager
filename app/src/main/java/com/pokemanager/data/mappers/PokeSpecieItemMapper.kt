@@ -29,7 +29,8 @@ fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieIte
     imageUrl = sprites.other.officialArtwork.front_default,
     weight = 0,
     height = 0,
-    stats = mutableListOf()
+    stats = mutableListOf(),
+    genera = ""
 )
 
 //Entity -> Domain

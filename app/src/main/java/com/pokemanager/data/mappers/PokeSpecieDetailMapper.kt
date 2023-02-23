@@ -20,7 +20,8 @@ fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieR
     weight = weight,
     height = height,
     abilities = abilities.fromResponseListToPokeAbilityDomainList(),
-    stats = stats.fromResponseListToPokeStatDomainList()
+    stats = stats.fromResponseListToPokeStatDomainList(),
+    genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else "",
 )
 //Response -> Entity
 fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
@@ -33,6 +34,7 @@ fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieRespons
     weight = if (this is PokemonDetailResponse) weight else 0,
     height = if (this is PokemonDetailResponse) height else 0,
     stats = if (this is PokemonDetailResponse) stats.fromResponseListToPokeStatDomainList() else mutableListOf(),
+    genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else ""
 )
 
 //Entity -> Domain
@@ -45,7 +47,8 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
     description = description,
     weight = weight,
     height = height,
-    stats = stats
+    stats = stats,
+    genera = genera
 )
 //Domain -> Entity
 

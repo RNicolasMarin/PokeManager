@@ -79,6 +79,15 @@ object Utils {
         return ""
     }
 
+    fun getGeneraByLanguage(language: TextLanguage, pokemonSpecie: PokemonSpecieDetailResponse): String {
+        for (name in pokemonSpecie.genera) {
+            if (name.language.name == language.languageName) {
+                return name.genus
+            }
+        }
+        return ""
+    }
+
     /**
      * Expected values and results
      * 69	6,9 kg

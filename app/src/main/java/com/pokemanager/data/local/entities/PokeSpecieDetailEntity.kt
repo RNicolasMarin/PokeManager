@@ -17,4 +17,5 @@ data class PokeSpecieDetailEntity(
     var weight: Int = 0,
     var height: Int = 0,
     var stats: MutableList<PokeStatDomain> = mutableListOf(),
+    var genera: String = ""
 )
