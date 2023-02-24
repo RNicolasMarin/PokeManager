@@ -31,6 +31,8 @@ class MainRepository(
             val pokeTypeEntities = HashMap<Int, PokeTypeEntity>()
             val pokeSpecieAbilities = mutableListOf<PokeSpecieAbilityCrossRef>()
             val pokeAbilityEntities = HashMap<Int, PokeAbilityEntity>()
+            val pokeMoveEntities = HashMap<Int, PokeMoveEntity>()
+            val pokeSpecieMoves = mutableListOf<PokeSpecieMoveCrossRef>()
 
             for (item in pokeSpeciesResponse) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
@@ -78,6 +80,17 @@ class MainRepository(
                             )
                         )
                     }
+
+                    val pokeMovesEntitiesFromSpecie = pokemonResponse.moves.fromResponseListToPokeMoveEntityList()
+                    for (pokeMove in pokeMovesEntitiesFromSpecie) {
+                        pokeMoveEntities[pokeMove.pokeMoveId] = pokeMove
+                        pokeSpecieMoves.add(
+                            PokeSpecieMoveCrossRef(
+                                pokeSpecieId = pokeSpecieDetailEntity.pokeSpecieId,
+                                pokeMoveId = pokeMove.pokeMoveId
+                            )
+                        )
+                    }
                 }
             }
 
@@ -86,7 +99,8 @@ class MainRepository(
 
                 val keys = getKeys(offset, limit, endOfPaginationReached, pokeSpecieEntities, pokeSpeciesResponse)
 
-                insertAllRelated(keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes, pokeAbilityEntities, pokeSpecieAbilities)
+                insertAllRelated(keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes,
+                    pokeAbilityEntities, pokeSpecieAbilities, pokeMoveEntities, pokeSpecieMoves)
             }
             return Success(endOfPaginationReached)
         } catch (exception: IOException) {
@@ -103,8 +117,12 @@ class MainRepository(
         pokeSpecieDao().clearPokeSpecies()
         pokeTypeDao().clearPokeTypes()
         pokeSpecieTypeDao().clearPokeSpecieTypes()
+
         pokeAbilityDao().clearPokeAbilities()
         pokeSpecieAbilityDao().clearPokeSpecieAbilities()
+
+        pokeMoveDao().clearPokeMoves()
+        pokeSpecieMoveDao().clearPokeSpecieMoves()
     }
 
     private fun getKeys(offset: Int, limit: Int, endOfPaginationReached: Boolean,
@@ -123,14 +141,21 @@ class MainRepository(
         pokeTypeEntities: HashMap<Int, PokeTypeEntity>,
         pokeSpecieTypes: MutableList<PokeSpecieTypeCrossRef>,
         pokeAbilityEntities: HashMap<Int, PokeAbilityEntity>,
-        pokeSpecieAbilities: MutableList<PokeSpecieAbilityCrossRef>
+        pokeSpecieAbilities: MutableList<PokeSpecieAbilityCrossRef>,
+        pokeMoveEntities: HashMap<Int, PokeMoveEntity>,
+        pokeSpecieMoves: MutableList<PokeSpecieMoveCrossRef>
     ) = with(db) {
         pokeSpecieRemoteKeysDao().insertAll(keys)
         pokeSpecieDao().insertAll(pokeSpecieEntities)
+
         pokeTypeDao().insertAll(pokeTypeEntities.values.toList())
         pokeSpecieTypeDao().insertAll(pokeSpecieTypes)
+
         pokeAbilityDao().insertAll(pokeAbilityEntities.values.toList())
         pokeSpecieAbilityDao().insertAll(pokeSpecieAbilities)
+
+        pokeMoveDao().insertAll(pokeMoveEntities.values.toList())
+        pokeSpecieMoveDao().insertAll(pokeSpecieMoves)
     }
 
     sealed class RequestAndPersistPokeSpeciesResult {

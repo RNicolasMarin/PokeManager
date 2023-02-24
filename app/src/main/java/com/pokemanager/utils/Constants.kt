@@ -17,15 +17,24 @@ object Constants {
     const val POKE_SPECIE_ID = "pokeSpecieId"
     const val POKE_SPECIE_REMOTE_KEYS_TABLE = "poke_specie_remote_keys"
 
+    //POKE_TYPE
     const val POKE_TYPE_TABLE = "pokeTypes"
     const val POKE_TYPE_ID = "pokeTypeId"
 
     const val POKE_SPECIE_TYPE_TABLE = "pokeSpecieTypes"
 
+    //POKE_ABILITY
     const val POKE_ABILITY_TABLE = "pokeAbilities"
     const val POKE_ABILITY_ID = "pokeAbilityId"
 
     const val POKE_SPECIE_ABILITY_TABLE = "pokeSpecieAbilities"
+
+    //POKE_MOVE
+    const val POKE_MOVE_TABLE = "pokeMoves"
+    const val POKE_MOVE_ID = "pokeMoveId"
+
+    const val POKE_SPECIE_MOVE_TABLE = "pokeSpecieMoves"
+
 
     const val LAST_VALID_POKEMON_NUMBER = 905
 

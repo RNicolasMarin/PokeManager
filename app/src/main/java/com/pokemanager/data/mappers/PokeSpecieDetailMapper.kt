@@ -2,7 +2,7 @@ package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
-import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypesAbilities
+import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypesAbilitiesMoves
 import com.pokemanager.data.remote.responses.*
 import com.pokemanager.utils.TextLanguage.*
 import com.pokemanager.utils.Utils
@@ -22,6 +22,7 @@ fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieR
     abilities = abilities.fromResponseListToPokeAbilityDomainList(),
     stats = stats.fromResponseListToPokeStatDomainList(),
     genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else "",
+    moves = moves.fromResponseListToPokeMoveDomainList(),
 )
 //Response -> Entity
 fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
@@ -48,7 +49,8 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
     weight = weight,
     height = height,
     stats = stats,
-    genera = genera
+    genera = genera,
+    moves = mutableListOf()
 )
 //Domain -> Entity
 
@@ -59,9 +61,10 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
 //Domain -> Entity
 
 //PokeSpecieDetailWithTypes -> PokeSpecieItemDomain
-fun PokeSpecieDetailWithTypesAbilities.toPokeSpecieDetailDomain() = pokeSpecie.toPokeSpecieDetailDomain().apply {
+fun PokeSpecieDetailWithTypesAbilitiesMoves.toPokeSpecieDetailDomain() = pokeSpecie.toPokeSpecieDetailDomain().apply {
     types = pokeTypes.fromEntityListToPokeTypeDomainList()
     abilities = pokeAbilities.fromEntityListToPokeAbilityDomainList()
+    moves = pokeMoves.fromEntityListToPokeMoveDomainList()
 }
-fun MutableList<PokeSpecieDetailWithTypesAbilities>.fromPokeSpecieDetailWithTypesListToPokeSpecieDetailDomainList() =
+fun MutableList<PokeSpecieDetailWithTypesAbilitiesMoves>.fromPokeSpecieDetailWithTypesListToPokeSpecieDetailDomainList() =
     map { it.toPokeSpecieDetailDomain() }.toMutableList()

@@ -127,6 +127,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailDescription" />
 
+        <TextView
+            android:id="@+id/pokeSpecieDetailMoves"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailStats" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

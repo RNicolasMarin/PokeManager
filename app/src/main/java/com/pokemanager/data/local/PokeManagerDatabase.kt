@@ -12,7 +12,8 @@ import com.pokemanager.utils.Constants.DB_NAME
 @Database(
     entities = [PokeSpecieDetailEntity::class, PokeSpecieRemoteKeysEntity::class,
                PokeTypeEntity::class, PokeSpecieTypeCrossRef::class,
-                PokeAbilityEntity::class, PokeSpecieAbilityCrossRef::class],
+                PokeAbilityEntity::class, PokeSpecieAbilityCrossRef::class,
+                PokeMoveEntity::class, PokeSpecieMoveCrossRef::class],
     version = 1,
     exportSchema = false
 )
@@ -21,10 +22,15 @@ abstract class PokeManagerDatabase: RoomDatabase() {
     
     abstract fun pokeSpecieDao(): PokeSpecieDao
     abstract fun pokeSpecieRemoteKeysDao(): PokeSpecieRemoteKeysDao
+
     abstract fun pokeTypeDao(): PokeTypeDao
     abstract fun pokeSpecieTypeDao(): PokeSpecieTypeDao
+
     abstract fun pokeAbilityDao(): PokeAbilityDao
     abstract fun pokeSpecieAbilityDao(): PokeSpecieAbilityDao
+
+    abstract fun pokeMoveDao(): PokeMoveDao
+    abstract fun pokeSpecieMoveDao(): PokeSpecieMoveDao
     
     companion object {
         @Volatile
