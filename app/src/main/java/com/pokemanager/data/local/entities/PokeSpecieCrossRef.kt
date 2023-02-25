@@ -4,9 +4,11 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
+import com.pokemanager.utils.Constants.EVOLUTION_CHAIN_ID
 import com.pokemanager.utils.Constants.POKE_ABILITY_ID
 import com.pokemanager.utils.Constants.POKE_MOVE_ID
 import com.pokemanager.utils.Constants.POKE_SPECIE_ABILITY_TABLE
+import com.pokemanager.utils.Constants.POKE_SPECIE_EVOLUTION_CHAIN_ID
 import com.pokemanager.utils.Constants.POKE_SPECIE_ID
 import com.pokemanager.utils.Constants.POKE_SPECIE_MOVE_TABLE
 import com.pokemanager.utils.Constants.POKE_SPECIE_TYPE_TABLE
@@ -41,7 +43,7 @@ data class PokeSpecieMoveCrossRef(
     var pokeMoveId: Int = 0
 )
 
-data class PokeSpecieDetailWithTypesAbilitiesMoves(
+data class PokeSpecieDetailCompleteEntities(
     @Embedded val pokeSpecie: PokeSpecieDetailEntity,
     @Relation(
         parentColumn = POKE_SPECIE_ID,
@@ -60,5 +62,10 @@ data class PokeSpecieDetailWithTypesAbilitiesMoves(
         entityColumn = POKE_MOVE_ID,
         associateBy = Junction(PokeSpecieMoveCrossRef::class)
     )
-    val pokeMoves: MutableList<PokeMoveEntity>
+    val pokeMoves: MutableList<PokeMoveEntity>,
+    @Relation(
+        parentColumn = POKE_SPECIE_EVOLUTION_CHAIN_ID,
+        entityColumn = EVOLUTION_CHAIN_ID
+    )
+    val evolutionChainMembers: MutableList<EvolutionChainMemberEntity>
 )

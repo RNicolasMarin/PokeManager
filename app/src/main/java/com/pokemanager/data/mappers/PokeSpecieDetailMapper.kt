@@ -1,15 +1,19 @@
 package com.pokemanager.data.mappers
 
+import com.pokemanager.data.domain.EvolutionChainDomain
 import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
-import com.pokemanager.data.local.entities.PokeSpecieDetailWithTypesAbilitiesMoves
+import com.pokemanager.data.local.entities.PokeSpecieDetailCompleteEntities
 import com.pokemanager.data.remote.responses.*
 import com.pokemanager.utils.TextLanguage.*
 import com.pokemanager.utils.Utils
 
 //Object:
 //Response -> Domain
-fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailDomain(
+fun PokemonDetailResponse.toPokeSpecieDetailDomain(
+    pokemonSpecie: PokemonSpecieResponse,
+    evolutionChainResponse: EvolutionChainResponse
+) = PokeSpecieDetailDomain(
     id = id,
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
@@ -23,7 +27,9 @@ fun PokemonDetailResponse.toPokeSpecieDetailDomain(pokemonSpecie: PokemonSpecieR
     stats = stats.fromResponseListToPokeStatDomainList(),
     genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else "",
     moves = moves.fromResponseListToPokeMoveDomainList(),
+    evolutionChain = evolutionChainResponse.toEvolutionChainDomain()
 )
+
 //Response -> Entity
 fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieResponse) = PokeSpecieDetailEntity(
     pokeSpecieId = id,
@@ -35,7 +41,8 @@ fun PokemonResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieRespons
     weight = if (this is PokemonDetailResponse) weight else 0,
     height = if (this is PokemonDetailResponse) height else 0,
     stats = if (this is PokemonDetailResponse) stats.fromResponseListToPokeStatDomainList() else mutableListOf(),
-    genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else ""
+    genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else "",
+    evolutionChainId = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getIdAtEndFromUrl(pokemonSpecie.evolutionChain.url) else 0
 )
 
 //Entity -> Domain
@@ -50,7 +57,8 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
     height = height,
     stats = stats,
     genera = genera,
-    moves = mutableListOf()
+    moves = mutableListOf(),
+    evolutionChain = EvolutionChainDomain()
 )
 //Domain -> Entity
 
@@ -61,10 +69,11 @@ fun PokeSpecieDetailEntity.toPokeSpecieDetailDomain() = PokeSpecieDetailDomain(
 //Domain -> Entity
 
 //PokeSpecieDetailWithTypes -> PokeSpecieItemDomain
-fun PokeSpecieDetailWithTypesAbilitiesMoves.toPokeSpecieDetailDomain() = pokeSpecie.toPokeSpecieDetailDomain().apply {
+fun PokeSpecieDetailCompleteEntities.toPokeSpecieDetailDomain() = pokeSpecie.toPokeSpecieDetailDomain().apply {
     types = pokeTypes.fromEntityListToPokeTypeDomainList()
     abilities = pokeAbilities.fromEntityListToPokeAbilityDomainList()
     moves = pokeMoves.fromEntityListToPokeMoveDomainList()
+    evolutionChain = evolutionChainMembers.fromEntityListToEvolutionChainDomain()
 }
-fun MutableList<PokeSpecieDetailWithTypesAbilitiesMoves>.fromPokeSpecieDetailWithTypesListToPokeSpecieDetailDomainList() =
+fun MutableList<PokeSpecieDetailCompleteEntities>.fromPokeSpecieDetailWithTypesListToPokeSpecieDetailDomainList() =
     map { it.toPokeSpecieDetailDomain() }.toMutableList()

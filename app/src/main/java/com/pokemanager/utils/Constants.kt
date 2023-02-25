@@ -35,6 +35,11 @@ object Constants {
 
     const val POKE_SPECIE_MOVE_TABLE = "pokeSpecieMoves"
 
+    //POKE_EVOLUTION_CHAIN_MEMBER
+    const val EVOLUTION_CHAIN_MEMBER_TABLE = "evolutionChainMembers"
+    const val EVOLUTION_CHAIN_ID = "evolutionChainId"
+    const val POKE_SPECIE_EVOLUTION_CHAIN_ID = "evolutionChainId"
+
 
     const val LAST_VALID_POKEMON_NUMBER = 905
 

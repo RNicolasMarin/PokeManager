@@ -33,6 +33,7 @@ class MainRepository(
             val pokeAbilityEntities = HashMap<Int, PokeAbilityEntity>()
             val pokeMoveEntities = HashMap<Int, PokeMoveEntity>()
             val pokeSpecieMoves = mutableListOf<PokeSpecieMoveCrossRef>()
+            val evolutionChainMembersEntities = mutableListOf<EvolutionChainMemberEntity>()
 
             for (item in pokeSpeciesResponse) {
                 val id = Utils.getIdAtEndFromUrl(item.url)
@@ -46,11 +47,13 @@ class MainRepository(
                     api.getPokemonDetailByIdNetwork(id)
                 }
 
+                var evolutionChainId = 0
                 val pokeSpecieDetailEntity: PokeSpecieDetailEntity = if (pokemonResponse is PokemonItemResponse) {
                     val pokemonSpecieResponse = api.getPokemonSpecieItemByIdNetwork(id)
                     pokemonResponse.toPokeSpecieDetailEntity(pokemonSpecieResponse)
                 } else {
                     val pokemonSpecieResponse = api.getPokemonSpecieDetailByIdNetwork(id)
+                    evolutionChainId = Utils.getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
                     pokemonResponse.toPokeSpecieDetailEntity(pokemonSpecieResponse)
                 }
 
@@ -91,6 +94,9 @@ class MainRepository(
                             )
                         )
                     }
+
+                    val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
+                    evolutionChainMembersEntities.addAll(evolutionChainResponse.fromResponseToEvolutionChainMemberEntityList())
                 }
             }
 
@@ -100,7 +106,7 @@ class MainRepository(
                 val keys = getKeys(offset, limit, endOfPaginationReached, pokeSpecieEntities, pokeSpeciesResponse)
 
                 insertAllRelated(keys, pokeSpecieEntities, pokeTypeEntities, pokeSpecieTypes,
-                    pokeAbilityEntities, pokeSpecieAbilities, pokeMoveEntities, pokeSpecieMoves)
+                    pokeAbilityEntities, pokeSpecieAbilities, pokeMoveEntities, pokeSpecieMoves, evolutionChainMembersEntities)
             }
             return Success(endOfPaginationReached)
         } catch (exception: IOException) {
@@ -123,6 +129,8 @@ class MainRepository(
 
         pokeMoveDao().clearPokeMoves()
         pokeSpecieMoveDao().clearPokeSpecieMoves()
+
+        evolutionChainMemberDao().clearEvolutionChainMembers()
     }
 
     private fun getKeys(offset: Int, limit: Int, endOfPaginationReached: Boolean,
@@ -143,7 +151,8 @@ class MainRepository(
         pokeAbilityEntities: HashMap<Int, PokeAbilityEntity>,
         pokeSpecieAbilities: MutableList<PokeSpecieAbilityCrossRef>,
         pokeMoveEntities: HashMap<Int, PokeMoveEntity>,
-        pokeSpecieMoves: MutableList<PokeSpecieMoveCrossRef>
+        pokeSpecieMoves: MutableList<PokeSpecieMoveCrossRef>,
+        evolutionChainMembersEntities: MutableList<EvolutionChainMemberEntity>
     ) = with(db) {
         pokeSpecieRemoteKeysDao().insertAll(keys)
         pokeSpecieDao().insertAll(pokeSpecieEntities)
@@ -156,6 +165,8 @@ class MainRepository(
 
         pokeMoveDao().insertAll(pokeMoveEntities.values.toList())
         pokeSpecieMoveDao().insertAll(pokeSpecieMoves)
+
+        evolutionChainMemberDao().insertAll(evolutionChainMembersEntities)
     }
 
     sealed class RequestAndPersistPokeSpeciesResult {
@@ -190,14 +201,19 @@ class MainRepository(
     private suspend fun getPokemonSpecieDetailByIdNetwork(id: Int) =
         api.getPokemonSpecieDetailByIdNetwork(id)
 
+    private suspend fun getEvolutionChainByIdNetwork(id: Int) =
+        api.getEvolutionChainByIdNetwork(id)
 
-    suspend fun getPokeSpeciesDetailComplete(pokeSpecieId: Int) =
-        db.pokeSpecieTypeDao().getPokeSpecieDetailWithTypes(pokeSpecieId)
+
+    suspend fun getPokeSpeciesDetailCompleteEntities(pokeSpecieId: Int) =
+        db.pokeSpecieTypeDao().getPokeSpecieDetailCompleteEntities(pokeSpecieId)
 
     suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : PokeSpecieDetailDomain {
         val pokemonResponse = getPokemonDetailByIdNetwork(id)
         val pokemonSpecieResponse = getPokemonSpecieDetailByIdNetwork(id)
-        return pokemonResponse.toPokeSpecieDetailDomain(pokemonSpecieResponse)
+        val evolutionChainId = Utils.getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
+        val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
+        return pokemonResponse.toPokeSpecieDetailDomain(pokemonSpecieResponse, evolutionChainResponse)
     }
 
 }

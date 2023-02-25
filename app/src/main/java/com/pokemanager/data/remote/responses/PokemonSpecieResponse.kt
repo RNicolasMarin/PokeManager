@@ -10,7 +10,9 @@ data class PokemonSpecieDetailResponse(
     override var names: MutableList<NameNetwork> = mutableListOf(),
     @SerializedName("flavor_text_entries")
     var entries: MutableList<FlavorTextEntryNetwork> = mutableListOf(),
-    var genera: MutableList<GeneraNetwork> = mutableListOf()
+    var genera: MutableList<GeneraNetwork> = mutableListOf(),
+    @SerializedName("evolution_chain")
+    var evolutionChain: EvolutionChainNetwork = EvolutionChainNetwork()
 ): PokemonSpecieResponse
 
 data class PokemonSpecieItemResponse(
@@ -36,4 +38,9 @@ data class FlavorTextEntryNetwork(
 data class GeneraNetwork(
     val genus: String = "",
     var language: LanguageNetwork = LanguageNetwork()
+)
+
+//EvolutionChain
+data class EvolutionChainNetwork(
+    var url: String = ""
 )

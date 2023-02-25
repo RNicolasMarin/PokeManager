@@ -59,6 +59,7 @@ class DetailPokeSpecieFragment : Fragment() {
                         pokeSpecieDetailAbilities.text = pokeSpecieDetail.abilities.fromDomainListToString()
                         pokeSpecieDetailStats.text = pokeSpecieDetail.stats.fromDomainListToString()
                         pokeSpecieDetailMoves.text = pokeSpecieDetail.moves.fromDomainListToString()
+                        pokeSpecieDetailEvolutionCHain.text = pokeSpecieDetail.evolutionChain.toString()
 
                         Glide.with(root).load(pokeSpecieDetail.imageUrl)
                             .placeholder(R.drawable.ic_launcher_background)//image while the image is loading

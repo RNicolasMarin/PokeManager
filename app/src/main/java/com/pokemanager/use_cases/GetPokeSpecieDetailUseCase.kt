@@ -23,16 +23,16 @@ class GetPokeSpecieDetailUseCase(
         when (dataAccessMode) {
             is DownloadAll -> {
                 delay(500)
-                val result = mainRepository.getPokeSpeciesDetailComplete(pokeSpecieId)?.toPokeSpecieDetailDomain()
+                val result = mainRepository.getPokeSpeciesDetailCompleteEntities(pokeSpecieId)?.toPokeSpecieDetailDomain()
                     ?: return@flow
                 emit(DataState.Success(result))
             }
             is RequestAndDownload -> {
                 delay(500)
-                var result = mainRepository.getPokeSpeciesDetailComplete(pokeSpecieId)?.toPokeSpecieDetailDomain()
+                var result = mainRepository.getPokeSpeciesDetailCompleteEntities(pokeSpecieId)?.toPokeSpecieDetailDomain()
                 if (result == null || result.areDetailsEmpty()) {
                     mainRepository.requestAndPersistPokeSpecies(1, pokeSpecieId - 1, clearBefore = false, onlyItemData = false)
-                    result = mainRepository.getPokeSpeciesDetailComplete(pokeSpecieId)?.toPokeSpecieDetailDomain()
+                    result = mainRepository.getPokeSpeciesDetailCompleteEntities(pokeSpecieId)?.toPokeSpecieDetailDomain()
                         ?: return@flow
                     emit(DataState.Success(result))
                 } else {

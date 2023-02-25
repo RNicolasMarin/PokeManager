@@ -14,6 +14,7 @@ data class PokeSpecieDetailDomain(
     var stats: MutableList<PokeStatDomain> = mutableListOf(),
     var genera: String = "",
     var moves: MutableList<PokeMoveDomain> = mutableListOf(),
+    var evolutionChain: EvolutionChainDomain = EvolutionChainDomain()
 ) {
     fun areDetailsEmpty() = description.isBlank()
 }

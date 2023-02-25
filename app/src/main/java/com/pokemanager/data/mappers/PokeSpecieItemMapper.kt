@@ -30,7 +30,8 @@ fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieIte
     weight = 0,
     height = 0,
     stats = mutableListOf(),
-    genera = ""
+    genera = "",
+    evolutionChainId = 0
 )
 
 //Entity -> Domain
