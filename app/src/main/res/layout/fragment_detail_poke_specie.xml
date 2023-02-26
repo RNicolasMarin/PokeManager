@@ -15,10 +15,10 @@
             android:id="@+id/pokeSpecieDetailPB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/pokeSpecieDetailNumber"
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/pokeSpecieDetailNumber"/>
+            app:layout_constraintStart_toEndOf="@id/pokeSpecieDetailNumber"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/pokeSpecieDetailJapHrKtName"
@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailEnglishName"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailEnglishName" />
 
         <TextView
             android:id="@+id/pokeSpecieDetailJapRoomajiName"
@@ -53,8 +53,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailJapHrKtName"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailJapHrKtName" />
 
         <ImageView
             android:id="@+id/pokeSpecieDetailImage"
@@ -62,7 +62,27 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailJapRoomajiName"/>
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailJapRoomajiName" />
+
+        <Button
+            android:id="@+id/pokeSpecieDetailPrevious"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/previous"
+            app:layout_constraintEnd_toStartOf="@+id/pokeSpecieDetailNext"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailImage" />
+
+        <Button
+            android:id="@+id/pokeSpecieDetailNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/pokeSpecieDetailPrevious"
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailImage" />
 
         <TextView
             android:id="@+id/pokeSpecieDetailTypes"
@@ -71,7 +91,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailImage" />
+            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailPrevious" />
 
         <TextView
             android:id="@+id/pokeSpecieDetailWeight"

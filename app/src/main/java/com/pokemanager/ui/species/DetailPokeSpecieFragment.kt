@@ -33,42 +33,45 @@ class DetailPokeSpecieFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpViews() {
+    private fun setUpViews() = with(binding) {
         viewModel.loadPokeSpecieData(args.pokeSpecieId)
 
         lifecycleScope.launchWhenCreated {
             viewModel.pokeSpecieDetail.collectLatest {
-                with(binding) {
-                    pokeSpecieDetailPB.isVisible = it is Loading
+                pokeSpecieDetailPB.isVisible = it is Loading
+                pokeSpecieDetailPrevious.isVisible = it is Success
+                pokeSpecieDetailNext.isVisible = it is Success
 
-                    if (it is Success) {
-                        val pokeSpecieDetail = it.data
-                        pokeSpecieDetailNumber.text = pokeSpecieDetail.id.toString()
-                        pokeSpecieDetailEnglishName.text = pokeSpecieDetail.englishName
-                        pokeSpecieDetailJapHrKtName.text = pokeSpecieDetail.japHrKtName
-                        pokeSpecieDetailJapRoomajiName.text = pokeSpecieDetail.japRoomajiName
-                        pokeSpecieDetailGenera.text = pokeSpecieDetail.genera
-                        pokeSpecieDetailDescription.text = pokeSpecieDetail.description
+                if (it is Success) {
+                    val pokeSpecieDetail = it.data
+                    pokeSpecieDetailNumber.text = pokeSpecieDetail.id.toString()
+                    pokeSpecieDetailEnglishName.text = pokeSpecieDetail.englishName
+                    pokeSpecieDetailJapHrKtName.text = pokeSpecieDetail.japHrKtName
+                    pokeSpecieDetailJapRoomajiName.text = pokeSpecieDetail.japRoomajiName
+                    pokeSpecieDetailGenera.text = pokeSpecieDetail.genera
+                    pokeSpecieDetailDescription.text = pokeSpecieDetail.description
 
-                        val weight = getString(R.string.weight) + Utils.convertWeight(pokeSpecieDetail.weight)
-                        pokeSpecieDetailWeight.text = weight
-                        val height = getString(R.string.height) + Utils.convertHeight(pokeSpecieDetail.height)
-                        pokeSpecieDetailHeight.text = height
+                    val weight = getString(R.string.weight) + Utils.convertWeight(pokeSpecieDetail.weight)
+                    pokeSpecieDetailWeight.text = weight
+                    val height = getString(R.string.height) + Utils.convertHeight(pokeSpecieDetail.height)
+                    pokeSpecieDetailHeight.text = height
 
-                        pokeSpecieDetailTypes.text = pokeSpecieDetail.types.fromDomainListToString()
-                        pokeSpecieDetailAbilities.text = pokeSpecieDetail.abilities.fromDomainListToString()
-                        pokeSpecieDetailStats.text = pokeSpecieDetail.stats.fromDomainListToString()
-                        pokeSpecieDetailMoves.text = pokeSpecieDetail.moves.fromDomainListToString()
-                        pokeSpecieDetailEvolutionCHain.text = pokeSpecieDetail.evolutionChain.toString()
+                    pokeSpecieDetailTypes.text = pokeSpecieDetail.types.fromDomainListToString()
+                    pokeSpecieDetailAbilities.text = pokeSpecieDetail.abilities.fromDomainListToString()
+                    pokeSpecieDetailStats.text = pokeSpecieDetail.stats.fromDomainListToString()
+                    pokeSpecieDetailMoves.text = pokeSpecieDetail.moves.fromDomainListToString()
+                    pokeSpecieDetailEvolutionCHain.text = pokeSpecieDetail.evolutionChain.toString()
 
-                        Glide.with(root).load(pokeSpecieDetail.imageUrl)
-                            .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
-                            //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
-                            .into(pokeSpecieDetailImage)
-                    }
+                    Glide.with(root).load(pokeSpecieDetail.imageUrl)
+                        .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
+                        //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
+                        .into(pokeSpecieDetailImage)
                 }
             }
         }
+
+        pokeSpecieDetailPrevious.setOnClickListener { viewModel.loadPreviousPokeSpecieData() }
+        pokeSpecieDetailNext.setOnClickListener { viewModel.loadNextPokeSpecieData() }
     }
 
 }

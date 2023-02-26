@@ -17,5 +17,7 @@
 
     <string name="weight">"Weight: "</string>
     <string name="height">"Height: "</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 
 </resources>
