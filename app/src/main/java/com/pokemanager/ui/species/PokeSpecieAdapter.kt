@@ -7,12 +7,11 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.pokemanager.R
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.mappers.fromDomainListToString
 import com.pokemanager.databinding.PokeSpecieItemBinding
 import com.pokemanager.ui.species.PokeSpecieAdapter.*
+import com.pokemanager.utils.AndroidUtils
 import com.pokemanager.utils.NameLanguagesToList
 
 class PokeSpecieAdapter(
@@ -34,10 +33,7 @@ class PokeSpecieAdapter(
             val types = pokeSpecie.types.fromDomainListToString()
             pokeSpecieItemTypes.text = types
 
-            Glide.with(root).load(pokeSpecie.imageUrl)
-                .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
-                //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
-                .into(pokeSpecieItemImage)
+            AndroidUtils.loadImage(root, pokeSpecie.imageUrl, pokeSpecieItemImage)
 
             root.setOnClickListener { listener.onPokeSpecieClicked(pokeSpecie.id) }
         }

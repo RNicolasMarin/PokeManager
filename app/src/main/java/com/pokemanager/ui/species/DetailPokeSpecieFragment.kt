@@ -9,10 +9,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.pokemanager.R
 import com.pokemanager.data.mappers.fromDomainListToString
 import com.pokemanager.databinding.FragmentDetailPokeSpecieBinding
+import com.pokemanager.utils.AndroidUtils
 import com.pokemanager.utils.DataState.*
 import com.pokemanager.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,10 +63,7 @@ class DetailPokeSpecieFragment : Fragment() {
                     pokeSpecieDetailMoves.text = pokeSpecieDetail.moves.fromDomainListToString()
                     pokeSpecieDetailEvolutionCHain.text = pokeSpecieDetail.evolutionChain.toString()
 
-                    Glide.with(root).load(pokeSpecieDetail.imageUrl)
-                        .placeholder(R.drawable.ic_launcher_background)//image while the image is loading
-                        //.diskCacheStrategy(DiskCacheStrategy.ALL)//in case it's having problems when loading the image
-                        .into(pokeSpecieDetailImage)
+                    AndroidUtils.loadImage(root, pokeSpecieDetail.imageUrl, pokeSpecieDetailImage)
                 }
             }
         }
