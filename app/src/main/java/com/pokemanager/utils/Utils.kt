@@ -4,6 +4,7 @@ import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
 import com.pokemanager.data.remote.responses.PokemonSpecieResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
+import com.pokemanager.data.remote.responses.SpriteNetwork
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
 import kotlin.math.ceil
@@ -108,5 +109,26 @@ object Utils {
     fun convertHeight(height: Int): String {
         val weightConverted: Double = height.toDouble() / 10
         return "$weightConverted m"
+    }
+
+    fun getImageUrl(sprites: SpriteNetwork): String {
+        val frontDefaultOther = sprites.other.officialArtwork.frontDefault
+        if (frontDefaultOther != null) {
+            return frontDefaultOther
+        }
+        val frontShinyOther = sprites.other.officialArtwork.frontShiny
+        if (frontShinyOther != null) {
+            return frontShinyOther
+        }
+
+        val frontDefault = sprites.frontDefault
+        if (frontDefault != null) {
+            return frontDefault
+        }
+        val frontShiny = sprites.frontShiny
+        if (frontShiny != null) {
+            return frontShiny
+        }
+        return ""
     }
 }

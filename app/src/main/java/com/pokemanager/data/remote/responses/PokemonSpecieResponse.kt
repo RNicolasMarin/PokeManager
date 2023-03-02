@@ -12,7 +12,8 @@ data class PokemonSpecieDetailResponse(
     var entries: MutableList<FlavorTextEntryNetwork> = mutableListOf(),
     var genera: MutableList<GeneraNetwork> = mutableListOf(),
     @SerializedName("evolution_chain")
-    var evolutionChain: EvolutionChainNetwork = EvolutionChainNetwork()
+    var evolutionChain: EvolutionChainNetwork = EvolutionChainNetwork(),
+    var varieties: MutableList<VarietyNetwork> = mutableListOf()
 ): PokemonSpecieResponse
 
 data class PokemonSpecieItemResponse(
@@ -42,5 +43,17 @@ data class GeneraNetwork(
 
 //EvolutionChain
 data class EvolutionChainNetwork(
+    var url: String = ""
+)
+
+//Varieties
+data class VarietyNetwork(
+    @SerializedName("is_default")
+    var isDefault: Boolean = false,
+    var pokemon: VarietyPokemonNetwork = VarietyPokemonNetwork()
+)
+
+data class VarietyPokemonNetwork(
+    var name: String = "",
     var url: String = ""
 )

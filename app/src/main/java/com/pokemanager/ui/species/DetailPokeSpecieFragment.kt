@@ -40,11 +40,12 @@ class DetailPokeSpecieFragment : Fragment() {
             viewModel.pokeSpecieDetail.collectLatest {
                 pokeSpecieDetailPB.isVisible = it is Loading
                 pokeSpecieDetailPrevious.isVisible = it is Success
+                pokeSpecieDetailForm.isVisible = viewModel.isThereMultipleForms()
                 pokeSpecieDetailNext.isVisible = it is Success
 
                 if (it is Success) {
                     val pokeSpecieDetail = it.data
-                    pokeSpecieDetailNumber.text = pokeSpecieDetail.id.toString()
+                    pokeSpecieDetailNumber.text = pokeSpecieDetail.defaultFormId.toString()
                     pokeSpecieDetailEnglishName.text = pokeSpecieDetail.englishName
                     pokeSpecieDetailJapHrKtName.text = pokeSpecieDetail.japHrKtName
                     pokeSpecieDetailJapRoomajiName.text = pokeSpecieDetail.japRoomajiName
@@ -72,6 +73,7 @@ class DetailPokeSpecieFragment : Fragment() {
 
         pokeSpecieDetailPrevious.setOnClickListener { viewModel.loadPreviousPokeSpecieData() }
         pokeSpecieDetailNext.setOnClickListener { viewModel.loadNextPokeSpecieData() }
+        pokeSpecieDetailForm.setOnClickListener { viewModel.changeForm() }
     }
 
 }

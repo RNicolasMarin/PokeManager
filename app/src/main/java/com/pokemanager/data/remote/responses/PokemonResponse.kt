@@ -35,7 +35,11 @@ data class PokemonDetailResponse(
 
 //Image
 data class SpriteNetwork(
-    var other: SpriteOtherNetwork = SpriteOtherNetwork()
+    var other: SpriteOtherNetwork = SpriteOtherNetwork(),
+    @SerializedName("front_default")
+    var frontDefault: String? = "",
+    @SerializedName("front_shiny")
+    var frontShiny: String? = ""
 )
 
 data class SpriteOtherNetwork(
@@ -44,7 +48,10 @@ data class SpriteOtherNetwork(
 )
 
 data class OfficialArtworkNetwork(
-    var front_default: String = ""
+    @SerializedName("front_default")
+    var frontDefault: String? = "",
+    @SerializedName("front_shiny")
+    var frontShiny: String? = ""
 )
 
 //Types

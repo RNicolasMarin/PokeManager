@@ -19,4 +19,5 @@ data class PokeSpecieDetailEntity(
     var stats: MutableList<PokeStatDomain> = mutableListOf(),
     var genera: String = "",
     val evolutionChainId: Int = 0,
+    val defaultFormId: Int = 0,
 )

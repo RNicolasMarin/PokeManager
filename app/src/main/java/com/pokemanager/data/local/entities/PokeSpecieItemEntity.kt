@@ -9,4 +9,5 @@ data class PokeSpecieItemEntity(
     var japHrKtName: String = "",
     var japRoomajiName: String = "",
     val imageUrl: String = "",
+    val defaultFormId: Int = 0
 )

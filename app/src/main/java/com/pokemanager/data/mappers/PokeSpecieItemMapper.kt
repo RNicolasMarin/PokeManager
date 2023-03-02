@@ -8,6 +8,7 @@ import com.pokemanager.data.remote.responses.PokemonItemResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieItemResponse
 import com.pokemanager.utils.TextLanguage.*
 import com.pokemanager.utils.Utils
+import com.pokemanager.utils.Utils.getImageUrl
 
 //Object:
 //Response -> Domain
@@ -16,7 +17,7 @@ fun PokemonItemResponse.toPokeSpecieItemDomain(pokemonSpecie: PokemonSpecieItemR
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
     japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
-    imageUrl = sprites.other.officialArtwork.front_default,
+    imageUrl = getImageUrl(sprites),
     types = types.fromResponseListToPokeTypeDomainList()
 )
 
@@ -26,12 +27,13 @@ fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieIte
     englishName = name,
     japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
     japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
-    imageUrl = sprites.other.officialArtwork.front_default,
+    imageUrl = getImageUrl(sprites),
     weight = 0,
     height = 0,
     stats = mutableListOf(),
     genera = "",
-    evolutionChainId = 0
+    evolutionChainId = 0,
+    defaultFormId = 0
 )
 
 //Entity -> Domain

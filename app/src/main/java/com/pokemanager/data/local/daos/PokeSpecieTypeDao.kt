@@ -13,16 +13,16 @@ interface PokeSpecieTypeDao {
     suspend fun insertAll(pokeSpecies: List<PokeSpecieTypeCrossRef>)
 
     @Transaction
-    @Query("SELECT * FROM pokeSpecies")
+    @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId == defaultFormId OR defaultFormId == 0")
     fun getPokeSpeciesWithTypes(): PagingSource<Int, PokeSpecieItemWithTypes>
 
     @Transaction
-    @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId > :offset LIMIT :limit")
+    @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId == defaultFormId AND pokeSpecieId > :offset LIMIT :limit")
     fun getPokeSpeciesWithTypes(limit: Int, offset: Int): MutableList<PokeSpecieItemWithTypes>
 
     @Transaction
-    @Query("SELECT * FROM pokeSpecies WHERE pokeSpecieId = :pokeSpecieId")
-    suspend fun getPokeSpecieDetailCompleteEntities(pokeSpecieId: Int): PokeSpecieDetailCompleteEntities?
+    @Query("SELECT * FROM pokeSpecies WHERE defaultFormId = :defaultFormId")
+    suspend fun getPokeSpecieDetailCompleteEntities(defaultFormId: Int): MutableList<PokeSpecieDetailCompleteEntities>
 
     @Query("SELECT MAX(pokeSpecieId) FROM pokeSpecies")
     fun getPokeSpeciesLastId(): Int?

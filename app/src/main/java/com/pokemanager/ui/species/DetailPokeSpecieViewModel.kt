@@ -19,21 +19,28 @@ class DetailPokeSpecieViewModel @Inject constructor(
     private val pokeManagerPreferences: PokeManagerPreferences
 ): ViewModel() {
 
+    private var pokeSpecieDetailAllForms = mutableListOf<PokeSpecieDetailDomain>()
+    private var currentFormPosition = 0
+
     private val _pokeSpecieDetail = MutableStateFlow<DataState<PokeSpecieDetailDomain>>(Loading)
     val pokeSpecieDetail = _pokeSpecieDetail.asStateFlow()
 
     fun loadPokeSpecieData(pokeSpecieId: Int) {
+        currentFormPosition = 0
         val mode = pokeManagerPreferences.getDataAccessModeNonNull()
         viewModelScope.launch {
             getPokeSpecieDetailUseCase(pokeSpecieId, mode).collectLatest {
-                _pokeSpecieDetail.emit(it)
+                if (it is Success) {
+                    pokeSpecieDetailAllForms = it.data as MutableList<PokeSpecieDetailDomain>
+                    _pokeSpecieDetail.emit(Success(pokeSpecieDetailAllForms[currentFormPosition]))
+                }
             }
         }
     }
 
     fun loadPreviousPokeSpecieData() {
-        if (_pokeSpecieDetail.value is Success) {
-            var currentId = (_pokeSpecieDetail.value as Success<PokeSpecieDetailDomain>).data.id
+        if (_pokeSpecieDetail.value is Success && pokeSpecieDetailAllForms.isNotEmpty()) {
+            var currentId = pokeSpecieDetailAllForms[0].id
             if (currentId > 1) {
                currentId--
                loadPokeSpecieData(currentId)
@@ -42,12 +49,29 @@ class DetailPokeSpecieViewModel @Inject constructor(
     }
 
     fun loadNextPokeSpecieData() {
-        if (_pokeSpecieDetail.value is Success) {
-            var currentId = (_pokeSpecieDetail.value as Success<PokeSpecieDetailDomain>).data.id
+        if (_pokeSpecieDetail.value is Success && pokeSpecieDetailAllForms.isNotEmpty()) {
+            var currentId = pokeSpecieDetailAllForms[0].id
             if (currentId < LAST_VALID_POKEMON_NUMBER) {
                 currentId++
                 loadPokeSpecieData(currentId)
             }
         }
+    }
+
+    fun changeForm() {
+        if (pokeSpecieDetailAllForms.isNotEmpty()) {
+            if (currentFormPosition < pokeSpecieDetailAllForms.size -1) {
+                currentFormPosition++
+            } else {
+                currentFormPosition = 0
+            }
+            viewModelScope.launch {
+                _pokeSpecieDetail.emit(Success(pokeSpecieDetailAllForms[currentFormPosition]))
+            }
+        }
+    }
+
+    fun isThereMultipleForms(): Boolean {
+        return pokeSpecieDetail.value is Success && pokeSpecieDetailAllForms.size > 1
     }
 }
