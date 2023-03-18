@@ -1,38 +1,12 @@
 package com.pokemanager.utils
 
-import com.pokemanager.data.base_models.PokeSpecieBase
 import com.pokemanager.data.remote.responses.PokemonSpecieResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
 import kotlin.math.ceil
-import kotlin.math.max
 
 object Utils {
-
-    fun getNextKey(items: MutableList<PokeSpecieBase>, lastValidId: Int = LAST_VALID_POKEMON_NUMBER): Int? {
-        val last = items.lastOrNull() ?: return null
-
-        val id = last.getModelId()
-        return if (id >= lastValidId) {
-            null
-        } else {
-            id
-        }
-    }
-
-    fun getPrevKey(offset: Int, loadSize: Int): Int? {
-        return when (offset) {
-            Constants.POKEMON_PAGING_STARTING_KEY -> null
-            else -> when (val prevKey = ensureValidKey(key = offset - loadSize)) {
-                // We're at the start, there's nothing more to load
-                Constants.POKEMON_PAGING_STARTING_KEY -> Constants.POKEMON_PAGING_STARTING_KEY
-                else -> prevKey
-            }
-        }
-    }
-
-    private fun ensureValidKey(key: Int) = max(Constants.POKEMON_PAGING_STARTING_KEY, key)
 
     fun getTotalStepsAtDownloadingAll(): Int {
         val result : Double = LAST_VALID_POKEMON_NUMBER.toDouble() / POKEMON_PAGING_PAGE_SIZE.toDouble()
