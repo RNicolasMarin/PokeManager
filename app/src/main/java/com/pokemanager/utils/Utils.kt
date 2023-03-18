@@ -40,27 +40,7 @@ object Utils {
         return ""
     }
 
-    /**
-     * Expected values and results
-     * 69	6,9 kg
-     * 905	90,5 kg
-     * 3520	352,0 kg
-     * **/
-    fun convertWeight(weight: Int): String {
-        val weightConverted: Double = weight.toDouble() / 10
-        return "$weightConverted kg"
-    }
 
-    /**
-     * Expected values and results
-     * 7	0,7 m
-     * 17	1,7 m
-     * 45	4,5 m
-     * **/
-    fun convertHeight(height: Int): String {
-        val weightConverted: Double = height.toDouble() / 10
-        return "$weightConverted m"
-    }
 
 
 }
