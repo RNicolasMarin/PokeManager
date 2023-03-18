@@ -2,6 +2,7 @@ package com.pokemanager.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.pokemanager.data.base_models.PokeSpecieBase
 import com.pokemanager.data.domain.PokeStatDomain
 import com.pokemanager.utils.Constants
 
@@ -20,4 +21,7 @@ data class PokeSpecieDetailEntity(
     var genera: String = "",
     val evolutionChainId: Int = 0,
     val defaultFormId: Int = 0,
-)
+): PokeSpecieBase() {
+
+    override fun getModelId() = pokeSpecieId
+}

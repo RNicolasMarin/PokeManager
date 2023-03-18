@@ -154,7 +154,7 @@ class MainRepository(
                         pokeSpecieEntities: MutableList<PokeSpecieDetailEntity>, pokeSpeciesResponse: MutableList<PokemonItemFromListResponse>
     ): List<PokeSpecieRemoteKeysEntity> {
         val prevKey = Utils.getPrevKey(offset, limit)
-        val nextKey = if (endOfPaginationReached) null else Utils.getNextKeyE(pokeSpecieEntities)
+        val nextKey = if (endOfPaginationReached) null else Utils.getNextKey(pokeSpecieEntities.toMutableList())
         return pokeSpeciesResponse.map {
             PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
         }

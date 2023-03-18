@@ -9,7 +9,7 @@ import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.Utils
-import com.pokemanager.utils.Utils.getNextKeyD
+import com.pokemanager.utils.Utils.getNextKey
 import com.pokemanager.utils.Utils.getPrevKey
 import retrofit2.HttpException
 import java.io.IOException
@@ -41,7 +41,7 @@ class PokeSpecieItemsPagingSourceRemote(
             }
 
             val prevKey = getPrevKey(offset, params.loadSize)
-            val nextKey = getNextKeyD(pokeSpecies)
+            val nextKey = getNextKey(pokeSpecies.toMutableList())
 
             Page(
                 data = pokeSpecies,

@@ -29,7 +29,7 @@ class PokeSpecieItemsPagingSourceLocal(
             val lastValidId = mainRepository.getPokeSpeciesLastId() ?: 0
 
             val prevKey = Utils.getPrevKey(offset, params.loadSize)
-            val nextKey = Utils.getNextKeyD(pokeSpecies, lastValidId)
+            val nextKey = Utils.getNextKey(pokeSpecies.toMutableList(), lastValidId)
 
             LoadResult.Page(
                 data = pokeSpecies,

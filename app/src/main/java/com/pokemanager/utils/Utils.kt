@@ -1,7 +1,6 @@
 package com.pokemanager.utils
 
-import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
+import com.pokemanager.data.base_models.PokeSpecieBase
 import com.pokemanager.data.remote.responses.PokemonSpecieResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
 import com.pokemanager.data.remote.responses.SpriteNetwork
@@ -33,23 +32,14 @@ object Utils {
         }
     }
 
-    fun getNextKeyD(pokemonList: MutableList<PokeSpecieItemDomain>, lastValidId: Int = LAST_VALID_POKEMON_NUMBER): Int? {
-        val last = pokemonList.lastOrNull() ?: return null
+    fun getNextKey(items: MutableList<PokeSpecieBase>, lastValidId: Int = LAST_VALID_POKEMON_NUMBER): Int? {
+        val last = items.lastOrNull() ?: return null
 
-        return if (last.id >= lastValidId) {
+        val id = last.getModelId()
+        return if (id >= lastValidId) {
             null
         } else {
-            last.id
-        }
-    }
-
-    fun getNextKeyE(pokemonList: MutableList<PokeSpecieDetailEntity>): Int? {
-        val last = pokemonList.lastOrNull() ?: return null
-
-        return if (last.pokeSpecieId >= LAST_VALID_POKEMON_NUMBER) {
-            null
-        } else {
-            last.pokeSpecieId
+            id
         }
     }
 
