@@ -8,7 +8,7 @@ import com.pokemanager.data.remote.responses.PokemonItemResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieItemResponse
 import com.pokemanager.utils.TextLanguage.*
 import com.pokemanager.utils.Utils
-import com.pokemanager.utils.Utils.getImageUrl
+import com.pokemanager.utils.UrlUtils.getImageUrl
 
 //Object:
 //Response -> Domain

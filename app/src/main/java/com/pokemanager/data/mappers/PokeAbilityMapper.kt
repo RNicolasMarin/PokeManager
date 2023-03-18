@@ -3,18 +3,18 @@ package com.pokemanager.data.mappers
 import com.pokemanager.data.domain.PokeAbilityDomain
 import com.pokemanager.data.local.entities.PokeAbilityEntity
 import com.pokemanager.data.remote.responses.AbilityNetwork
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 
 //Object:
 //Response -> Domain
 fun AbilityNetwork.toPokeAbilityDomain() = PokeAbilityDomain(
-    Utils.getIdAtEndFromUrl(ability.url),
+    getIdAtEndFromUrl(ability.url),
     ability.name,
     isHidden
 )
 //Response -> Entity
 fun AbilityNetwork.toPokeAbilityEntity() = PokeAbilityEntity(
-    Utils.getIdAtEndFromUrl(ability.url),
+    getIdAtEndFromUrl(ability.url),
     ability.name,
     isHidden
 )

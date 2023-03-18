@@ -8,7 +8,7 @@ import com.pokemanager.data.mappers.toPokeSpecieItemDomain
 import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 import com.pokemanager.utils.Utils.getNextKey
 import com.pokemanager.utils.Utils.getPrevKey
 import retrofit2.HttpException
@@ -30,7 +30,7 @@ class PokeSpecieItemsPagingSourceRemote(
 
             val pokeSpecies = mutableListOf<PokeSpecieItemDomain>()
             for (item in itemsFromList.results) {
-                val id = Utils.getIdAtEndFromUrl(item.url)
+                val id = getIdAtEndFromUrl(item.url)
                 if (id > LAST_VALID_POKEMON_NUMBER) {
                     break
                 }

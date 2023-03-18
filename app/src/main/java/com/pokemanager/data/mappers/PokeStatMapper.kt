@@ -2,12 +2,12 @@ package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeStatDomain
 import com.pokemanager.data.remote.responses.StatNetwork
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 
 //Object:
 //Response -> Domain
 fun StatNetwork.toPokeStatDomain() = PokeStatDomain(
-    Utils.getIdAtEndFromUrl(stat.url),
+    getIdAtEndFromUrl(stat.url),
     stat.name,
     baseStat = baseStat,
     effort = effort

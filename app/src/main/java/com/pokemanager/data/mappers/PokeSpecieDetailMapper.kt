@@ -6,8 +6,9 @@ import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
 import com.pokemanager.data.local.entities.PokeSpecieDetailCompleteEntities
 import com.pokemanager.data.remote.responses.*
 import com.pokemanager.utils.TextLanguage.*
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 import com.pokemanager.utils.Utils
-import com.pokemanager.utils.Utils.getImageUrl
+import com.pokemanager.utils.UrlUtils.getImageUrl
 
 //Object:
 //Response -> Domain
@@ -48,7 +49,7 @@ fun PokemonResponse.toPokeSpecieDetailEntity(
     height = if (this is PokemonDetailResponse) height else 0,
     stats = if (this is PokemonDetailResponse) stats.fromResponseListToPokeStatDomainList() else mutableListOf(),
     genera = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getGeneraByLanguage(ENGLISH, pokemonSpecie) else "",
-    evolutionChainId = if (pokemonSpecie is PokemonSpecieDetailResponse) Utils.getIdAtEndFromUrl(pokemonSpecie.evolutionChain.url) else 0,
+    evolutionChainId = if (pokemonSpecie is PokemonSpecieDetailResponse) getIdAtEndFromUrl(pokemonSpecie.evolutionChain.url) else 0,
     defaultFormId = originalFormId
 )
 

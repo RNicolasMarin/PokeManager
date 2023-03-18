@@ -9,6 +9,7 @@ import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.data.remote.responses.*
 import com.pokemanager.data.repositories.MainRepository.RequestAndPersistPokeSpeciesResult.*
 import com.pokemanager.utils.Constants
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 import com.pokemanager.utils.Utils
 import retrofit2.HttpException
 import java.io.IOException
@@ -33,7 +34,7 @@ class MainRepository(
             val evolutionChainMembersEntities = mutableListOf<EvolutionChainMemberEntity>()
 
             for (item in pokeSpeciesResponse) {
-                val id = Utils.getIdAtEndFromUrl(item.url)
+                val id = getIdAtEndFromUrl(item.url)
                 if (id > Constants.LAST_VALID_POKEMON_NUMBER) {
                     break
                 }
@@ -45,12 +46,12 @@ class MainRepository(
                 }
 
                 if (pokemonSpecieResponse is PokemonSpecieDetailResponse) {
-                    val evolutionChainId = Utils.getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
+                    val evolutionChainId = getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
                     val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
                     evolutionChainMembersEntities.addAll(evolutionChainResponse.fromResponseToEvolutionChainMemberEntityList())
 
                     for (variety in pokemonSpecieResponse.varieties) {
-                        val altFormId = Utils.getIdAtEndFromUrl(variety.pokemon.url)
+                        val altFormId = getIdAtEndFromUrl(variety.pokemon.url)
 
                         //*repeated but different
                         val pokemonResponse = api.getPokemonDetailByIdNetwork(altFormId)
@@ -156,7 +157,7 @@ class MainRepository(
         val prevKey = Utils.getPrevKey(offset, limit)
         val nextKey = if (endOfPaginationReached) null else Utils.getNextKey(pokeSpecieEntities.toMutableList())
         return pokeSpeciesResponse.map {
-            PokeSpecieRemoteKeysEntity(pokeSpecieId = Utils.getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
+            PokeSpecieRemoteKeysEntity(pokeSpecieId = getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
         }
     }
 
@@ -227,12 +228,12 @@ class MainRepository(
 
     suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : List<PokeSpecieDetailDomain> {
         val pokemonSpecieResponse = getPokemonSpecieDetailByIdNetwork(id)
-        val evolutionChainId = Utils.getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
+        val evolutionChainId = getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
         val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
 
         val detailForms = mutableListOf<PokeSpecieDetailDomain>()
         for (variety in pokemonSpecieResponse.varieties) {
-            val altFormId = Utils.getIdAtEndFromUrl(variety.pokemon.url)
+            val altFormId = getIdAtEndFromUrl(variety.pokemon.url)
             val altForm = getPokeSpecieDetailDomainFromNetwork(id, altFormId, pokemonSpecieResponse, evolutionChainResponse)
             detailForms.add(altForm)
         }
