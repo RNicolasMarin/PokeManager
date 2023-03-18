@@ -7,19 +7,28 @@ import com.pokemanager.data.remote.responses.PokemonSpecieDetailResponse
 import com.pokemanager.data.remote.responses.SpriteNetwork
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.Constants.POKEMON_PAGING_PAGE_SIZE
+import java.lang.NumberFormatException
 import kotlin.math.ceil
 import kotlin.math.max
 
 object Utils {
 
     fun getIdAtEndFromUrl(url: String): Int {
-        var betweenSlashes = url.split("/")
-        if (betweenSlashes.last().isBlank()) {
-            betweenSlashes = betweenSlashes.subList(0, betweenSlashes.lastIndex)
+        var mUrl = url
+        val invalidId = 0
+        if (mUrl.isBlank()) return invalidId
+
+        if (mUrl.last() == '/') {
+            mUrl = mUrl.substring(0, mUrl.lastIndex)
         }
+
+        val slashBeforeIdPosition = mUrl.lastIndexOf('/')
+        if (slashBeforeIdPosition == -1 || slashBeforeIdPosition == mUrl.lastIndex) return invalidId
+
+        val possibleId = mUrl.substring(slashBeforeIdPosition + 1, mUrl.length)
         return try {
-            betweenSlashes.last().toInt()
-        } catch (e: Exception) {
+            possibleId.toInt()
+        } catch (e: NumberFormatException) {
             0
         }
     }
