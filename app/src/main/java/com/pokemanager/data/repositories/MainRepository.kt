@@ -9,8 +9,9 @@ import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.data.remote.responses.*
 import com.pokemanager.data.repositories.MainRepository.RequestAndPersistPokeSpeciesResult.*
 import com.pokemanager.utils.Constants
+import com.pokemanager.utils.KeyUtils.getNextKey
+import com.pokemanager.utils.KeyUtils.getPrevKey
 import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
-import com.pokemanager.utils.Utils
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -154,8 +155,8 @@ class MainRepository(
     private fun getKeys(offset: Int, limit: Int, endOfPaginationReached: Boolean,
                         pokeSpecieEntities: MutableList<PokeSpecieDetailEntity>, pokeSpeciesResponse: MutableList<PokemonItemFromListResponse>
     ): List<PokeSpecieRemoteKeysEntity> {
-        val prevKey = Utils.getPrevKey(offset, limit)
-        val nextKey = if (endOfPaginationReached) null else Utils.getNextKey(pokeSpecieEntities.toMutableList())
+        val prevKey = getPrevKey(offset, limit)
+        val nextKey = if (endOfPaginationReached) null else getNextKey(pokeSpecieEntities.toMutableList())
         return pokeSpeciesResponse.map {
             PokeSpecieRemoteKeysEntity(pokeSpecieId = getIdAtEndFromUrl(it.url), prevKey = prevKey, nextKey = nextKey)
         }

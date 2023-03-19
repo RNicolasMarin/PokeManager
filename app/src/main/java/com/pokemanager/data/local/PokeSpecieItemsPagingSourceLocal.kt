@@ -6,7 +6,8 @@ import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.data.mappers.fromPokeSpecieItemWithTypesListToPokeSpecieItemDomainList
 import com.pokemanager.data.repositories.MainRepository
 import com.pokemanager.utils.Constants
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.KeyUtils.getNextKey
+import com.pokemanager.utils.KeyUtils.getPrevKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -28,8 +29,8 @@ class PokeSpecieItemsPagingSourceLocal(
             val pokeSpecies = itemsFromList.fromPokeSpecieItemWithTypesListToPokeSpecieItemDomainList()
             val lastValidId = mainRepository.getPokeSpeciesLastId() ?: 0
 
-            val prevKey = Utils.getPrevKey(offset, params.loadSize)
-            val nextKey = Utils.getNextKey(pokeSpecies.toMutableList(), lastValidId)
+            val prevKey = getPrevKey(offset, params.loadSize)
+            val nextKey = getNextKey(pokeSpecies.toMutableList(), lastValidId)
 
             LoadResult.Page(
                 data = pokeSpecies,
