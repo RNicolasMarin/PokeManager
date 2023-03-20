@@ -3,17 +3,17 @@ package com.pokemanager.data.mappers
 import com.pokemanager.data.domain.PokeMoveDomain
 import com.pokemanager.data.local.entities.PokeMoveEntity
 import com.pokemanager.data.remote.responses.MoveNetwork
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 
 //Object:
 //Response -> Domain
 fun MoveNetwork.toPokeMoveDomain() = PokeMoveDomain(
-    Utils.getIdAtEndFromUrl(move.url),
+    getIdAtEndFromUrl(move.url),
     move.name
 )
 //Response -> Entity
 fun MoveNetwork.toPokeMoveEntity() = PokeMoveEntity(
-    Utils.getIdAtEndFromUrl(move.url),
+    getIdAtEndFromUrl(move.url),
     move.name
 )
 //Entity -> Domain

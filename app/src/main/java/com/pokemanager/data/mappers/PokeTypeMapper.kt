@@ -3,17 +3,17 @@ package com.pokemanager.data.mappers
 import com.pokemanager.data.domain.PokeTypeDomain
 import com.pokemanager.data.local.entities.PokeTypeEntity
 import com.pokemanager.data.remote.responses.TypeNetwork
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 
 //Object:
 //Response -> Domain
 fun TypeNetwork.toPokeTypeDomain() = PokeTypeDomain(
-    Utils.getIdAtEndFromUrl(type.url),
+    getIdAtEndFromUrl(type.url),
     type.name
 )
 //Response -> Entity
 fun TypeNetwork.toPokeTypeEntity() = PokeTypeEntity(
-    Utils.getIdAtEndFromUrl(type.url),
+    getIdAtEndFromUrl(type.url),
     type.name
 )
 //Entity -> Domain

@@ -6,17 +6,17 @@ import com.pokemanager.data.local.entities.PokeSpecieItemEntity
 import com.pokemanager.data.local.entities.PokeSpecieItemWithTypes
 import com.pokemanager.data.remote.responses.PokemonItemResponse
 import com.pokemanager.data.remote.responses.PokemonSpecieItemResponse
+import com.pokemanager.utils.ResponseUtils.getNameByLanguage
 import com.pokemanager.utils.TextLanguage.*
-import com.pokemanager.utils.Utils
-import com.pokemanager.utils.Utils.getImageUrl
+import com.pokemanager.utils.UrlUtils.getImageUrl
 
 //Object:
 //Response -> Domain
 fun PokemonItemResponse.toPokeSpecieItemDomain(pokemonSpecie: PokemonSpecieItemResponse) = PokeSpecieItemDomain(
     id = id,
     englishName = name,
-    japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
-    japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
+    japHrKtName = getNameByLanguage(JAP_HR_KT, pokemonSpecie),
+    japRoomajiName = getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
     imageUrl = getImageUrl(sprites),
     types = types.fromResponseListToPokeTypeDomainList()
 )
@@ -25,8 +25,8 @@ fun PokemonItemResponse.toPokeSpecieItemDomain(pokemonSpecie: PokemonSpecieItemR
 fun PokemonItemResponse.toPokeSpecieDetailEntity(pokemonSpecie: PokemonSpecieItemResponse) = PokeSpecieDetailEntity(
     pokeSpecieId = id,
     englishName = name,
-    japHrKtName = Utils.getNameByLanguage(JAP_HR_KT, pokemonSpecie),
-    japRoomajiName = Utils.getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
+    japHrKtName = getNameByLanguage(JAP_HR_KT, pokemonSpecie),
+    japRoomajiName = getNameByLanguage(JAP_ROOMAJI, pokemonSpecie),
     imageUrl = getImageUrl(sprites),
     weight = 0,
     height = 0,

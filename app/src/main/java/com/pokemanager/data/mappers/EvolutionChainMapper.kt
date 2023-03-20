@@ -6,7 +6,7 @@ import com.pokemanager.data.local.entities.EvolutionChainMemberEntity
 import com.pokemanager.data.remote.responses.ChainNetwork
 import com.pokemanager.data.remote.responses.EvolutionChainResponse
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
 
 //Object:
 //Response -> Domain
@@ -18,7 +18,7 @@ fun EvolutionChainResponse.toEvolutionChainDomain() = EvolutionChainDomain(
 //SUB Object:
 //Response -> Domain
 fun ChainNetwork.toEvolutionChainMemberDomain() = EvolutionChainMemberDomain(
-    pokeSpecieId = Utils.getIdAtEndFromUrl(species.url),
+    pokeSpecieId = getIdAtEndFromUrl(species.url),
     pokeSpecieName = species.name,
     evolvesTo = evolvesTo.fromResponseListToEvolutionChainMemberDomainList()
 )
@@ -72,7 +72,7 @@ fun EvolutionChainResponse.fromResponseToEvolutionChainMemberEntityList(): Mutab
 }
 
 fun ChainNetwork.fromResponseToEvolutionChainMemberEntityList(chainId: Int, previousId: Int): MutableList<EvolutionChainMemberEntity> {
-    val specieId = Utils.getIdAtEndFromUrl(species.url)
+    val specieId = getIdAtEndFromUrl(species.url)
     if (specieId > LAST_VALID_POKEMON_NUMBER) return mutableListOf()
     val list = mutableListOf<EvolutionChainMemberEntity>()
     list.add(

@@ -14,7 +14,8 @@ import com.pokemanager.data.mappers.fromDomainListToString
 import com.pokemanager.databinding.FragmentDetailPokeSpecieBinding
 import com.pokemanager.utils.AndroidUtils
 import com.pokemanager.utils.DataState.*
-import com.pokemanager.utils.Utils
+import com.pokemanager.utils.VisualUtils.convertHeight
+import com.pokemanager.utils.VisualUtils.convertWeight
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -52,9 +53,9 @@ class DetailPokeSpecieFragment : Fragment() {
                     pokeSpecieDetailGenera.text = pokeSpecieDetail.genera
                     pokeSpecieDetailDescription.text = pokeSpecieDetail.description
 
-                    val weight = getString(R.string.weight) + Utils.convertWeight(pokeSpecieDetail.weight)
+                    val weight = getString(R.string.weight) + convertWeight(pokeSpecieDetail.weight)
                     pokeSpecieDetailWeight.text = weight
-                    val height = getString(R.string.height) + Utils.convertHeight(pokeSpecieDetail.height)
+                    val height = getString(R.string.height) + convertHeight(pokeSpecieDetail.height)
                     pokeSpecieDetailHeight.text = height
 
                     pokeSpecieDetailTypes.text = pokeSpecieDetail.types.fromDomainListToString()
