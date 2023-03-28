@@ -30,7 +30,7 @@ object ServiceModule {
         .setAutoCancel(true)
         .setOngoing(false)
         .setSmallIcon(R.mipmap.ic_launcher)
-        .setContentTitle(app.getString(R.string.app_name))
+        .setContentTitle(app.getString(R.string.app_name_one_line))
         .setContentText(app.getString(R.string.download_all_notification_text))
         .setContentIntent(pendingIntent)
 
