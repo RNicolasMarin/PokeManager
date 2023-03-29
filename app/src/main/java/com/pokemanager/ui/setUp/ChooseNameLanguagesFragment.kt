@@ -31,9 +31,9 @@ class ChooseNameLanguagesFragment : Fragment() {
     }
 
     private fun setUpViews() = with(binding) {
-        cbOnlyMyLanguage.setLanguageCheckbox(viewModel, ENGLISH)
-        cbJapHrKt.setLanguageCheckbox(viewModel, JAP_HR_KT)
-        cbJapRoomaji.setLanguageCheckbox(viewModel, JAP_ROOMAJI)
+        cbEnglish.setLanguageCheckbox(viewModel, ENGLISH)
+        cbRoomaji.setLanguageCheckbox(viewModel, JAP_ROOMAJI)
+        cbKana.setLanguageCheckbox(viewModel, JAP_HR_KT)
 
         btnContinue.setOnClickListener {
             viewModel.continueFromChooseNameLanguages()

@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.PokeManager" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.PokeManager" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -28,5 +28,60 @@
         <!-- Required -->
         <item name="postSplashScreenTheme">@style/Theme.PokeManager</item>
 
+    </style>
+
+    <style name="SetUpContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="SetUpTvTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SetUpTvDescription">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="SetUpBtnContinue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:textColor">@drawable/btn_continue_text</item>
+        <item name="android:background">@drawable/btn_continue_background</item>
+        <item name="android:enabled">true</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
+    <style name="SetUpCbOption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginStart">60dp</item>
+        <item name="android:layout_marginEnd">60dp</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:background">@drawable/btn_option_background</item>
+        <item name="android:textColor">@drawable/btn_option_text</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
+    <style name="SetUpCbOption1" parent="SetUpCbOption">
+        <item name="android:layout_marginBottom">13dp</item>
+    </style>
+
+    <style name="SetUpCbOption2" parent="SetUpCbOption">
+        <item name="android:layout_marginTop">13dp</item>
     </style>
 </resources>
