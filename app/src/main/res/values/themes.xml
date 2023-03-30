@@ -36,6 +36,12 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="SetUpGuideLineTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
     <style name="SetUpTvTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -60,7 +66,7 @@
         <item name="android:layout_margin">20dp</item>
         <item name="android:textColor">@drawable/btn_continue_text</item>
         <item name="android:background">@drawable/btn_continue_background</item>
-        <item name="android:enabled">true</item>
+        <item name="android:enabled">false</item>
         <item name="android:elevation">10dp</item>
     </style>
 

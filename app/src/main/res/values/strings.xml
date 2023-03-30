@@ -7,8 +7,14 @@
     <string name="setUp_name_tv_title">Names to show</string>
     <string name="setUp_name_tv_description">Select which names want\nto see for each Pokemon.</string>
     <string name="setUp_name_cb_english">English</string>
-    <string name="setUp_name_cb_roomaji">Japanese with Roomaji</string>
+    <string name="setUp_name_cb_roomaji">Japanese with Rōmaji</string>
     <string name="setUp_name_cb_kana">Japanese with Kana</string>
+
+    <string name="setUp_data_tv_title">Handle the Data</string>
+    <string name="setUp_data_tv_description">Select an option about how\nyou want to handle the data.</string>
+    <string name="setUp_data_rb_download_all">Download all data now</string>
+    <string name="setUp_data_rb_request_and_download">Download the data\nas you need it</string>
+    <string name="setUp_data_rb_only_request">Consult when need it\nand not save the data</string>
 
 
 
