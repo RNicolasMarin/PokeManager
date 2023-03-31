@@ -16,7 +16,9 @@
     <string name="setUp_data_rb_request_and_download">Download the data\nas you need it</string>
     <string name="setUp_data_rb_only_request">Consult when need it\nand not save the data</string>
 
-
+    <string name="setUp_downloading_tv_title">Downloading Data</string>
+    <string name="setUp_downloading_tv_description">Wait until the data download\nis finished to continue.</string>
+    <string name="setUp_downloading_tv_progress_done">Done</string>
 
 
 

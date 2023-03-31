@@ -56,6 +56,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:layout_marginTop">24dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="SetUpBtnContinue">
