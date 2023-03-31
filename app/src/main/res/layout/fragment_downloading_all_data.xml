@@ -39,6 +39,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_progress_done"
+        android:text="@string/setUp_downloading_tv_progress_zero"
+        android:textColor="@color/black"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pb_downloading"
+        style="@style/SetUpTvDescription" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_continue"
         android:text="@string/global_btn_continue"

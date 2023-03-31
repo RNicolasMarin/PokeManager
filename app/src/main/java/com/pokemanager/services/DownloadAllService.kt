@@ -111,7 +111,7 @@ class DownloadAllService : LifecycleService() {
         CoroutineScope(Dispatchers.Main).launch {
             Log.d("DownloadAllService", "Observer Removed")
             progress.removeObserver(progressObserver)
-            postInitialValues()
+            //postInitialValues()
         }
         stopForeground()
         val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

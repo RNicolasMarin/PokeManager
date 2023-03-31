@@ -27,4 +27,12 @@ object VisualUtils {
         heightConverted = heightConverted.replace('.', ',')
         return "$heightConverted m"
     }
+
+    fun getDownloadPercentage(progress: Int, total: Int, percentageSymbol: String, doneText: String): String {
+        if (progress == 0) return "0$percentageSymbol"
+        if (progress == total) return doneText
+
+        val percentage = (progress.toDouble() / total * 100).toInt()
+        return "$percentage$percentageSymbol"
+    }
 }

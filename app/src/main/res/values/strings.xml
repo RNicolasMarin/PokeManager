@@ -3,6 +3,7 @@
     <string name="app_name_one_line">PokeManager</string>
 
     <string name="global_btn_continue">CONTINUE</string>
+    <string name="global_percentage_symbol">%</string>
 
     <string name="setUp_name_tv_title">Names to show</string>
     <string name="setUp_name_tv_description">Select which names want\nto see for each Pokemon.</string>
@@ -18,6 +19,7 @@
 
     <string name="setUp_downloading_tv_title">Downloading Data</string>
     <string name="setUp_downloading_tv_description">Wait until the data download\nis finished to continue.</string>
+    <string name="setUp_downloading_tv_progress_zero">0%</string>
     <string name="setUp_downloading_tv_progress_done">Done</string>
 
 

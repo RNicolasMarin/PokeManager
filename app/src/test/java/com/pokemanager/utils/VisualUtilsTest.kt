@@ -3,9 +3,15 @@ package com.pokemanager.utils
 import com.google.common.truth.Truth.*
 import com.pokemanager.utils.VisualUtils.convertHeight
 import com.pokemanager.utils.VisualUtils.convertWeight
+import com.pokemanager.utils.VisualUtils.getDownloadPercentage
 import org.junit.Test
 
 class VisualUtilsTest {
+
+    companion object {
+        const val percentageSymbol: String = "%"
+        const val doneText: String = "Done"
+    }
 
     //convertWeight
     @Test
@@ -41,6 +47,28 @@ class VisualUtilsTest {
     fun `convertHeight 2 digits`() {
         val actual = convertHeight(17)
         val expected = "1,7 m"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    //getDownloadPercentage
+    @Test
+    fun `getDownloadPercentage zero`() {
+        val actual = getDownloadPercentage(0, 16, percentageSymbol, doneText)
+        val expected = "0$percentageSymbol"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getDownloadPercentage in progress`() {
+        val actual = getDownloadPercentage(4, 16, percentageSymbol, doneText)
+        val expected = "25$percentageSymbol"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getDownloadPercentage done`() {
+        val actual = getDownloadPercentage(16, 16, percentageSymbol, doneText)
+        val expected = doneText
         assertThat(expected).isEqualTo(actual)
     }
 }
