@@ -91,4 +91,20 @@
     <style name="SetUpCbOption2" parent="SetUpCbOption">
         <item name="android:layout_marginTop">13dp</item>
     </style>
+
+    <style name="NotificationContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/red</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+    <style name="NotificationTvDescription">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

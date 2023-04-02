@@ -2,6 +2,8 @@
     <string name="app_name">Poke Manager</string>
     <string name="app_name_one_line">PokeManager</string>
 
+    <string name="notification_icon">Notification Icon</string>
+
     <string name="global_btn_continue">CONTINUE</string>
     <string name="global_percentage_symbol">%</string>
 
@@ -47,5 +49,6 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="form">Form</string>
+
 
 </resources>
