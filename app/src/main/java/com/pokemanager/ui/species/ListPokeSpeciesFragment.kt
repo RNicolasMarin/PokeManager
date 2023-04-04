@@ -52,8 +52,8 @@ class ListPokeSpeciesFragment : Fragment(), PokeSpecieAdapter.PokeSpecieAdapterL
         lifecycleScope.launchWhenCreated {
             viewModel.showFirstLoading.observe(viewLifecycleOwner) { showFirstLoading ->
                 with(binding) {
-                    firstLoadPB.isVisible = showFirstLoading
-                    listPokeSpeciesRv.isVisible = !showFirstLoading
+                    loadingContainer.isVisible = showFirstLoading
+                    successContainer.isVisible = !showFirstLoading
                 }
             }
         }
