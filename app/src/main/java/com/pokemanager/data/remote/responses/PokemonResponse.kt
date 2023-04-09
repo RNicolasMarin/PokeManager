@@ -56,6 +56,7 @@ data class OfficialArtworkNetwork(
 
 //Types
 data class TypeNetwork(
+    var slot: Int = 0,
     var type: TypeTypeNetwork = TypeTypeNetwork()
 )
 

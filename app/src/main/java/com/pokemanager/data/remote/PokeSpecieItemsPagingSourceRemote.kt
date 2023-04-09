@@ -36,6 +36,7 @@ class PokeSpecieItemsPagingSourceRemote(
                 }
                 val pokemonResponse = mainRepository.getPokemonItemByIdNetwork(id)
                 val pokemonSpecieResponse = mainRepository.getPokemonSpecieItemByIdNetwork(id)
+                pokemonResponse.types.sortBy { it.slot }
                 val pokeSpecieItemDomain = pokemonResponse.toPokeSpecieItemDomain(pokemonSpecieResponse)
                 pokeSpecies.add(pokeSpecieItemDomain)
             }

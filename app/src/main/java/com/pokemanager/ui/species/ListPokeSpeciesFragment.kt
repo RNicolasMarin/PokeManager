@@ -60,14 +60,14 @@ class ListPokeSpeciesFragment : Fragment(), PokeSpecieAdapter.PokeSpecieAdapterL
 
         lifecycleScope.launchWhenCreated {
             viewModel.mode.observe(viewLifecycleOwner) {
-                binding.mode.text = it::class.simpleName
+                binding.tvMode.text = it::class.simpleName
             }
         }
 
         return binding.root
     }
 
-    private fun setupRecyclerView() = binding.listPokeSpeciesRv.apply {
+    private fun setupRecyclerView() = binding.rvSpecies.apply {
         val nameLanguagesToList = pokeManagerPreferences.getNameLanguagesToList()
         pokeSpecieAdapter = PokeSpecieAdapter(
             nameLanguagesToList ?: NameLanguagesToList(),

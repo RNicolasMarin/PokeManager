@@ -12,3 +12,6 @@ object Utils {
     }
 
 }
+
+fun String.firstToUpperCase() =
+    replaceFirstChar { it.uppercase() }

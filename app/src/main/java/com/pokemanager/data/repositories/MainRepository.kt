@@ -60,14 +60,15 @@ class MainRepository(
 
                         pokeSpecieEntities.add(pokeSpecieDetailEntity)
 
-                        val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
+                        pokemonResponse.types.sortBy { it.slot }
 
-                        for (pokeType in pokeTypeEntitiesFromSpecie) {
-                            pokeTypeEntities[pokeType.pokeTypeId] = pokeType
+                        for (pokeTypeNetwork in pokemonResponse.types) {
+                            val pokeTypeEntity = pokeTypeNetwork.toPokeTypeEntity()
+                            pokeTypeEntities[pokeTypeEntity.pokeTypeId] = pokeTypeEntity
                             pokeSpecieTypes.add(
                                 PokeSpecieTypeCrossRef(
                                     pokeSpecieId = pokeSpecieDetailEntity.pokeSpecieId,
-                                    pokeTypeId = pokeType.pokeTypeId
+                                    pokeTypeId = pokeTypeEntity.pokeTypeId
                                 )
                             )
                         }
@@ -104,14 +105,15 @@ class MainRepository(
                     val pokeSpecieDetailEntity = pokemonResponse.toPokeSpecieDetailEntity(pokemonSpecieResponse)
                     pokeSpecieEntities.add(pokeSpecieDetailEntity)
 
-                    val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
+                    pokemonResponse.types.sortBy { it.slot }
 
-                    for (pokeType in pokeTypeEntitiesFromSpecie) {
-                        pokeTypeEntities[pokeType.pokeTypeId] = pokeType
+                    for (pokeTypeNetwork in pokemonResponse.types) {
+                        val pokeTypeEntity = pokeTypeNetwork.toPokeTypeEntity()
+                        pokeTypeEntities[pokeTypeEntity.pokeTypeId] = pokeTypeEntity
                         pokeSpecieTypes.add(
                             PokeSpecieTypeCrossRef(
                                 pokeSpecieId = pokeSpecieDetailEntity.pokeSpecieId,
-                                pokeTypeId = pokeType.pokeTypeId
+                                pokeTypeId = pokeTypeEntity.pokeTypeId
                             )
                         )
                     }

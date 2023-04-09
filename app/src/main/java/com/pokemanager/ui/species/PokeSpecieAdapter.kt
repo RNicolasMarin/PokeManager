@@ -2,17 +2,16 @@ package com.pokemanager.ui.species
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pokemanager.data.domain.PokeSpecieItemDomain
-import com.pokemanager.data.mappers.fromDomainListToString
 import com.pokemanager.databinding.PokeSpecieItemBinding
 import com.pokemanager.ui.species.PokeSpecieAdapter.*
 import com.pokemanager.utils.AndroidUtils
+import com.pokemanager.utils.AndroidUtils.setUpTextViewForName
 import com.pokemanager.utils.NameLanguagesToList
+import com.pokemanager.utils.VisualUtils
 
 class PokeSpecieAdapter(
     val nameLanguages: NameLanguagesToList,
@@ -24,23 +23,17 @@ class PokeSpecieAdapter(
         fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) = with(binding) {
             if (pokeSpecie == null) return@with
 
-            pokeSpecieItemEnglishName.setUpTextViewForName(pokeSpecie.englishName, nameLanguages.showEnglishName)
-            pokeSpecieItemJapHrKtName.setUpTextViewForName(pokeSpecie.japHrKtName, nameLanguages.showJapHrKtName)
-            pokeSpecieItemJapRoomajiName.setUpTextViewForName(pokeSpecie.japRoomajiName, nameLanguages.showJapRoomajiName)
+            tvNameEnglish.setUpTextViewForName(VisualUtils.convertName(pokeSpecie.id, pokeSpecie.englishName), nameLanguages.showEnglishName)
+            tvNameKana.setUpTextViewForName(pokeSpecie.japHrKtName, nameLanguages.showJapHrKtName)
+            tvNameRoomaji.setUpTextViewForName(pokeSpecie.japRoomajiName, nameLanguages.showJapRoomajiName)
 
-            pokeSpecieItemNumber.text = pokeSpecie.id.toString()
+            tvNumber.text = pokeSpecie.id.toString()
 
-            val types = pokeSpecie.types.fromDomainListToString()
-            pokeSpecieItemTypes.text = types
+            AndroidUtils.loadTypes(pokeSpecie.types, tvType1, tvType2)
 
-            AndroidUtils.loadImage(root, pokeSpecie.imageUrl, pokeSpecieItemImage)
+            AndroidUtils.loadImage(root, pokeSpecie.imageUrl, ivImage)
 
             root.setOnClickListener { listener.onPokeSpecieClicked(pokeSpecie.id) }
-        }
-
-        private fun TextView.setUpTextViewForName(text: String, isVisible: Boolean) {
-            this.text = text
-            this.isVisible = isVisible
         }
     }
 

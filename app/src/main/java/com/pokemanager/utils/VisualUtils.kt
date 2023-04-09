@@ -35,4 +35,41 @@ object VisualUtils {
         val percentage = (progress.toDouble() / total * 100).toInt()
         return "$percentage$percentageSymbol"
     }
+
+    private val allowDash = listOf(250, 474, 718, 782, 783, 784)
+    private val replaceWithDotSpace = listOf(122, 866)
+    //29                 Nidoran ♀
+    //32                 Nidoran ♂
+    //772   type-null    Type: Null
+    private val replaceWithSpace = listOf(439, 785, 786, 787, 788)
+
+    fun convertName(id: Int, name: String): String {//remove everything after -
+        if (id == 772) {
+            return "Type: Null"
+        }
+        if (id == 29 || id == 32) {
+            val symbol = if (id == 29) "♀" else "♂"
+            return name.substring(0, name.indexOf("-")).firstToUpperCase() + symbol
+        }
+        if (!name.contains("-")) return name.firstToUpperCase()
+
+        if (allowDash.contains(id)) {
+            return replaceBetweenWith(name, "-")
+        }
+        if (replaceWithDotSpace.contains(id)) {
+            return replaceBetweenWith(name,  ". ")
+        }
+        if (replaceWithSpace.contains(id)) {
+            return replaceBetweenWith(name,  " ")
+        }
+        return name.substring(0, name.indexOf("-")).firstToUpperCase()
+    }
+
+    private fun replaceBetweenWith(name: String, replaceFor: String): String {
+        val parts = name.split("-")
+        val nameTransformed = StringBuffer()
+        parts.forEach { nameTransformed.append(it.firstToUpperCase()).append(replaceFor) }
+        val nameTransformedString = nameTransformed.toString()
+        return nameTransformedString.substring(0, nameTransformedString.length-replaceFor.length)
+    }
 }

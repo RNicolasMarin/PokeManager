@@ -2,6 +2,7 @@ package com.pokemanager.utils
 
 import com.google.common.truth.Truth.*
 import com.pokemanager.utils.VisualUtils.convertHeight
+import com.pokemanager.utils.VisualUtils.convertName
 import com.pokemanager.utils.VisualUtils.convertWeight
 import com.pokemanager.utils.VisualUtils.getDownloadPercentage
 import org.junit.Test
@@ -71,4 +72,62 @@ class VisualUtilsTest {
         val expected = doneText
         assertThat(expected).isEqualTo(actual)
     }
+
+    //convertName
+    @Test
+    fun `convertName no dash option`() {
+        val actual = convertName(1, "bulbasaur")
+        val expected = "Bulbasaur"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName nidoran f option`() {
+        val actual = convertName(29, "nidoran-f")
+        val expected = "Nidoran♀"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName nidoran m option`() {
+        val actual = convertName(32, "nidoran-m")
+        val expected = "Nidoran♂"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName allow dash option`() {
+        val actual = convertName(250, "ho-oh")
+        val expected = "Ho-Oh"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName replace with dot space option`() {
+        val actual = convertName(122, "mr-mime")
+        val expected = "Mr. Mime"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName type null`() {
+        val actual = convertName(772, "type-null")
+        val expected = "Type: Null"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName replace with space`() {
+        val actual = convertName(785, "tapu-koko")
+        val expected = "Tapu Koko"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `convertName remove after dash`() {
+        val actual = convertName(386, "deoxys-normal")
+        val expected = "Deoxys"
+        assertThat(expected).isEqualTo(actual)
+    }
+
 }
