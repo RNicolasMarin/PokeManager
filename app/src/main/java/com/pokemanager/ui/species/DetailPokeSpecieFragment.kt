@@ -9,13 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.pokemanager.R
-import com.pokemanager.data.mappers.fromDomainListToString
 import com.pokemanager.databinding.FragmentDetailPokeSpecieBinding
-import com.pokemanager.utils.AndroidUtils
 import com.pokemanager.utils.DataState.*
-import com.pokemanager.utils.VisualUtils.convertHeight
-import com.pokemanager.utils.VisualUtils.convertWeight
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -39,8 +34,9 @@ class DetailPokeSpecieFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             viewModel.pokeSpecieDetail.collectLatest {
-                pokeSpecieDetailPB.isVisible = it is Loading
-                pokeSpecieDetailPrevious.isVisible = it is Success
+                loadingContainer.isVisible = it is Loading
+                successContainer.isVisible = it !is Loading
+                /*pokeSpecieDetailPrevious.isVisible = it is Success
                 pokeSpecieDetailForm.isVisible = viewModel.isThereMultipleForms()
                 pokeSpecieDetailNext.isVisible = it is Success
 
@@ -65,13 +61,13 @@ class DetailPokeSpecieFragment : Fragment() {
                     pokeSpecieDetailEvolutionCHain.text = pokeSpecieDetail.evolutionChain.toString()
 
                     AndroidUtils.loadImage(root, pokeSpecieDetail.imageUrl, pokeSpecieDetailImage)
-                }
+                }*/
             }
         }
 
-        pokeSpecieDetailPrevious.setOnClickListener { viewModel.loadPreviousPokeSpecieData() }
+        /*pokeSpecieDetailPrevious.setOnClickListener { viewModel.loadPreviousPokeSpecieData() }
         pokeSpecieDetailNext.setOnClickListener { viewModel.loadNextPokeSpecieData() }
-        pokeSpecieDetailForm.setOnClickListener { viewModel.changeForm() }
+        pokeSpecieDetailForm.setOnClickListener { viewModel.changeForm() }*/
     }
 
 }
