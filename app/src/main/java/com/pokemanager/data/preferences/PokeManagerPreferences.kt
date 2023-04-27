@@ -17,5 +17,7 @@ interface PokeManagerPreferences {
 
     fun saveNameLanguagesToList(nameLanguagesToList: NameLanguagesToList)
 
+    fun getNameLanguagesToListNonNull() : NameLanguagesToList
+
     fun getNameLanguagesToList() : NameLanguagesToList?
 }

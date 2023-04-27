@@ -54,4 +54,11 @@ object Constants {
     const val NOTIFICATION_CHANNEL_ID = "pokeManager_channel"
     const val NOTIFICATION_CHANNEL_NAME = "PokeManager"
     const val NOTIFICATION_ID = 1
+
+    const val STAT_HP = "hp"
+    const val STAT_SPEED = "speed"
+    const val STAT_ATTACK = "attack"
+    const val STAT_DEFENSE = "defense"
+    const val STAT_SP_ATTACK = "special-attack"
+    const val STAT_SP_DEFENSE = "special-defense"
 }

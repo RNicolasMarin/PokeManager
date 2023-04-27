@@ -38,10 +38,3 @@ fun MutableList<PokeAbilityEntity>.fromEntityListToPokeAbilityDomainList() =
     map { it.toPokeAbilityDomain() }.toMutableList()
 
 //Domain -> Entity
-//Domain -> String
-fun MutableList<PokeAbilityDomain>.fromDomainListToString(): String {
-    val abilities = StringBuilder()
-    val separator = "-"
-    forEach { abilities.append(it.name).append(separator) }
-    return abilities.removeSuffix(separator).toString()
-}

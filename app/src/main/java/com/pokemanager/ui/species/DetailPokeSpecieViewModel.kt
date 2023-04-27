@@ -8,6 +8,7 @@ import com.pokemanager.use_cases.GetPokeSpecieDetailUseCase
 import com.pokemanager.utils.Constants.LAST_VALID_POKEMON_NUMBER
 import com.pokemanager.utils.DataState
 import com.pokemanager.utils.DataState.*
+import com.pokemanager.utils.VisualUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -73,5 +74,12 @@ class DetailPokeSpecieViewModel @Inject constructor(
 
     fun isThereMultipleForms(): Boolean {
         return pokeSpecieDetail.value is Success && pokeSpecieDetailAllForms.size > 1
+    }
+
+    fun getNamesByLanguage() : NamesToShow {
+        return VisualUtils.getNamesByLanguage(
+            pokeSpecieDetailAllForms[currentFormPosition],
+            pokeManagerPreferences.getNameLanguagesToListNonNull()
+        )
     }
 }

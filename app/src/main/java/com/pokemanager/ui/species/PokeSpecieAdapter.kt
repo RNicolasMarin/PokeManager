@@ -9,7 +9,7 @@ import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.databinding.PokeSpecieItemBinding
 import com.pokemanager.ui.species.PokeSpecieAdapter.*
 import com.pokemanager.utils.AndroidUtils
-import com.pokemanager.utils.AndroidUtils.setUpTextViewForName
+import com.pokemanager.utils.AndroidUtils.setUpTextViewForNameItem
 import com.pokemanager.utils.NameLanguagesToList
 import com.pokemanager.utils.VisualUtils
 
@@ -23,9 +23,9 @@ class PokeSpecieAdapter(
         fun loadPokeSpecie(pokeSpecie: PokeSpecieItemDomain?) = with(binding) {
             if (pokeSpecie == null) return@with
 
-            tvNameEnglish.setUpTextViewForName(VisualUtils.convertName(pokeSpecie.id, pokeSpecie.englishName), nameLanguages.showEnglishName)
-            tvNameKana.setUpTextViewForName(pokeSpecie.japHrKtName, nameLanguages.showJapHrKtName)
-            tvNameRoomaji.setUpTextViewForName(pokeSpecie.japRoomajiName, nameLanguages.showJapRoomajiName)
+            tvNameEnglish.setUpTextViewForNameItem(VisualUtils.convertName(pokeSpecie.id, pokeSpecie.englishName), nameLanguages.showEnglishName)
+            tvNameKana.setUpTextViewForNameItem(pokeSpecie.japHrKtName, nameLanguages.showKanaName)
+            tvNameRoomaji.setUpTextViewForNameItem(pokeSpecie.japRoomajiName, nameLanguages.showRoomajiName)
 
             tvNumber.text = pokeSpecie.id.toString()
 

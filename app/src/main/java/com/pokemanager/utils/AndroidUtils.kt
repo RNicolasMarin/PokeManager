@@ -55,8 +55,13 @@ object AndroidUtils {
         return null
     }
 
-    fun TextView.setUpTextViewForName(text: String, isVisible: Boolean) {
+    fun TextView.setUpTextViewForNameItem(text: String, isVisible: Boolean) {
         this.text = text.firstToUpperCase()
         this.isVisible = isVisible
+    }
+
+    fun TextView.setUpTextViewForNameDetail(textToSet : String) {
+        text = textToSet
+        visibility = if (textToSet.isBlank()) View.GONE else View.VISIBLE
     }
 }

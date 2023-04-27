@@ -1,5 +1,10 @@
 package com.pokemanager.utils
 
+import com.pokemanager.data.domain.PokeAbilityDomain
+import com.pokemanager.data.domain.PokeSpecieDetailDomain
+import com.pokemanager.data.domain.PokeStatDomain
+import com.pokemanager.ui.species.NamesToShow
+
 object VisualUtils {
 
     /**
@@ -41,7 +46,7 @@ object VisualUtils {
     //29                 Nidoran ♀
     //32                 Nidoran ♂
     //772   type-null    Type: Null
-    private val replaceWithSpace = listOf(439, 785, 786, 787, 788)
+    private val replaceWithSpace = listOf(25, 439, 785, 786, 787, 788)
 
     fun convertName(id: Int, name: String): String {//remove everything after -
         if (id == 772) {
@@ -62,14 +67,86 @@ object VisualUtils {
         if (replaceWithSpace.contains(id)) {
             return replaceBetweenWith(name,  " ")
         }
+        if (name.contains("-mega")) {
+            return secondWordFirstAndChanges(name, "Mega", false)
+        }
+        if (name.endsWith("-gmax")) {
+            return secondWordFirstAndChanges(name, "Gigantamax")
+        }
+        if (name.endsWith("-alola")) {
+            return secondWordFirstAndChanges(name, "Alolan")
+        }
+        if (name.endsWith("-hisui")) {
+            return secondWordFirstAndChanges(name, "Hisuian")
+        }
+        if (name.endsWith("-galar")) {
+            return secondWordFirstAndChanges(name, "Galarian")
+        }
         return name.substring(0, name.indexOf("-")).firstToUpperCase()
+    }
+
+    private fun secondWordFirstAndChanges(name: String, suffix: String, onlyTwoWords: Boolean = true): String {
+        if (onlyTwoWords) {
+            return suffix + " " + name.substring(0, name.indexOf("-")).firstToUpperCase()
+        }
+        val parts = name.split("-")
+
+        val finalPart = StringBuilder()
+        parts.forEach {
+            if (!it.equals(suffix, true)) {
+                finalPart.append(it.firstToUpperCase()).append(" ")
+            }
+        }
+        val nameTransformedString = finalPart.toString()
+
+        return suffix + " " + nameTransformedString.substring(0, nameTransformedString.length-1)
     }
 
     private fun replaceBetweenWith(name: String, replaceFor: String): String {
         val parts = name.split("-")
-        val nameTransformed = StringBuffer()
+        val nameTransformed = StringBuilder()
         parts.forEach { nameTransformed.append(it.firstToUpperCase()).append(replaceFor) }
         val nameTransformedString = nameTransformed.toString()
         return nameTransformedString.substring(0, nameTransformedString.length-replaceFor.length)
     }
+
+    fun getNamesByLanguage(
+        pokeSpecie: PokeSpecieDetailDomain,
+        nameLanguages: NameLanguagesToList
+    ): NamesToShow {
+        val list = mutableListOf<String>()
+        if (nameLanguages.showEnglishName) {
+            list.add(convertName(pokeSpecie.id, pokeSpecie.englishName))
+        }
+        if (nameLanguages.showRoomajiName) {
+            list.add(pokeSpecie.japRoomajiName)
+        }
+        if (nameLanguages.showKanaName) {
+            list.add(pokeSpecie.japHrKtName)
+        }
+        return NamesToShow(
+            name1 = if (0 < list.size) list[0] else "",
+            name2 = if (1 < list.size) list[1] else "",
+            name3 = if (2 < list.size) list[2] else ""
+        )
+    }
+
+    fun convertAbilities(abilities: MutableList<PokeAbilityDomain>): String {
+        if (abilities.isEmpty()) return ""
+
+        val response = StringBuilder()
+        abilities.forEach { response.append(replaceBetweenWith(it.name, " ")).append(", ") }
+        val responseString = response.toString()
+        return responseString.substring(0, response.length-2)
+    }
+
+    fun getStatFromList(stats: MutableList<PokeStatDomain>, statToFind: String): String {
+        for (stat in stats) {
+            if (stat.name == statToFind) {
+                return stat.baseStat.toString()
+            }
+        }
+        return ""
+    }
 }
+

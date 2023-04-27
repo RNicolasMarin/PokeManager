@@ -52,6 +52,31 @@
 
     <string name="pokeSpecie_detail_tv_title">Loading Poke\nSpecie Detail</string>
 
+    <string name="pokeSpecie_detail_tv_types">Types: </string>
+    <string name="pokeSpecie_detail_tv_height_label">Height: </string>
+    <string name="pokeSpecie_detail_tv_height_value">2,0 m</string>
+    <string name="pokeSpecie_detail_tv_weight_label">Weight: </string>
+    <string name="pokeSpecie_detail_tv_weight_value">100,0 kg</string>
+
+    <string name="pokeSpecie_detail_tv_category_label">Category: </string>
+    <string name="pokeSpecie_detail_tv_category_value">Seed Pokemon</string>
+    <string name="pokeSpecie_detail_tv_ability_label">Ability: </string>
+    <string name="pokeSpecie_detail_tv_ability_value">Overgrow - Chorophyll</string>
+
+    <string name="pokeSpecie_detail_tv_description_label">Description</string>
+    <string name="pokeSpecie_detail_tv_description_value">The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.</string>
+    <string name="pokeSpecie_detail_tv_hp_label">Hp: </string>
+    <string name="pokeSpecie_detail_tv_speed_label">Speed: </string>
+    <string name="pokeSpecie_detail_tv_attack_label">Attack: </string>
+    <string name="pokeSpecie_detail_tv_defense_label">Defense: </string>
+    <string name="pokeSpecie_detail_tv_sp_attack_label">Sp. Attack: </string>
+    <string name="pokeSpecie_detail_tv_sp_defense_label">Sp. Defense: </string>
+    <string name="pokeSpecie_detail_tv_stat_value">80</string>
+
+    <string name="pokeSpecie_detail_tv_moves_label">Moves</string>
+
+
+
 
 
 

@@ -116,7 +116,7 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="PokeSpecieTypeTv">
+    <style name="PokeSpecieTypeTvItem">
         <item name="android:layout_height">18dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:textSize">12sp</item>
@@ -127,4 +127,70 @@
         <item name="android:layout_marginTop">3dp</item>
         <item name="android:visibility">invisible</item>
     </style>
+
+    <style name="PokeSpecieTypeTvDetail">
+        <item name="android:layout_height">27dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/type_background_grass</item>
+        <item name="android:gravity">center</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="DetailPokeSpecieBtnPreviousNext">
+        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:layout_marginTop">@dimen/DetailPokeSpeciePadding</item>
+    </style>
+
+    <style name="DetailPokeSpecieTvNames">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="DetailPokeSpecieTvSectionContainer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:background">@drawable/detail_area_background</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="DetailPokeSpecieTvSectionName">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DetailPokeSpecieTvSectionContent">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">@dimen/DetailPokeSpeciePadding</item>
+
+
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

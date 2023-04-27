@@ -2,5 +2,6 @@
 <resources>
     <dimen name="NotificationBetweenRow">8dp</dimen>
     <dimen name="TypeCornerRadius">5dp</dimen>
+    <dimen name="DetailPokeSpeciePadding">3dp</dimen>
 
 </resources>
