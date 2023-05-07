@@ -99,3 +99,7 @@ data class MoveMoveNetwork(
     val name: String = "",
     val url: String = "",
 )
+
+data class PokemonImageUrlResponse(
+    var sprites: SpriteNetwork = SpriteNetwork()
+)

@@ -1,9 +1,13 @@
 package com.pokemanager.utils
 
-import com.pokemanager.data.domain.PokeAbilityDomain
-import com.pokemanager.data.domain.PokeSpecieDetailDomain
-import com.pokemanager.data.domain.PokeStatDomain
-import com.pokemanager.ui.species.NamesToShow
+import com.pokemanager.data.domain.*
+import com.pokemanager.ui.species.detail.*
+import com.pokemanager.ui.species.detail.tabs.EvolutionCase
+import com.pokemanager.ui.species.detail.tabs.EvolutionCase.*
+import com.pokemanager.ui.species.detail.tabs.EvolutionRow
+import com.pokemanager.ui.species.detail.tabs.EvolutionRow.*
+import com.pokemanager.ui.species.detail.tabs.EvolutionRowSpecie
+import com.pokemanager.ui.species.detail.tabs.EvolutionToShow
 
 object VisualUtils {
 
@@ -102,7 +106,7 @@ object VisualUtils {
         return suffix + " " + nameTransformedString.substring(0, nameTransformedString.length-1)
     }
 
-    private fun replaceBetweenWith(name: String, replaceFor: String): String {
+    fun replaceBetweenWith(name: String, replaceFor: String): String {
         val parts = name.split("-")
         val nameTransformed = StringBuilder()
         parts.forEach { nameTransformed.append(it.firstToUpperCase()).append(replaceFor) }
@@ -147,6 +151,233 @@ object VisualUtils {
             }
         }
         return ""
+    }
+
+    fun getEvolutionToShow(evolutionChain: EvolutionChainMemberDomain, currentId: Int, currentChainId: Int, imageUrl: String): EvolutionToShow? {
+        var steps = hashMapOf<Int, MutableList<EvolutionRowSpecie>>()
+        steps = getEvolutionSteps(steps, evolutionChain, 0, currentId, imageUrl)
+
+        val size = steps.keys.size
+        val case: EvolutionCase = getCase(steps) ?: return null
+        val list = mutableListOf<EvolutionRow>()
+
+        val step1 = steps[0] ?: return null
+        val rowForStep1 = getRowForStep1(step1, case) ?: return null
+        list.add(rowForStep1)
+
+        if (size > 1) {
+            val step2 = steps[1] ?: return null
+            val rowForStep2 = getRowForStep2(step2, case) ?: return null
+            list.addAll(rowForStep2)
+        }
+
+        if (size > 2) {
+            val step3 = steps[2] ?: return null
+            val rowForStep3 = getRowForStep3(step3) ?: return null
+            list.addAll(rowForStep3)
+        }
+
+        if (list.isEmpty()) return null
+
+        return EvolutionToShow(currentChainId, case, list)
+    }
+
+    private fun getRowForStep3(step3: MutableList<EvolutionRowSpecie>): MutableList<EvolutionRow>? {
+        val list = mutableListOf<EvolutionRow>()
+        var specieLeft : EvolutionRowSpecie? = null
+        var specieRight : EvolutionRowSpecie? = null
+
+        for (index in step3.indices) {
+            if (index % 2 == 0) {
+                specieLeft = step3[index]
+            } else {
+                specieRight = step3[index]
+            }
+
+            if (specieLeft != null) {
+                if (specieRight != null) {
+                    //row both sides
+                    list.add(
+                        EvolutionRowBothSides(
+                            specieLeft, specieRight
+                        )
+                    )
+                } else if (index == step3.lastIndex) {
+                    //row center
+                    list.add(
+                        EvolutionRowLeftSide(
+                            specieLeft
+                        )
+                    )
+                }
+            }
+
+            if (index % 2 != 0) {
+                specieLeft = null
+                specieRight = null
+            }
+        }
+        if (list.isEmpty()) return null
+        return list
+    }
+
+    private fun getRowForStep2(step2: MutableList<EvolutionRowSpecie>, case: EvolutionCase): MutableList<EvolutionRow>? {
+        val list = mutableListOf<EvolutionRow>()
+        var specieLeft : EvolutionRowSpecie? = null
+        var specieRight : EvolutionRowSpecie? = null
+        for (index in step2.indices) {
+            if (index % 2 == 0) {
+                if (case == OneOneOne) {
+                    specieRight = step2[index]
+                } else {
+                    specieLeft = step2[index]
+                }
+            } else {
+                specieRight = step2[index]
+            }
+
+            if (specieLeft != null) {
+                if (specieRight != null) {
+                    //row both sides
+                    val arrowBelow = case == OneTwoTwo
+                    list.add(
+                        EvolutionRowBothSides(
+                            specieLeft, specieRight,
+                            hasArrowLeftBelow = arrowBelow,
+                            hasArrowRightBelow = arrowBelow
+                        )
+                    )
+                } else if (index == step2.lastIndex) {
+                    //row center
+                    val arrowSides = case == OneOneTwo
+                    list.add(
+                        EvolutionRowCenter(
+                            specieLeft, hasArrowSides = arrowSides
+                        )
+                    )
+                }
+            } else if (specieRight != null) {
+                list.add(
+                    EvolutionRowRightSide(
+                        specieRight
+                    )
+                )
+            }
+
+            if (index % 2 != 0) {
+                specieLeft = null
+                specieRight = null
+            }
+        }
+        if (list.isEmpty()) return null
+        return list
+    }
+
+    private fun getRowForStep1(step1: MutableList<EvolutionRowSpecie>, case: EvolutionCase): EvolutionRow? {
+        if (step1.isEmpty()) return null
+
+        return if (case == OneOneOne) {
+            EvolutionRowLeftSide(
+                step1[0],
+                isRightArrowOut = true
+            )
+        } else {
+            val withArrowBelow = mutableListOf(OneOneTwo, OneThree, OneMany, OneOne)
+            val withArrowSides = mutableListOf(OneTwoTwo, OneTwo, OneThree)
+            EvolutionRowCenter(
+                step1[0],
+                hasArrowBelow = withArrowBelow.contains(case),
+                hasArrowSides = withArrowSides.contains(case)
+            )
+        }
+    }
+
+    private fun getCase(steps: HashMap<Int, MutableList<EvolutionRowSpecie>>): EvolutionCase? {
+        steps[0] ?: return null
+        val size = steps.keys.size
+        if (size == 1) return One
+
+        val step2 = steps[1] ?: return null
+        if (size == 2) {
+            return when (step2.size) {
+                1 -> OneOne
+                3 -> OneThree
+                2 -> OneTwo
+                in 3..Int.MAX_VALUE -> OneMany
+                else -> null
+            }
+        }
+
+        val step3 = steps[2] ?: return null
+        if (size == 3) {
+            if (step2.size == 2) return OneTwoTwo
+
+            return when (step3.size) {
+                2 -> OneOneTwo
+                1 -> OneOneOne
+                else -> null
+            }
+        }
+
+        return null
+    }
+
+    private fun getEvolutionSteps(
+        st: HashMap<Int, MutableList<EvolutionRowSpecie>>,
+        evolutionChain: EvolutionChainMemberDomain,
+        step: Int,
+        currentId: Int,
+        imageUrl: String
+    ): HashMap<Int, MutableList<EvolutionRowSpecie>> {
+        var steps = st
+
+        val isSelected = evolutionChain.pokeSpecieId == currentId
+        val rowSpecie = EvolutionRowSpecie(
+            evolutionChain.pokeSpecieId,
+            evolutionChain.pokeSpecieName,
+            if (isSelected) imageUrl else "",
+            isSelected
+        )
+        if (steps.contains(step)) {
+            //the step exist
+            val list = steps[step] ?: mutableListOf()
+            list.add(rowSpecie)
+            steps[step] = list
+        } else {
+            //does not exist
+            steps[step] = mutableListOf(rowSpecie)
+        }
+
+        if (evolutionChain.evolvesTo.isEmpty()) {
+            return steps
+        }
+
+        for (next in evolutionChain.evolvesTo) {
+            steps = getEvolutionSteps(steps, next, step + 1, currentId, imageUrl)
+        }
+
+        return steps
+    }
+
+    fun updateSelectedEvolutionRowSpecie(evolutionToShow: EvolutionToShow, id: Int): EvolutionToShow {
+        for (row in evolutionToShow.evolutionRows) {
+            when (row) {
+                is EvolutionRowCenter -> {
+                    row.rowSpecieCenter.isSelected = row.rowSpecieCenter.id == id
+                }
+                is EvolutionRowBothSides -> {
+                    row.rowSpecieLeft.isSelected = row.rowSpecieLeft.id == id
+                    row.rowSpecieRight.isSelected = row.rowSpecieRight.id == id
+                }
+                is EvolutionRowLeftSide -> {
+                    row.rowSpecieLeft.isSelected = row.rowSpecieLeft.id == id
+                }
+                is EvolutionRowRightSide -> {
+                    row.rowSpecieRight.isSelected = row.rowSpecieRight.id == id
+                }
+            }
+        }
+        return evolutionToShow
     }
 }
 

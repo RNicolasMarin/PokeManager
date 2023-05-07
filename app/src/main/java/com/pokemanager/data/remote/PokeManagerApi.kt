@@ -26,4 +26,7 @@ interface PokeManagerApi {
 
     @GET("evolution-chain/{id}/")
     suspend fun getEvolutionChainByIdNetwork(@Path("id") id: Int) : EvolutionChainResponse
+
+    @GET("pokemon/{id}/")
+    suspend fun getImageUrlForSpecieNetwork(@Path("id") id: Int): PokemonImageUrlResponse
 }

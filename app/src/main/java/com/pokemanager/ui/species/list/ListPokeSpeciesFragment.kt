@@ -1,4 +1,4 @@
-package com.pokemanager.ui.species
+package com.pokemanager.ui.species.list
 
 import android.os.Bundle
 import android.view.LayoutInflater

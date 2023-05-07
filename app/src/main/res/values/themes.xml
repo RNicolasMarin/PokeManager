@@ -161,11 +161,30 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="DetailPokeSpecieTvSectionContainer">
+    <style name="DetailPokeSpecieTvSectionContainer1">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/detail_area_background</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="DetailPokeSpecieTvSectionContainer2">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/detail_area_background</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="DetailPokeSpecieTvSectionContainer34">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:background">@drawable/detail_area_background</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:padding">5dp</item>
         <item name="android:layout_marginTop">4dp</item>
     </style>
 
@@ -184,13 +203,26 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginStart">@dimen/DetailPokeSpeciePadding</item>
-
-
-        <item name="android:scrollHorizontally">true</item>
+        <!--<item name="android:scrollHorizontally">true</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
-        <item name="android:singleLine">true</item>
+        <item name="android:singleLine">true</item>-->
+    </style>
+
+    <style name="EvolutionRowSpecieTv">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="DetailPokeSpecieTabButton">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:src">@drawable/detail_poke_specie_tab_button_unselected</item>
     </style>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.pokemanager.ui.species
+package com.pokemanager.ui.species.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

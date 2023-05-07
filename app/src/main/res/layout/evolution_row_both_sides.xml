@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/specieLeft"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        layout="@layout/evolution_row_specie"/>
+
+    <include
+        android:id="@+id/specieRight"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/evolution_row_specie"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_arrow_below_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/evolution_row_arrow_below"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/specieLeft"
+        app:layout_constraintEnd_toEndOf="@id/specieLeft"
+        app:layout_constraintTop_toBottomOf="@id/specieLeft"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_arrow_below_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/evolution_row_arrow_below"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/specieRight"
+        app:layout_constraintEnd_toEndOf="@id/specieRight"
+        app:layout_constraintTop_toBottomOf="@id/specieRight"/>
+
+    <Space
+        android:id="@+id/bottomSpace"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_arrow_below_right"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

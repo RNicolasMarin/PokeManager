@@ -1,4 +1,4 @@
-package com.pokemanager.ui.species
+package com.pokemanager.ui.species.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pokemanager.data.domain.PokeSpecieItemDomain
 import com.pokemanager.databinding.PokeSpecieItemBinding
-import com.pokemanager.ui.species.PokeSpecieAdapter.*
+import com.pokemanager.ui.species.list.PokeSpecieAdapter.*
 import com.pokemanager.utils.AndroidUtils
 import com.pokemanager.utils.AndroidUtils.setUpTextViewForNameItem
 import com.pokemanager.utils.NameLanguagesToList

@@ -1,10 +1,15 @@
 package com.pokemanager.utils
 
 import com.google.common.truth.Truth.*
+import com.pokemanager.data.domain.EvolutionChainMemberDomain
 import com.pokemanager.data.domain.PokeAbilityDomain
 import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.data.domain.PokeStatDomain
-import com.pokemanager.ui.species.NamesToShow
+import com.pokemanager.ui.species.detail.tabs.EvolutionCase.*
+import com.pokemanager.ui.species.detail.tabs.EvolutionRow.*
+import com.pokemanager.ui.species.detail.tabs.EvolutionRowSpecie
+import com.pokemanager.ui.species.detail.tabs.EvolutionToShow
+import com.pokemanager.ui.species.detail.NamesToShow
 import com.pokemanager.utils.Constants.STAT_ATTACK
 import com.pokemanager.utils.Constants.STAT_DEFENSE
 import com.pokemanager.utils.Constants.STAT_HP
@@ -14,6 +19,7 @@ import com.pokemanager.utils.VisualUtils.convertHeight
 import com.pokemanager.utils.VisualUtils.convertName
 import com.pokemanager.utils.VisualUtils.convertWeight
 import com.pokemanager.utils.VisualUtils.getDownloadPercentage
+import com.pokemanager.utils.VisualUtils.getEvolutionToShow
 import com.pokemanager.utils.VisualUtils.getNamesByLanguage
 import com.pokemanager.utils.VisualUtils.getStatFromList
 import org.junit.Test
@@ -24,7 +30,6 @@ class VisualUtilsTest {
         const val percentageSymbol: String = "%"
         const val doneText: String = "Done"
 
-        //escribir los test y seguir con el uso en el viewmodel y la vista
         const val NAME_ENGLISH = "Bulbasaur"
         const val NAME_KANA = "フシギダネ"
         const val NAME_ROOMAJI = "Fushigidane"
@@ -38,6 +43,8 @@ class VisualUtilsTest {
             PokeStatDomain(name = STAT_ATTACK, baseStat = 150),
             PokeStatDomain(name = STAT_DEFENSE, baseStat = 200),
         )
+        const val DEFAULT_IMAGE_URL = "DEFAULT_IMAGE_URL"
+        const val DEFAULT_CHAIN_ID = 0
     }
 
     //convertWeight
@@ -325,6 +332,498 @@ class VisualUtilsTest {
     fun `getStatFromList stat founded`() {
         val actual = getStatFromList(someStats, STAT_HP)
         val expected = "100"
+        assertThat(expected).isEqualTo(actual)
+    }
+
+
+    //getEvolutionToShow
+    @Test
+    fun `getEvolutionToShow one one one`() {
+        val chain = EvolutionChainMemberDomain(
+            4,
+            "charmander",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    5,
+                    "charmeleon",
+                    mutableListOf(
+                        EvolutionChainMemberDomain(
+                            6,
+                            "charizard",
+                            mutableListOf()
+                        )
+                    )
+                )
+            )
+        )
+        val actual = getEvolutionToShow(chain, 6, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneOneOne,
+            mutableListOf(
+                EvolutionRowLeftSide(
+                    EvolutionRowSpecie(
+                        4,
+                        "charmander",
+                        "",
+                        false
+                    ),
+                    true
+                ),
+                EvolutionRowRightSide(
+                    EvolutionRowSpecie(
+                        5,
+                        "charmeleon",
+                        "",
+                        false
+                    )
+                ),
+                EvolutionRowLeftSide(
+                    EvolutionRowSpecie(
+                        6,
+                        "charizard",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    false
+                )
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one one two`() {
+        val chain = EvolutionChainMemberDomain(
+            43,
+            "oddish",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    44,
+                    "gloom",
+                    mutableListOf(
+                        EvolutionChainMemberDomain(
+                            45,
+                            "vileplume",
+                            mutableListOf()
+                        ),
+                        EvolutionChainMemberDomain(
+                            182,
+                            "bellossom",
+                            mutableListOf()
+                        )
+                    )
+                )
+            )
+        )
+        val actual = getEvolutionToShow(chain, 44, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneOneTwo,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        43,
+                        "oddish",
+                        "",
+                        false
+                    ),
+                    hasArrowBelow = true, hasArrowSides = false
+                ),
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        44,
+                        "gloom",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    hasArrowBelow = false, hasArrowSides = true
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        45,
+                        "vileplume",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        182,
+                        "bellossom",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                )
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one two two`() {
+        val chain = EvolutionChainMemberDomain(
+            265,
+            "wurmple",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    266,
+                    "silcoon",
+                    mutableListOf(
+                        EvolutionChainMemberDomain(
+                            267,
+                            "beautifly", mutableListOf()
+                        )
+                    )
+                ),
+                EvolutionChainMemberDomain(
+                    268,
+                    "cascoon",
+                    mutableListOf(
+                        EvolutionChainMemberDomain(
+                            269,
+                            "dustox", mutableListOf()
+                        )
+                    )
+                )
+            )
+        )
+        val actual = getEvolutionToShow(chain, 267, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneTwoTwo,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        265,
+                        "wurmple",
+                        "",
+                        false
+                    ),
+                    hasArrowBelow = false, hasArrowSides = true
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        266,
+                        "silcoon",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        268,
+                        "cascoon",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = true, hasArrowRightBelow = true
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        267,
+                        "beautifly",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    EvolutionRowSpecie(
+                        269,
+                        "dustox",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                )
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one three`() {
+        val chain = EvolutionChainMemberDomain(
+            236,
+            "tyrogue",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    106,
+                    "hitmonlee", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    107,
+                    "hitmonchan", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    237,
+                    "hitmontop", mutableListOf()
+                )
+            )
+        )
+        val actual = getEvolutionToShow(chain, 237, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneThree,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        236,
+                        "tyrogue",
+                        "",
+                        false
+                    ),
+                    hasArrowBelow = true, hasArrowSides = true
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        106,
+                        "hitmonlee",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        107,
+                        "hitmonchan",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                ),
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        237,
+                        "hitmontop",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    hasArrowBelow = false, hasArrowSides = false
+                )
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one many`() {
+        val chain = EvolutionChainMemberDomain(
+            133,
+            "eevee",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    134, "vaporeon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    135, "jolteon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    136, "flareon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    196, "espeon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    197, "umbreon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    470, "leafeon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    471, "glaceon", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    700, "sylveon", mutableListOf()
+                )
+            )
+        )
+
+        val actual = getEvolutionToShow(chain, 136, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneMany,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        133,
+                        "eevee",
+                        "",
+                        false
+                    ),
+                    hasArrowBelow = true, hasArrowSides = false
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        134,
+                        "vaporeon",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        135,
+                        "jolteon",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        136,
+                        "flareon",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    EvolutionRowSpecie(
+                        196,
+                        "espeon",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        197,
+                        "umbreon",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        470,
+                        "leafeon",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        471,
+                        "glaceon",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        700,
+                        "sylveon",
+                        "",
+                        false
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                ),
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one two`() {
+        val chain = EvolutionChainMemberDomain(
+            79,
+            "slowpoke",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    80,
+                    "slowbro", mutableListOf()
+                ),
+                EvolutionChainMemberDomain(
+                    199,
+                    "slowking", mutableListOf()
+                )
+            )
+        )
+
+        val actual = getEvolutionToShow(chain, 199, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneTwo,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        79,
+                        "slowpoke",
+                        "",
+                        false
+                    ),
+                    hasArrowBelow = false, hasArrowSides = true
+                ),
+                EvolutionRowBothSides(
+                    EvolutionRowSpecie(
+                        80,
+                        "slowbro",
+                        "",
+                        false
+                    ),
+                    EvolutionRowSpecie(
+                        199,
+                        "slowking",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    hasArrowLeftBelow = false, hasArrowRightBelow = false
+                )
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one one`() {
+        val chain = EvolutionChainMemberDomain(
+            19,
+            "rattata",
+            mutableListOf(
+                EvolutionChainMemberDomain(
+                    20,
+                    "raticate", mutableListOf()
+                )
+            )
+        )
+
+        val actual = getEvolutionToShow(chain, 19, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID,
+            OneOne,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        19,
+                        "rattata",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    hasArrowBelow = true, hasArrowSides = false
+                ),
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        20,
+                        "raticate",
+                        "",
+                        false
+                    ),
+                    hasArrowBelow = false, hasArrowSides = false
+                )
+            )
+        )
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `getEvolutionToShow one`() {
+        val chain = EvolutionChainMemberDomain(
+            132, "ditto", mutableListOf()
+        )
+
+        val actual = getEvolutionToShow(chain, 132, DEFAULT_CHAIN_ID, DEFAULT_IMAGE_URL)
+        val expected = EvolutionToShow(
+            DEFAULT_CHAIN_ID, One,
+            mutableListOf(
+                EvolutionRowCenter(
+                    EvolutionRowSpecie(
+                        132,
+                        "ditto",
+                        DEFAULT_IMAGE_URL,
+                        true
+                    ),
+                    hasArrowBelow = false, hasArrowSides = false
+                )
+            )
+        )
         assertThat(expected).isEqualTo(actual)
     }
 

@@ -253,4 +253,10 @@ class MainRepository(
         return pokemonResponse.toPokeSpecieDetailDomain(pokemonSpecieResponse, evolutionChainResponse, originalFormId)
     }
 
+    suspend fun getImageUrlForSpecieLocal(id: Int) =
+        db.pokeSpecieDao().getImageUrlForSpecieLocal(id)
+
+    suspend fun getImageUrlForSpecieNetwork(id: Int) =
+        api.getImageUrlForSpecieNetwork(id)
+
 }

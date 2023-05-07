@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pokeSpecieDetailContainer"
     style="@style/GlobalContainer"
-    tools:context=".ui.species.DetailPokeSpecieFragment">
+    tools:context=".ui.species.detail.DetailPokeSpecieFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadingContainer"
@@ -48,7 +48,6 @@
         android:id="@+id/successContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!-- android:visibility="gone" -->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_previous"
@@ -98,420 +97,48 @@
             app:layout_constraintEnd_toEndOf="@id/btn_next"
             style="@style/DetailPokeSpecieTvNames" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_image_1"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_2"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_number"
-            android:text="@string/pokeSpecie_item_tv_number"
-            android:layout_marginStart="@dimen/DetailPokeSpeciePadding"
-            android:layout_marginEnd="@dimen/DetailPokeSpeciePadding"
-            app:layout_constraintTop_toTopOf="@id/iv_image_1"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            style="@style/DetailPokeSpecieTvNames" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_form"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/change_form"
-            app:layout_constraintTop_toTopOf="@id/iv_image_1"
-            app:layout_constraintEnd_toEndOf="@id/btn_next" />
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_3"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/typesContainer"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/iv_image_1"
-            app:layout_constraintBottom_toTopOf="@id/heightContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_types"
-                android:text="@string/pokeSpecie_detail_tv_types"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_type_1"
-                android:text="@string/type_grass"
-                android:visibility="visible"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="2dp"
-                app:layout_constraintStart_toEndOf="@id/tv_types"
-                app:layout_constraintEnd_toStartOf="@id/tv_type_2"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/PokeSpecieTypeTvDetail" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_type_2"
-                android:text="@string/type_poison"
-                android:layout_marginStart="2dp"
-                android:visibility="visible"
-                app:layout_constraintStart_toEndOf="@id/tv_type_1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/PokeSpecieTypeTvDetail" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/heightContainer"
-            android:layout_marginEnd="2dp"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toStartOf="@id/weightContainer"
-            app:layout_constraintTop_toBottomOf="@id/typesContainer"
-            app:layout_constraintBottom_toTopOf="@id/categoryContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_height_label"
-                android:text="@string/pokeSpecie_detail_tv_height_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_height"
-                android:text="@string/pokeSpecie_detail_tv_height_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_height_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/weightContainer"
-            android:layout_marginStart="2dp"
-            app:layout_constraintStart_toEndOf="@id/heightContainer"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/typesContainer"
-            app:layout_constraintBottom_toBottomOf="@id/heightContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_weight_label"
-                android:text="@string/pokeSpecie_detail_tv_weight_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_weight"
-                android:text="@string/pokeSpecie_detail_tv_weight_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_weight_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/categoryContainer"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/heightContainer"
-            app:layout_constraintBottom_toTopOf="@id/abilityContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_category_label"
-                android:text="@string/pokeSpecie_detail_tv_category_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_category"
-                android:text="@string/pokeSpecie_detail_tv_category_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_category_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/abilityContainer"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/categoryContainer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="5dp"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_ability_label"
-                android:text="@string/pokeSpecie_detail_tv_ability_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_ability"
-                android:text="@string/pokeSpecie_detail_tv_ability_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_ability_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--<androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_image_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_2"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/descriptionContainer"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/iv_image_2"
-            app:layout_constraintBottom_toTopOf="@id/hpContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_description_label"
-                android:text="@string/pokeSpecie_detail_tv_description_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_description"
-                android:text="@string/pokeSpecie_detail_tv_description_value"
-                android:singleLine="false"
-                app:layout_constraintTop_toBottomOf="@id/tv_description_label"
-                app:layout_constraintStart_toStartOf="@id/tv_description_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/hpContainer"
-            android:layout_marginEnd="2dp"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toStartOf="@id/speedContainer"
-            app:layout_constraintTop_toBottomOf="@id/descriptionContainer"
-            app:layout_constraintBottom_toTopOf="@id/attackContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_hp_label"
-                android:text="@string/pokeSpecie_detail_tv_hp_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_hp"
-                android:text="@string/pokeSpecie_detail_tv_stat_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_hp_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/speedContainer"
-            android:layout_marginStart="2dp"
-            app:layout_constraintStart_toEndOf="@id/hpContainer"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/descriptionContainer"
-            app:layout_constraintBottom_toBottomOf="@id/hpContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_speed_label"
-                android:text="@string/pokeSpecie_detail_tv_speed_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_speed"
-                android:text="@string/pokeSpecie_detail_tv_stat_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_speed_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/attackContainer"
-            android:layout_marginEnd="2dp"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toStartOf="@id/defenseContainer"
-            app:layout_constraintTop_toBottomOf="@id/hpContainer"
-            app:layout_constraintBottom_toTopOf="@id/spAttackContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_attack_label"
-                android:text="@string/pokeSpecie_detail_tv_attack_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_attack"
-                android:text="@string/pokeSpecie_detail_tv_stat_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_attack_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/defenseContainer"
-            android:layout_marginStart="2dp"
-            app:layout_constraintStart_toEndOf="@id/attackContainer"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/hpContainer"
-            app:layout_constraintBottom_toBottomOf="@id/attackContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_defense_label"
-                android:text="@string/pokeSpecie_detail_tv_defense_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_defense"
-                android:text="@string/pokeSpecie_detail_tv_stat_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_defense_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/spAttackContainer"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toStartOf="@id/spDefenseContainer"
-            app:layout_constraintTop_toBottomOf="@id/attackContainer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_sp_attack_label"
-                android:text="@string/pokeSpecie_detail_tv_sp_attack_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_sp_attack"
-                android:text="@string/pokeSpecie_detail_tv_stat_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_sp_attack_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/spDefenseContainer"
-            android:layout_marginStart="2dp"
-            app:layout_constraintStart_toEndOf="@id/spAttackContainer"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/defenseContainer"
-            app:layout_constraintBottom_toBottomOf="@id/spAttackContainer"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_sp_defense_label"
-                android:text="@string/pokeSpecie_detail_tv_sp_defense_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_sp_defense"
-                android:text="@string/pokeSpecie_detail_tv_stat_value"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_sp_defense_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/DetailPokeSpecieTvSectionContent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-        <!--<androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/movesContainer"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintStart_toStartOf="@id/btn_previous"
-            app:layout_constraintEnd_toEndOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/DetailPokeSpecieTvSectionContainer">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_moves_label"
-                android:text="@string/pokeSpecie_detail_tv_moves_label"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/DetailPokeSpecieTvSectionName" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/flow_moves"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/tv_moves_label"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/pokeSpecieDetailMoves"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_marginBottom="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailStats" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/pokeSpecieDetailEvolutionCHain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pokeSpecieDetailMoves" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivTab1"
+                android:layout_marginStart="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/DetailPokeSpecieTabButton"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivTab2"
+                app:layout_constraintStart_toEndOf="@id/ivTab1"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/DetailPokeSpecieTabButton"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivTab3"
+                app:layout_constraintStart_toEndOf="@id/ivTab2"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/DetailPokeSpecieTabButton"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivTab4"
+                app:layout_constraintStart_toEndOf="@id/ivTab3"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/DetailPokeSpecieTabButton"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
--->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

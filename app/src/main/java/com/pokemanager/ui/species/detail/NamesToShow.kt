@@ -1,4 +1,4 @@
-package com.pokemanager.ui.species
+package com.pokemanager.ui.species.detail
 
 data class NamesToShow(
     var name1: String = "",

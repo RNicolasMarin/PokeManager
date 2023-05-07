@@ -8,6 +8,7 @@ import com.pokemanager.data.preferences.PokeManagerPreferencesImpl
 import com.pokemanager.utils.Constants.baseUrl
 import com.pokemanager.data.remote.PokeManagerApi
 import com.pokemanager.data.repositories.MainRepository
+import com.pokemanager.use_cases.GetEvolutionToShowImagesUrlUseCase
 import com.pokemanager.use_cases.GetPokeSpecieDetailUseCase
 import com.pokemanager.use_cases.GetPokeSpecieItemsUseCase
 import com.pokemanager.utils.Constants.SHARED_PREFERENCES_NAME
@@ -73,5 +74,13 @@ object AppModule {
         mainRepository: MainRepository
     ): GetPokeSpecieDetailUseCase {
         return GetPokeSpecieDetailUseCase(mainRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun getGetEvolutionToShowImagesUrlUseCase(
+        mainRepository: MainRepository
+    ): GetEvolutionToShowImagesUrlUseCase {
+        return GetEvolutionToShowImagesUrlUseCase(mainRepository)
     }
 }

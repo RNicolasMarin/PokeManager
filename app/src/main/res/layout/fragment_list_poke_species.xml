@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/GlobalContainer"
-    tools:context=".ui.species.ListPokeSpeciesFragment">
+    tools:context=".ui.species.list.ListPokeSpeciesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadingContainer"
