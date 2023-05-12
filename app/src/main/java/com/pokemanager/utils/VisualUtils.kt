@@ -8,6 +8,7 @@ import com.pokemanager.ui.species.detail.tabs.EvolutionRow
 import com.pokemanager.ui.species.detail.tabs.EvolutionRow.*
 import com.pokemanager.ui.species.detail.tabs.EvolutionRowSpecie
 import com.pokemanager.ui.species.detail.tabs.EvolutionToShow
+import com.pokemanager.utils.Constants.PREFIX_GMAX
 
 object VisualUtils {
 
@@ -74,7 +75,7 @@ object VisualUtils {
         if (name.contains("-mega")) {
             return secondWordFirstAndChanges(name, "Mega", false)
         }
-        if (name.endsWith("-gmax")) {
+        if (name.endsWith(PREFIX_GMAX)) {
             return secondWordFirstAndChanges(name, "Gigantamax")
         }
         if (name.endsWith("-alola")) {

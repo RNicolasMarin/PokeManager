@@ -81,6 +81,7 @@
     <string name="pokeSpecie_detail_tv_evolution_row_specie_name">Bulbasaur</string>
     <string name="pokeSpecie_detail_tv_title_evolution">Loading Evolution</string>
     <string name="pokeSpecie_detail_tv_title_moves">Loading Moves</string>
+    <string name="pokeSpecie_detail_tv_gigantamax_moves_message">The moves of the Gigantamax forms depend on the moves that the original form knows.</string>
 
 
     <string name="download_all_notification_text">Downloading data</string>

@@ -8,6 +8,7 @@ import com.pokemanager.R
 import com.pokemanager.data.domain.PokeMoveDomain
 import com.pokemanager.data.domain.PokeSpecieDetailDomain
 import com.pokemanager.databinding.FragmentDetailPokeSpecieSubThreeBinding
+import com.pokemanager.utils.Constants.PREFIX_GMAX
 import com.pokemanager.utils.VisualUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,12 @@ class DetailPokeSpecieSubThreeFragment : DetailPokeSpecieSub<FragmentDetailPokeS
     }
 
     private fun loadView(pokeSpecie: PokeSpecieDetailDomain) = with(binding) {
+        if (pokeSpecie.moves.isEmpty() && pokeSpecie.englishName.endsWith(PREFIX_GMAX)) {
+            tvGigantamaxMovesMessage.visibility = VISIBLE
+            loadingMovesContainer.visibility = GONE
+            return@with
+        }
+        tvGigantamaxMovesMessage.visibility = GONE
         removeAllItems()
         CoroutineScope(Dispatchers.IO).launch {
             pokeSpecie.moves.forEach { move ->

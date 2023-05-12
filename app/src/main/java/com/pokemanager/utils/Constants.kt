@@ -61,4 +61,6 @@ object Constants {
     const val STAT_DEFENSE = "defense"
     const val STAT_SP_ATTACK = "special-attack"
     const val STAT_SP_DEFENSE = "special-defense"
+
+    const val PREFIX_GMAX = "-gmax"
 }
