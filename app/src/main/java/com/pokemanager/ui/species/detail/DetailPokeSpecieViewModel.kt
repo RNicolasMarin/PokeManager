@@ -59,6 +59,7 @@ class DetailPokeSpecieViewModel @Inject constructor(
         currentFormPosition = 0
         val mode = pokeManagerPreferences.getDataAccessModeNonNull()
         viewModelScope.launch {
+            _pokeSpecieDetail.emit(Loading)
             getPokeSpecieDetailUseCase(pokeSpecieId, mode).collectLatest {
                 if (it is Success) {
                     pokeSpecieDetailAllForms = it.data as MutableList<PokeSpecieDetailDomain>
