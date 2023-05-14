@@ -44,7 +44,8 @@ class DetailPokeSpecieFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 pokeSpecieDetail.collectLatest {
                     loadingContainer.isVisible = it is Loading
-                    successContainer.isVisible = it !is Loading
+                    errorContainer.isVisible = it is Error
+                    successContainer.isVisible = it is Success
 
                     if (it is Success) {
                         val pokeSpecie = it.data
@@ -83,6 +84,7 @@ class DetailPokeSpecieFragment : Fragment() {
 
             btnPrevious.setOnClickListener { loadPreviousPokeSpecieData() }
             btnNext.setOnClickListener { loadNextPokeSpecieData() }
+            errorBtnRetry.setOnClickListener { loadPokeSpecieData(args.pokeSpecieId) }
         }
     }
 

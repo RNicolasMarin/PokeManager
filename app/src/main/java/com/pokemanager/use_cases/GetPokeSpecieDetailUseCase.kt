@@ -39,7 +39,12 @@ class GetPokeSpecieDetailUseCase(
             }
             is OnlyRequest -> {
                 val result = mainRepository.getPokeSpeciesDetailFromNetwork(pokeSpecieId)
-                emit(DataState.Success(result))
+                if (result == null) {
+                    delay(500)
+                    emit(DataState.Error)
+                } else {
+                    emit(DataState.Success(result))
+                }
             }
         }
     }

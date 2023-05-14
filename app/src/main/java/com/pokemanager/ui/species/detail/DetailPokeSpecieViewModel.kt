@@ -59,12 +59,15 @@ class DetailPokeSpecieViewModel @Inject constructor(
         currentFormPosition = 0
         val mode = pokeManagerPreferences.getDataAccessModeNonNull()
         viewModelScope.launch {
-            _pokeSpecieDetail.emit(Loading)
             getPokeSpecieDetailUseCase(pokeSpecieId, mode).collectLatest {
-                if (it is Success) {
-                    pokeSpecieDetailAllForms = it.data as MutableList<PokeSpecieDetailDomain>
-                    val pokeSpecie = pokeSpecieDetailAllForms[currentFormPosition]
-                    showPokeSpecie(pokeSpecie, mode)
+                when (it) {
+                    is Loading -> _pokeSpecieDetail.emit(Loading)
+                    is Error -> _pokeSpecieDetail.emit(Error)
+                    is Success -> {
+                        pokeSpecieDetailAllForms = it.data as MutableList<PokeSpecieDetailDomain>
+                        val pokeSpecie = pokeSpecieDetailAllForms[currentFormPosition]
+                        showPokeSpecie(pokeSpecie, mode)
+                    }
                 }
             }
         }

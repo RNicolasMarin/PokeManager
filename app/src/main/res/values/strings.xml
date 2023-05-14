@@ -6,6 +6,9 @@
 
     <string name="global_btn_continue">CONTINUE</string>
     <string name="global_percentage_symbol">%</string>
+    <string name="global_error_tv_title">Request Error</string>
+    <string name="global_error_tv_description">There was an error getting\nthe data, try again later.</string>
+    <string name="global_error_error_button">RETRY</string>
 
     <string name="setUp_name_tv_title">Names to show</string>
     <string name="setUp_name_tv_description">Select which names want\nto see for each Pokemon.</string>

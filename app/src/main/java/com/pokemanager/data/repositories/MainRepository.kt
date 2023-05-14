@@ -229,18 +229,22 @@ class MainRepository(
     suspend fun getPokeSpeciesDetailCompleteEntities(pokeSpecieId: Int) =
         db.pokeSpecieTypeDao().getPokeSpecieDetailCompleteEntities(pokeSpecieId)
 
-    suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : List<PokeSpecieDetailDomain> {
-        val pokemonSpecieResponse = getPokemonSpecieDetailByIdNetwork(id)
-        val evolutionChainId = getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
-        val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
+    suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : List<PokeSpecieDetailDomain>? {
+        return try {
+            val pokemonSpecie = getPokemonSpecieDetailByIdNetwork(id)
+            val evolutionChainId = getIdAtEndFromUrl(pokemonSpecie.evolutionChain.url)
+            val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
 
-        val detailForms = mutableListOf<PokeSpecieDetailDomain>()
-        for (variety in pokemonSpecieResponse.varieties) {
-            val altFormId = getIdAtEndFromUrl(variety.pokemon.url)
-            val altForm = getPokeSpecieDetailDomainFromNetwork(id, altFormId, pokemonSpecieResponse, evolutionChainResponse)
-            detailForms.add(altForm)
+            val detailForms = mutableListOf<PokeSpecieDetailDomain>()
+            for (variety in pokemonSpecie.varieties) {
+                val altFormId = getIdAtEndFromUrl(variety.pokemon.url)
+                val altForm = getPokeSpecieDetailDomainFromNetwork(id, altFormId, pokemonSpecie, evolutionChainResponse)
+                detailForms.add(altForm)
+            }
+            detailForms
+        } catch (e: Exception) {
+            null
         }
-        return detailForms
     }
 
     private suspend fun getPokeSpecieDetailDomainFromNetwork(
@@ -257,6 +261,10 @@ class MainRepository(
         db.pokeSpecieDao().getImageUrlForSpecieLocal(id)
 
     suspend fun getImageUrlForSpecieNetwork(id: Int) =
-        api.getImageUrlForSpecieNetwork(id)
+        try {
+            api.getImageUrlForSpecieNetwork(id)
+        } catch (e: Exception) {
+            null
+        }
 
 }

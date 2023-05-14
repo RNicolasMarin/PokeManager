@@ -15,18 +15,18 @@ interface PokeManagerApi {
     @GET("pokemon/{id}/")
     suspend fun getPokemonItemByIdNetwork(@Path("id") id: Int) : PokemonItemResponse
 
-    @GET("pokemon/{id}/")
-    suspend fun getPokemonDetailByIdNetwork(@Path("id") id: Int) : PokemonDetailResponse
-
     @GET("pokemon-species/{id}/")
     suspend fun getPokemonSpecieItemByIdNetwork(@Path("id") id: Int) : PokemonSpecieItemResponse
 
+    @GET("pokemon/{id}/")
+    suspend fun getPokemonDetailByIdNetwork(@Path("id") id: Int) : PokemonDetailResponse//
+
     @GET("pokemon-species/{id}/")
-    suspend fun getPokemonSpecieDetailByIdNetwork(@Path("id") id: Int) : PokemonSpecieDetailResponse
+    suspend fun getPokemonSpecieDetailByIdNetwork(@Path("id") id: Int) : PokemonSpecieDetailResponse//
 
     @GET("evolution-chain/{id}/")
-    suspend fun getEvolutionChainByIdNetwork(@Path("id") id: Int) : EvolutionChainResponse
+    suspend fun getEvolutionChainByIdNetwork(@Path("id") id: Int) : EvolutionChainResponse//
 
     @GET("pokemon/{id}/")
-    suspend fun getImageUrlForSpecieNetwork(@Path("id") id: Int): PokemonImageUrlResponse
+    suspend fun getImageUrlForSpecieNetwork(@Path("id") id: Int): PokemonImageUrlResponse//
 }

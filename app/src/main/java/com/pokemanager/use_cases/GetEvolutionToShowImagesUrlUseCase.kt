@@ -73,7 +73,8 @@ class GetEvolutionToShowImagesUrlUseCase(
                 }
             }
             is OnlyRequest -> {
-                return UrlUtils.getImageUrl(mainRepository.getImageUrlForSpecieNetwork(id).sprites)
+                val imageUrl = mainRepository.getImageUrlForSpecieNetwork(id) ?: return ""
+                return UrlUtils.getImageUrl(imageUrl.sprites)
             }
         }
 
