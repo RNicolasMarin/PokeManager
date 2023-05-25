@@ -7,6 +7,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import com.bumptech.glide.Glide
 import com.pokemanager.R
 import com.pokemanager.data.domain.PokeTypeDomain
@@ -102,5 +104,47 @@ object AndroidUtils {
 
     fun loadExtraBottomSpace(root: View, lastPosition: Int, position: Int) {
         root.visibleOrGone(position == lastPosition)
+    }
+
+    fun isPagingFirstLoadError(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return refresh is LoadState.Error || source.refresh is LoadState.Error
+        }
+    }
+
+    fun isPagingLoading(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return refresh is LoadState.Loading || source.refresh is LoadState.Loading
+        }
+    }
+
+    fun isPagingFirstLoadSuccess(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return refresh is LoadState.NotLoading || source.refresh is LoadState.NotLoading
+        }
+    }
+
+    fun isPagingPrepending(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return prepend is LoadState.Loading || source.prepend is LoadState.Loading
+        }
+    }
+
+    fun isPagingAppending(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return append is LoadState.Loading || source.append is LoadState.Loading
+        }
+    }
+
+    fun isPagingAppendError(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return append is LoadState.Error || source.append is LoadState.Error
+        }
+    }
+
+    fun isPagingPrependError(it: CombinedLoadStates): Boolean {
+        with(it) {
+            return prepend is LoadState.Error || source.prepend is LoadState.Error
+        }
     }
 }

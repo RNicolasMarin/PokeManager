@@ -71,6 +71,22 @@
         <item name="android:elevation">10dp</item>
     </style>
 
+    <style name="GlobalBtnRetry">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:text">@string/global_error_error_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">@drawable/btn_continue_text</item>
+        <item name="android:background">@drawable/btn_continue_background</item>
+        <item name="android:enabled">true</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
     <style name="SetUpCbOption">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>

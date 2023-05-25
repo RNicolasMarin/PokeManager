@@ -43,6 +43,7 @@
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rb_request_and_download"
             android:text="@string/setUp_data_rb_request_and_download"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

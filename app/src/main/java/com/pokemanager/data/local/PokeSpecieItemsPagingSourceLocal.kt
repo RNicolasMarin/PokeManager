@@ -9,9 +9,8 @@ import com.pokemanager.utils.Constants
 import com.pokemanager.utils.KeyUtils.getNextKey
 import com.pokemanager.utils.KeyUtils.getPrevKey
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
 
 class PokeSpecieItemsPagingSourceLocal(
     private val mainRepository: MainRepository
@@ -19,7 +18,7 @@ class PokeSpecieItemsPagingSourceLocal(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokeSpecieItemDomain> = withContext(Dispatchers.IO) {
         return@withContext try {
-
+            delay(500)
             val offset = params.key ?: Constants.POKEMON_PAGING_STARTING_KEY
             val itemsFromList = mainRepository.getPokeSpecieItemsWithTypes(
                 limit = params.loadSize,
@@ -37,9 +36,7 @@ class PokeSpecieItemsPagingSourceLocal(
                 prevKey = prevKey,
                 nextKey = nextKey
             )
-        } catch (e: IOException) {
-            LoadResult.Error(e)
-        } catch (e: HttpException) {
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }

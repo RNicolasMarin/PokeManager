@@ -11,8 +11,6 @@ import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.KeyUtils.getNextKey
 import com.pokemanager.utils.KeyUtils.getPrevKey
 import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
-import retrofit2.HttpException
-import java.io.IOException
 
 //PageKeyed
 class PokeSpecieItemsPagingSourceRemote(
@@ -49,9 +47,7 @@ class PokeSpecieItemsPagingSourceRemote(
                 prevKey = prevKey,
                 nextKey = nextKey
             )
-        } catch (e: IOException) {
-            LoadResult.Error(e)
-        } catch (e: HttpException) {
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
