@@ -37,8 +37,8 @@ class SetUpViewModel @Inject constructor(
         with(nameLanguagesToList) {
             when(language) {
                 ENGLISH -> showEnglishName = nowChecked
-                JAP_HR_KT -> showJapHrKtName = nowChecked
-                JAP_ROOMAJI -> showJapRoomajiName = nowChecked
+                JAP_HR_KT -> showKanaName = nowChecked
+                JAP_ROOMAJI -> showRoomajiName = nowChecked
             }
         }
     }

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -19,6 +20,7 @@ import com.pokemanager.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import com.pokemanager.utils.Constants.NOTIFICATION_ID
 import com.pokemanager.utils.Constants.SERVICE_ACTION_START
 import com.pokemanager.utils.Utils
+import com.pokemanager.utils.VisualUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -85,12 +87,28 @@ class DownloadAllService : LifecycleService() {
 
     private val progressObserver = Observer<Int> { value ->
         Log.d("DownloadAllService", "Update $value")
-        val notification = curNotificationBuilder.setProgress(total, value, false)
+        curNotificationBuilder.setProgress(total, value, false)
+        val notificationLayout = getNotificationView(value, total)
+        val notification = curNotificationBuilder.setCustomContentView(notificationLayout)
         if (total == value) {
-            notification.setContentText(getString(R.string.download_all_notification_done_text))
+            notification
+                .setContentText(getString(R.string.download_all_notification_done_text))
                 .setProgress(0, 0, false)
         }
         notificationManager.notify(NOTIFICATION_ID, notification.build())
+    }
+
+    private fun getNotificationView(value: Int, total: Int): RemoteViews {
+        val percentage = VisualUtils.getDownloadPercentage(
+            value,
+            total,
+            getString(R.string.global_percentage_symbol),
+            getString(R.string.setUp_downloading_tv_progress_done)
+        )
+        return RemoteViews(packageName, R.layout.notification_small).apply {
+            setTextViewText(R.id.tv_progress, percentage)
+            setProgressBar(R.id.pb_downloading, total, value, false)
+        }
     }
 
     private fun startDownload() {
@@ -111,7 +129,7 @@ class DownloadAllService : LifecycleService() {
         CoroutineScope(Dispatchers.Main).launch {
             Log.d("DownloadAllService", "Observer Removed")
             progress.removeObserver(progressObserver)
-            postInitialValues()
+            //postInitialValues()
         }
         stopForeground()
         val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

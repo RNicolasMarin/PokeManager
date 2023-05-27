@@ -14,6 +14,7 @@ sealed class DataAccessMode {
     * In network and Domain a class per entity for list on other with all the detail
     * And in db only a class per entity with everything
     * */
+    //For the moment this mode will not be in use
     object RequestAndDownload: DataAccessMode()
 
     /**

@@ -60,14 +60,15 @@ class MainRepository(
 
                         pokeSpecieEntities.add(pokeSpecieDetailEntity)
 
-                        val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
+                        pokemonResponse.types.sortBy { it.slot }
 
-                        for (pokeType in pokeTypeEntitiesFromSpecie) {
-                            pokeTypeEntities[pokeType.pokeTypeId] = pokeType
+                        for (pokeTypeNetwork in pokemonResponse.types) {
+                            val pokeTypeEntity = pokeTypeNetwork.toPokeTypeEntity()
+                            pokeTypeEntities[pokeTypeEntity.pokeTypeId] = pokeTypeEntity
                             pokeSpecieTypes.add(
                                 PokeSpecieTypeCrossRef(
                                     pokeSpecieId = pokeSpecieDetailEntity.pokeSpecieId,
-                                    pokeTypeId = pokeType.pokeTypeId
+                                    pokeTypeId = pokeTypeEntity.pokeTypeId
                                 )
                             )
                         }
@@ -104,14 +105,15 @@ class MainRepository(
                     val pokeSpecieDetailEntity = pokemonResponse.toPokeSpecieDetailEntity(pokemonSpecieResponse)
                     pokeSpecieEntities.add(pokeSpecieDetailEntity)
 
-                    val pokeTypeEntitiesFromSpecie = pokemonResponse.types.fromResponseListToPokeTypeEntityList()
+                    pokemonResponse.types.sortBy { it.slot }
 
-                    for (pokeType in pokeTypeEntitiesFromSpecie) {
-                        pokeTypeEntities[pokeType.pokeTypeId] = pokeType
+                    for (pokeTypeNetwork in pokemonResponse.types) {
+                        val pokeTypeEntity = pokeTypeNetwork.toPokeTypeEntity()
+                        pokeTypeEntities[pokeTypeEntity.pokeTypeId] = pokeTypeEntity
                         pokeSpecieTypes.add(
                             PokeSpecieTypeCrossRef(
                                 pokeSpecieId = pokeSpecieDetailEntity.pokeSpecieId,
-                                pokeTypeId = pokeType.pokeTypeId
+                                pokeTypeId = pokeTypeEntity.pokeTypeId
                             )
                         )
                     }
@@ -227,18 +229,22 @@ class MainRepository(
     suspend fun getPokeSpeciesDetailCompleteEntities(pokeSpecieId: Int) =
         db.pokeSpecieTypeDao().getPokeSpecieDetailCompleteEntities(pokeSpecieId)
 
-    suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : List<PokeSpecieDetailDomain> {
-        val pokemonSpecieResponse = getPokemonSpecieDetailByIdNetwork(id)
-        val evolutionChainId = getIdAtEndFromUrl(pokemonSpecieResponse.evolutionChain.url)
-        val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
+    suspend fun getPokeSpeciesDetailFromNetwork(id: Int) : List<PokeSpecieDetailDomain>? {
+        return try {
+            val pokemonSpecie = getPokemonSpecieDetailByIdNetwork(id)
+            val evolutionChainId = getIdAtEndFromUrl(pokemonSpecie.evolutionChain.url)
+            val evolutionChainResponse = getEvolutionChainByIdNetwork(evolutionChainId)
 
-        val detailForms = mutableListOf<PokeSpecieDetailDomain>()
-        for (variety in pokemonSpecieResponse.varieties) {
-            val altFormId = getIdAtEndFromUrl(variety.pokemon.url)
-            val altForm = getPokeSpecieDetailDomainFromNetwork(id, altFormId, pokemonSpecieResponse, evolutionChainResponse)
-            detailForms.add(altForm)
+            val detailForms = mutableListOf<PokeSpecieDetailDomain>()
+            for (variety in pokemonSpecie.varieties) {
+                val altFormId = getIdAtEndFromUrl(variety.pokemon.url)
+                val altForm = getPokeSpecieDetailDomainFromNetwork(id, altFormId, pokemonSpecie, evolutionChainResponse)
+                detailForms.add(altForm)
+            }
+            detailForms
+        } catch (e: Exception) {
+            null
         }
-        return detailForms
     }
 
     private suspend fun getPokeSpecieDetailDomainFromNetwork(
@@ -250,5 +256,15 @@ class MainRepository(
         val pokemonResponse = getPokemonDetailByIdNetwork(currentFormId)
         return pokemonResponse.toPokeSpecieDetailDomain(pokemonSpecieResponse, evolutionChainResponse, originalFormId)
     }
+
+    suspend fun getImageUrlForSpecieLocal(id: Int) =
+        db.pokeSpecieDao().getImageUrlForSpecieLocal(id)
+
+    suspend fun getImageUrlForSpecieNetwork(id: Int) =
+        try {
+            api.getImageUrlForSpecieNetwork(id)
+        } catch (e: Exception) {
+            null
+        }
 
 }

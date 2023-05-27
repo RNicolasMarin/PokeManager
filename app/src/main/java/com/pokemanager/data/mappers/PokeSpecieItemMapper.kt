@@ -1,6 +1,7 @@
 package com.pokemanager.data.mappers
 
 import com.pokemanager.data.domain.PokeSpecieItemDomain
+import com.pokemanager.data.domain.PokeTypeDomain
 import com.pokemanager.data.local.entities.PokeSpecieDetailEntity
 import com.pokemanager.data.local.entities.PokeSpecieItemEntity
 import com.pokemanager.data.local.entities.PokeSpecieItemWithTypes
@@ -54,7 +55,8 @@ fun PokeSpecieItemEntity.toPokeSpecieItemDomain() = PokeSpecieItemDomain(
 
 //PokeSpecieItemWithTypes -> PokeSpecieItemDomain
 fun PokeSpecieItemWithTypes.toPokeSpecieItemDomain() = pokeSpecie.toPokeSpecieItemDomain().apply {
-    types = pokeTypes.fromEntityListToPokeTypeDomainList()
+    pokeTypeCross.sortedBy { it.slot }
+    types = pokeTypeCross.map { PokeTypeDomain(it.pokeTypeId) }.toMutableList()
 }
 fun MutableList<PokeSpecieItemWithTypes>.fromPokeSpecieItemWithTypesListToPokeSpecieItemDomainList() =
     map { it.toPokeSpecieItemDomain() }.toMutableList()

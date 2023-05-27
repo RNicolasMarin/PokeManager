@@ -31,8 +31,7 @@ class GetPokeSpecieItemsUseCase(
             jumpThreshold = Int.MIN_VALUE*/
         )
         return when (dataAccessMode) {
-            is DownloadAll -> {
-                //access data from database
+            is DownloadAll -> { //access data from database
                 Pager(config) {
                     PokeSpecieItemsPagingSourceLocal(mainRepository)
                 }.flow

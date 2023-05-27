@@ -46,6 +46,12 @@ class PokeManagerPreferencesImpl(
         sharedPref.edit().putString(SHARED_PREFERENCES_NAME_LANGUAGE_TO_LIST, value).apply()
     }
 
+    override fun getNameLanguagesToListNonNull(): NameLanguagesToList {
+        val value = sharedPref.getString(SHARED_PREFERENCES_NAME_LANGUAGE_TO_LIST, "") ?: ""
+        if (value.isEmpty()) return NameLanguagesToList()
+        return Gson().fromJson(value, NameLanguagesToList::class.java)
+    }
+
     override fun getNameLanguagesToList(): NameLanguagesToList? {
         val value = sharedPref.getString(SHARED_PREFERENCES_NAME_LANGUAGE_TO_LIST, "") ?: ""
         if (value.isEmpty()) return null

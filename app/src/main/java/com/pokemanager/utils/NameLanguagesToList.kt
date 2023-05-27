@@ -2,6 +2,6 @@ package com.pokemanager.utils
 
 data class NameLanguagesToList(
     var showEnglishName: Boolean = false,
-    var showJapHrKtName: Boolean = false,
-    var showJapRoomajiName: Boolean = false,
+    var showKanaName: Boolean = false,
+    var showRoomajiName: Boolean = false,
 )

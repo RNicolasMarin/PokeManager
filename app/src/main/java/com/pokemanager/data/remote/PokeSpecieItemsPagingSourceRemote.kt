@@ -11,8 +11,6 @@ import com.pokemanager.utils.Constants.POKEMON_PAGING_STARTING_KEY
 import com.pokemanager.utils.KeyUtils.getNextKey
 import com.pokemanager.utils.KeyUtils.getPrevKey
 import com.pokemanager.utils.UrlUtils.getIdAtEndFromUrl
-import retrofit2.HttpException
-import java.io.IOException
 
 //PageKeyed
 class PokeSpecieItemsPagingSourceRemote(
@@ -36,6 +34,7 @@ class PokeSpecieItemsPagingSourceRemote(
                 }
                 val pokemonResponse = mainRepository.getPokemonItemByIdNetwork(id)
                 val pokemonSpecieResponse = mainRepository.getPokemonSpecieItemByIdNetwork(id)
+                pokemonResponse.types.sortBy { it.slot }
                 val pokeSpecieItemDomain = pokemonResponse.toPokeSpecieItemDomain(pokemonSpecieResponse)
                 pokeSpecies.add(pokeSpecieItemDomain)
             }
@@ -48,9 +47,7 @@ class PokeSpecieItemsPagingSourceRemote(
                 prevKey = prevKey,
                 nextKey = nextKey
             )
-        } catch (e: IOException) {
-            LoadResult.Error(e)
-        } catch (e: HttpException) {
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }

@@ -56,6 +56,7 @@ data class OfficialArtworkNetwork(
 
 //Types
 data class TypeNetwork(
+    var slot: Int = 0,
     var type: TypeTypeNetwork = TypeTypeNetwork()
 )
 
@@ -97,4 +98,8 @@ data class MoveNetwork(
 data class MoveMoveNetwork(
     val name: String = "",
     val url: String = "",
+)
+
+data class PokemonImageUrlResponse(
+    var sprites: SpriteNetwork = SpriteNetwork()
 )

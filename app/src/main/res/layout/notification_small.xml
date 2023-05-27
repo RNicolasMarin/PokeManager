@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/NotificationContainer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_empty"
+            android:contentDescription="@string/notification_icon" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:text="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:layout_marginStart="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/NotificationBetweenRow">
+
+        <TextView
+            android:text="@string/download_all_notification_text"
+            style="@style/NotificationTvDescription"/>
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:text="@string/setUp_downloading_tv_progress_zero"
+            android:layout_width="match_parent"
+            android:gravity="end"
+            style="@style/NotificationTvDescription"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_downloading"
+        android:layout_height="15dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/NotificationBetweenRow"
+        android:progressDrawable="@drawable/pb_downloading_background_notification"
+        style="?android:attr/progressBarStyleHorizontal" />
+
+</LinearLayout>

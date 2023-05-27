@@ -1,24 +1,93 @@
 <resources>
-    <string name="app_name">PokeManager</string>
+    <string name="app_name">Poke Manager</string>
+    <string name="app_name_one_line">PokeManager</string>
+
+    <string name="notification_icon">Notification Icon</string>
+
+    <string name="global_btn_continue">CONTINUE</string>
+    <string name="global_percentage_symbol">%</string>
+    <string name="global_error_tv_title">Request Error</string>
+    <string name="global_error_tv_description">There was an error getting\nthe data, try again later.</string>
+    <string name="global_error_error_button">RETRY</string>
+
+    <string name="setUp_name_tv_title">Names to show</string>
+    <string name="setUp_name_tv_description">Select which names want\nto see for each Pokemon.</string>
+    <string name="setUp_name_cb_english">English</string>
+    <string name="setUp_name_cb_roomaji">Japanese with Rōmaji</string>
+    <string name="setUp_name_cb_kana">Japanese with Kana</string>
+
+    <string name="setUp_data_tv_title">Handle the Data</string>
+    <string name="setUp_data_tv_description">Select an option about how\nyou want to handle the data.</string>
+    <string name="setUp_data_rb_download_all">Download all data now</string>
+    <string name="setUp_data_rb_request_and_download">Download the data\nas you need it</string>
+    <string name="setUp_data_rb_only_request">Consult when need it\nand not save the data</string>
+
+    <string name="setUp_downloading_tv_title">Downloading Data</string>
+    <string name="setUp_downloading_tv_description">Wait until the data download\nis finished to continue.</string>
+    <string name="setUp_downloading_tv_progress_zero">0%</string>
+    <string name="setUp_downloading_tv_progress_done">Done</string>
+
+    <string name="list_pokeSpecies_tv_title">Loading Poke Species</string>
+
+    <string name="pokeSpecie_item_tv_name_english">Bulbasaur..</string>
+    <string name="pokeSpecie_item_tv_name_roomaji">Fushigidane..</string>
+    <string name="pokeSpecie_item_tv_name_kana">フシギダネ..</string>
+    <string name="pokeSpecie_item_tv_number">999</string>
+
+    <string name="type_normal">Normal</string>
+    <string name="type_fighting">Fighting</string>
+    <string name="type_flying">Flying</string>
+    <string name="type_poison">Poison</string>
+    <string name="type_ground">Ground</string>
+    <string name="type_rock">Rock</string>
+    <string name="type_bug">Bug</string>
+    <string name="type_ghost">Ghost</string>
+    <string name="type_steel">Steel</string>
+    <string name="type_fire">Fire</string>
+    <string name="type_water">Water</string>
+    <string name="type_grass">Grass</string>
+    <string name="type_electric">Electric</string>
+    <string name="type_psychic">Psychic</string>
+    <string name="type_ice">Ice</string>
+    <string name="type_dragon">Dragon</string>
+    <string name="type_dark">Dark</string>
+    <string name="type_fairy">Fairy</string>
+
+    <string name="pokeSpecie_detail_tv_title">Loading Poke\nSpecie Detail</string>
+
+    <string name="pokeSpecie_detail_tv_types">Types: </string>
+    <string name="pokeSpecie_detail_tv_height_label">Height: </string>
+    <string name="pokeSpecie_detail_tv_height_value">2,0 m</string>
+    <string name="pokeSpecie_detail_tv_weight_label">Weight: </string>
+    <string name="pokeSpecie_detail_tv_weight_value">100,0 kg</string>
+
+    <string name="pokeSpecie_detail_tv_category_label">Category: </string>
+    <string name="pokeSpecie_detail_tv_category_value">Seed Pokemon</string>
+    <string name="pokeSpecie_detail_tv_ability_label">Ability: </string>
+    <string name="pokeSpecie_detail_tv_ability_value">Overgrow - Chorophyll</string>
+
+    <string name="pokeSpecie_detail_tv_description_label">Description</string>
+    <string name="pokeSpecie_detail_tv_description_value">The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.</string>
+    <string name="pokeSpecie_detail_tv_hp_label">Hp: </string>
+    <string name="pokeSpecie_detail_tv_speed_label">Speed: </string>
+    <string name="pokeSpecie_detail_tv_attack_label">Attack: </string>
+    <string name="pokeSpecie_detail_tv_defense_label">Defense: </string>
+    <string name="pokeSpecie_detail_tv_sp_attack_label">Sp. Attack: </string>
+    <string name="pokeSpecie_detail_tv_sp_defense_label">Sp. Defense: </string>
+    <string name="pokeSpecie_detail_tv_stat_value">80</string>
+
+    <string name="pokeSpecie_detail_tv_moves_label">Moves</string>
+
+    <string name="pokeSpecie_detail_tv_evolution_label">Evolution</string>
+    <string name="pokeSpecie_detail_tv_only_one_evolution_label">This Pokemon doesn’t evolve.</string>
+    <string name="pokeSpecie_detail_tv_evolution_row_specie_number">999</string>
+    <string name="pokeSpecie_detail_tv_evolution_row_specie_name">Bulbasaur</string>
+    <string name="pokeSpecie_detail_tv_title_evolution">Loading Evolution</string>
+    <string name="pokeSpecie_detail_tv_title_moves">Loading Moves</string>
+    <string name="pokeSpecie_detail_tv_gigantamax_moves_message">The moves of the Gigantamax forms depend on the moves that the original form knows.</string>
+
 
     <string name="download_all_notification_text">Downloading data</string>
     <string name="download_all_notification_done_text">Download finished</string>
-
-    <string name="button_back">Back</string>
-    <string name="button_continue">Continue</string>
-
-    <string name="data_access_mode_download_all">Download All</string>
-    <string name="data_access_mode_request_and_download">Request And Download</string>
-    <string name="data_access_mode_only_request">Only Request</string>
-
-    <string name="name_language_only_my_language">Only my language</string>
-    <string name="name_language_jap_hr_kt">Japanese with Hiragana/Katakana</string>
-    <string name="name_language_jap_roomaji">Japanese with Roomaji</string>
-
-    <string name="weight">"Weight: "</string>
-    <string name="height">"Height: "</string>
-    <string name="previous">Previous</string>
-    <string name="next">Next</string>
-    <string name="form">Form</string>
 
 </resources>

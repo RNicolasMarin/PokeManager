@@ -77,7 +77,7 @@
 
     <fragment
         android:id="@+id/listPokeSpeciesFragment"
-        android:name="com.pokemanager.ui.species.ListPokeSpeciesFragment"
+        android:name="com.pokemanager.ui.species.list.ListPokeSpeciesFragment"
         android:label="ListPokeSpeciesFragment"
         tools:layout="@layout/fragment_list_poke_species">
 
@@ -89,7 +89,7 @@
 
     <fragment
         android:id="@+id/detailPokeSpecieFragment"
-        android:name="com.pokemanager.ui.species.DetailPokeSpecieFragment"
+        android:name="com.pokemanager.ui.species.detail.DetailPokeSpecieFragment"
         android:label="DetailPokeSpecieFragment"
         tools:layout="@layout/fragment_detail_poke_specie">
 
