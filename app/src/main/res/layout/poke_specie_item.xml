@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="10dp"
+    android:padding="3dp"
+    android:background="@drawable/specie_item_background"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_name_english"
+        android:text="@string/pokeSpecie_item_tv_name_english"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/PokeSpecieItemTv" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_name_roomaji"
+        android:text="@string/pokeSpecie_item_tv_name_roomaji"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_english"
+        style="@style/PokeSpecieItemTv" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_name_kana"
+        android:text="@string/pokeSpecie_item_tv_name_kana"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_roomaji"
+        style="@style/PokeSpecieItemTv" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_number"
+        android:text="@string/pokeSpecie_item_tv_number"
+        android:elevation="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_image"
+        style="@style/PokeSpecieItemTv" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_image"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_kana" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_type_1"
+        android:text="@string/type_grass"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_type_2"
+        app:layout_constraintTop_toBottomOf="@id/iv_image"
+        style="@style/PokeSpecieTypeTvItem" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_type_2"
+        android:text="@string/type_poison"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/tv_type_1"
+        app:layout_constraintTop_toBottomOf="@id/iv_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/PokeSpecieTypeTvItem" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

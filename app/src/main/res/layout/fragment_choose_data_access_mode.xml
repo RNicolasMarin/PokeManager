@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/GlobalContainer"
+    tools:context=".ui.setUp.ChooseDataAccessModeFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_percent="0.14"
+        style="@style/SetUpGuideLineTitle"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:text="@string/setUp_data_tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        style="@style/SetUpTvTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_description"
+        android:text="@string/setUp_data_tv_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        style="@style/SetUpTvDescription" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_download_all"
+            android:text="@string/setUp_data_rb_download_all"
+            app:layout_constraintBottom_toTopOf="@id/rb_request_and_download"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/SetUpCbOption1"/>
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_request_and_download"
+            android:text="@string/setUp_data_rb_request_and_download"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/SetUpCbOption" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_only_request"
+            android:text="@string/setUp_data_rb_only_request"
+            app:layout_constraintTop_toBottomOf="@id/rb_request_and_download"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/SetUpCbOption2" />
+
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_continue"
+        android:text="@string/global_btn_continue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/SetUpBtnContinue" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.species.detail.tabs.DetailPokeSpecieSubTwoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_image_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/DetailPokeSpeciePadding"
+            android:layout_marginEnd="@dimen/DetailPokeSpeciePadding"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/descriptionContainer"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/iv_image_2"
+            app:layout_constraintEnd_toEndOf="@id/iv_image_2"
+            app:layout_constraintTop_toBottomOf="@id/iv_image_2"
+            app:layout_constraintBottom_toTopOf="@id/hpContainer"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_description_label"
+                android:text="@string/pokeSpecie_detail_tv_description_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_description"
+                android:text="@string/pokeSpecie_detail_tv_description_value"
+                android:singleLine="false"
+                app:layout_constraintTop_toBottomOf="@id/tv_description_label"
+                app:layout_constraintStart_toStartOf="@id/tv_description_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/hpContainer"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintStart_toStartOf="@id/iv_image_2"
+            app:layout_constraintEnd_toStartOf="@id/speedContainer"
+            app:layout_constraintTop_toBottomOf="@id/descriptionContainer"
+            app:layout_constraintBottom_toTopOf="@id/attackContainer"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_hp_label"
+                android:text="@string/pokeSpecie_detail_tv_hp_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_hp"
+                android:text="@string/pokeSpecie_detail_tv_stat_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_hp_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/speedContainer"
+            android:layout_marginStart="2dp"
+            app:layout_constraintStart_toEndOf="@id/hpContainer"
+            app:layout_constraintEnd_toEndOf="@id/iv_image_2"
+            app:layout_constraintTop_toBottomOf="@id/descriptionContainer"
+            app:layout_constraintBottom_toBottomOf="@id/hpContainer"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_speed_label"
+                android:text="@string/pokeSpecie_detail_tv_speed_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_speed"
+                android:text="@string/pokeSpecie_detail_tv_stat_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_speed_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/attackContainer"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintStart_toStartOf="@id/iv_image_2"
+            app:layout_constraintEnd_toStartOf="@id/defenseContainer"
+            app:layout_constraintTop_toBottomOf="@id/hpContainer"
+            app:layout_constraintBottom_toTopOf="@id/spAttackContainer"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_attack_label"
+                android:text="@string/pokeSpecie_detail_tv_attack_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_attack"
+                android:text="@string/pokeSpecie_detail_tv_stat_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_attack_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/defenseContainer"
+            android:layout_marginStart="2dp"
+            app:layout_constraintStart_toEndOf="@id/attackContainer"
+            app:layout_constraintEnd_toEndOf="@id/iv_image_2"
+            app:layout_constraintTop_toBottomOf="@id/hpContainer"
+            app:layout_constraintBottom_toBottomOf="@id/attackContainer"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_defense_label"
+                android:text="@string/pokeSpecie_detail_tv_defense_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_defense"
+                android:text="@string/pokeSpecie_detail_tv_stat_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_defense_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/spAttackContainer"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintStart_toStartOf="@id/iv_image_2"
+            app:layout_constraintEnd_toStartOf="@id/spDefenseContainer"
+            app:layout_constraintTop_toBottomOf="@id/attackContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_sp_attack_label"
+                android:text="@string/pokeSpecie_detail_tv_sp_attack_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_sp_attack"
+                android:text="@string/pokeSpecie_detail_tv_stat_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_sp_attack_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/spDefenseContainer"
+            android:layout_marginStart="2dp"
+            app:layout_constraintStart_toEndOf="@id/spAttackContainer"
+            app:layout_constraintEnd_toEndOf="@id/iv_image_2"
+            app:layout_constraintTop_toBottomOf="@id/defenseContainer"
+            app:layout_constraintBottom_toBottomOf="@id/spAttackContainer"
+            style="@style/DetailPokeSpecieTvSectionContainer2">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_sp_defense_label"
+                android:text="@string/pokeSpecie_detail_tv_sp_defense_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/DetailPokeSpecieTvSectionName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_sp_defense"
+                android:text="@string/pokeSpecie_detail_tv_stat_value"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_sp_defense_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/DetailPokeSpecieTvSectionContent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

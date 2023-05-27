@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/specieCenter"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/evolution_row_specie"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_arrow_below"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/evolution_row_arrow_below"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/specieCenter"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_arrow_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/evolution_row_arrow_both_sides_left"
+        app:layout_constraintEnd_toStartOf="@id/specieCenter"
+        app:layout_constraintBottom_toBottomOf="@id/specieCenter"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/evolution_row_arrow_both_sides_right"
+        app:layout_constraintStart_toEndOf="@id/specieCenter"
+        app:layout_constraintBottom_toBottomOf="@id/specieCenter"/>
+
+    <Space
+        android:id="@+id/bottomSpace"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_arrow_below"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
