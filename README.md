@@ -1,6 +1,7 @@
 # PokeManager
 An Android application to function as a Pokedex using the PokeApi and the paging library to load the data by pages.
 
+
 ## How to use
 First you need to clone the project and run it on Android Studio. The first time you open the app it shows some configuration screens that allows you to choose the names to show for each species of Pokemon and the way two handle data.
 There are two modes for this:
@@ -53,3 +54,32 @@ https://github.com/RNicolasMarin/PokeManager/assets/69260571/97a2b1a0-b04b-42f2-
 
 https://github.com/RNicolasMarin/PokeManager/assets/69260571/06cda232-8a34-4697-8984-ef8a313022dd
 
+
+## Built with
+* MVVM: architecture pattern the app is built with.
+* Single Activity with a fragment per screen.
+* View Binding: for accessing the xml views from the code.
+* Viewmodels: to retrieve and keep the data shown on the screen.
+* Paging: library used to show reduced amounts of items on the list of species.
+* Service (LifecycleService) and Notifications: used to download the data even if the app is closed.
+* Clean Architecture: used when separating the entities between db, network or model.
+* Use cases: some specific logic related to retrieving data is keeped within some use cases.
+* Repositories: there’s a main repository used to fetch data whether it’s from web or database requests.
+* ROOM: library used to manage the access to the local sql database.
+* Sharedpreferences: used for saving the configuration values selected when running the app for the first time.
+* Retrofit: library used to make the request to the api.
+* Gson: library used to convert strings in json format to objects and vice versa.
+* Glide: library used to load the different images for the app.
+* Hilt: library used to apply the dependency injection at the time of instantiating some objects.
+* Coroutines: used on suspend functions to access the database or the network.
+* MutableStateFlow/MutableLiveData: used on the viewmodels to keep the data that it’s observed for the views and it’ll change.
+* Navigation: library used to handle the navigation between fragments.
+* SplashScreen: library used to show the app icon on a screen when it is starting.
+* JUnit: library used for Unit Testing from utils functions.
+* ViewPager: view used to show the different tabs on the detail screen.
+* Flow: view used to show the moves as a list distributed according to how many fits on a row.
+* Bitrise: service used to run the tests and validate that they're still working when merging a feature to develop.
+
+## App design
+The app’s design is show on the next figma:
+https://www.figma.com/file/hxENKtri9sFeEjMjH2D4yh/PokeManager?type=design&node-id=305%3A117&t=iwDoQJ2nC3E0ki91-1
