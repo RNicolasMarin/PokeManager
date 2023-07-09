@@ -30,7 +30,7 @@ class EvolutionChainAdapter(
             ivArrowLeft.visibleOrGone(row.hasArrowSides)
             ivArrowRight.visibleOrGone(row.hasArrowSides)
 
-            AndroidUtils.loadRowSpecie(specieCenter, row.rowSpecieCenter, root, onSpecieClicked)
+            AndroidUtils.loadRowSpecie(specieCenter, row.rowSpecieCenter, onSpecieClicked)
             AndroidUtils.loadExtraBottomSpace(bottomSpace, rows.lastIndex, position)
         }
     }
@@ -43,8 +43,8 @@ class EvolutionChainAdapter(
             ivArrowBelowLeft.visibleOrGone(row.hasArrowLeftBelow)
             ivArrowBelowRight.visibleOrGone(row.hasArrowRightBelow)
 
-            AndroidUtils.loadRowSpecie(specieLeft, row.rowSpecieLeft, root, onSpecieClicked)
-            AndroidUtils.loadRowSpecie(specieRight, row.rowSpecieRight, root, onSpecieClicked)
+            AndroidUtils.loadRowSpecie(specieLeft, row.rowSpecieLeft, onSpecieClicked)
+            AndroidUtils.loadRowSpecie(specieRight, row.rowSpecieRight, onSpecieClicked)
             AndroidUtils.loadExtraBottomSpace(bottomSpace, rows.lastIndex, position)
         }
     }
@@ -57,7 +57,7 @@ class EvolutionChainAdapter(
             ivArrowRightOut.visibleOrGone(row.isRightArrowOut)
             ivArrowRightIn.visibleOrGone(!row.isRightArrowOut)
 
-            AndroidUtils.loadRowSpecie(specieLeft, row.rowSpecieLeft, root, onSpecieClicked)
+            AndroidUtils.loadRowSpecie(specieLeft, row.rowSpecieLeft, onSpecieClicked)
             AndroidUtils.loadExtraBottomSpace(bottomSpace, rows.lastIndex, position)
         }
     }
@@ -67,7 +67,7 @@ class EvolutionChainAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun loadRow(row: EvolutionRowRightSide) = with(binding) {
-            AndroidUtils.loadRowSpecie(specieRight, row.rowSpecieRight, root, onSpecieClicked)
+            AndroidUtils.loadRowSpecie(specieRight, row.rowSpecieRight, onSpecieClicked)
         }
     }
 

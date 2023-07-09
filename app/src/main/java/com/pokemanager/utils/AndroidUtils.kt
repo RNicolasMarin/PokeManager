@@ -85,7 +85,6 @@ object AndroidUtils {
     fun loadRowSpecie(
         specie: EvolutionRowSpecieBinding,
         rowSpecie: EvolutionRowSpecie,
-        root: ConstraintLayout,
         onSpecieClicked: (id: Int) -> Unit
     ) = with(specie) {
         val id = rowSpecie.id
@@ -99,7 +98,6 @@ object AndroidUtils {
         )
         loadImage(root, rowSpecie.imageUrl, ivIcon)
         root.setOnClickListener { onSpecieClicked.invoke(id) }
-
     }
 
     fun loadExtraBottomSpace(root: View, lastPosition: Int, position: Int) {
