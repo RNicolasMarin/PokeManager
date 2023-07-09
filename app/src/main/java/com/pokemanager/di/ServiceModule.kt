@@ -3,6 +3,7 @@ package com.pokemanager.di
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -55,7 +56,11 @@ object ServiceModule {
         app,
         0,
         Intent(app, MainActivity::class.java),
-        PendingIntent.FLAG_UPDATE_CURRENT
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_MUTABLE
+        } else {
+            PendingIntent.FLAG_ONE_SHOT
+        }
     )
 
     @ServiceScoped
